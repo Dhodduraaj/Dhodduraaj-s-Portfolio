@@ -12,93 +12,9 @@ import Footer from "./components/Footer";
 import ComicReveal from "./components/ComicReveal";
 import WebHero from "./components/WebHero";
 import axios from "axios";
-
-// Static verified fallbacks
-const fallbackSkills = [
-  { id: 1, name: "Java", category: "Backend", level: 90 },
-  { id: 2, name: "Spring Boot", category: "Backend", level: 85 },
-  { id: 3, name: "Node.js", category: "Backend", level: 80 },
-  { id: 4, name: "Express.js", category: "Backend", level: 80 },
-  { id: 5, name: "React", category: "Frontend", level: 85 },
-  { id: 6, name: "HTML", category: "Frontend", level: 95 },
-  { id: 7, name: "CSS", category: "Frontend", level: 90 },
-  { id: 8, name: "JavaScript", category: "Frontend", level: 85 },
-  { id: 9, name: "PostgreSQL", category: "Backend", level: 80 },
-  { id: 10, name: "MongoDB", category: "Backend", level: 85 },
-  { id: 11, name: "Git", category: "Tools", level: 85 },
-  { id: 12, name: "IntelliJ IDEA", category: "Tools", level: 90 },
-  { id: 13, name: "VS Code", category: "Tools", level: 90 },
-  { id: 14, name: "GitHub", category: "Tools", level: 85 },
-  { id: 15, name: "Figma", category: "Design", level: 85 },
-  { id: 16, name: "Framer", category: "Design", level: 80 },
-  { id: 17, name: "Blender", category: "Design", level: 75 }
-];
-
-const fallbackProjects = [
-  {
-    id: 1,
-    title: "Supplements Dispatcher: Canine Fuel Hub",
-    description: "Designed and launched a full-stack, rapid-delivery ecommerce web sector optimized for procuring canine nutrients and performance fuels, featuring robust payment grids.",
-    techStack: ["React", "Node.js", "Express.js", "MongoDB", "Razorpay", "Resend Email", "Cloudinary", "Google OAuth"],
-    keyFeatures: [
-      "Programmed a secure transaction grid supporting Google OAuth and Razorpay checkout channels.",
-      "Formulated transactional automated receipts via Resend Email, surviving query spikes.",
-      "Constructed an administrative dashboard for supply drops, stock tracking, and orders."
-    ],
-    githubLink: "https://github.com/Dhodduraaj",
-    imageKey: "dog-ecommerce"
-  },
-  {
-    id: 2,
-    title: "Smart Web-Wallet: Expense Scanner",
-    description: "A high-performance personal financial scanner providing instant spending analytics, multi-account transfers, and secure PWA mobile-ready operations.",
-    techStack: ["Spring Boot", "React", "PostgreSQL (Neon)", "Tailwind CSS", "PWA", "Android APK"],
-    keyFeatures: [
-      "Engineered a Spring Boot REST API layer mapped to Neon PostgreSQL for real-time transactions.",
-      "Constructed responsive dashboards visualizing spending vectors and balance limits.",
-      "Compiled a custom Android APK interface supporting mobile field operations."
-    ],
-    githubLink: "https://github.com/Dhodduraaj",
-    imageKey: "smart-wallet"
-  },
-  {
-    id: 3,
-    title: "Zen-Spider: Cognitive Wellbeing AI",
-    description: "An AI-powered cognitive companion utilizing Google Gemini AI for mental health scanning, sentiment tracing, and wellness logs.",
-    techStack: ["React", "Node.js", "Express.js", "MongoDB", "Google Gemini AI", "Tailwind CSS"],
-    keyFeatures: [
-      "Integrated Google Gemini LLM API to process cognitive text logs and return support prompts.",
-      "Engineered real-time expression checks using front-facing camera vectors.",
-      "Constructed a secure MongoDB storage module with instant sentiment summary logs."
-    ],
-    githubLink: "https://github.com/Dhodduraaj",
-    imageKey: "wellbeing"
-  }
-];
-
-const fallbackAchievements = [
-  {
-    id: 1,
-    title: "Double Academic Honor Shield",
-    description: "Awarded twice for top-tier academic excellence (2023-2024 & 2024-2025) at Kongu Engineering College.",
-    category: "Academic",
-    date: "2023 - 2025"
-  },
-  {
-    id: 2,
-    title: "BYTS-India Hackathon Finalist Medal",
-    description: "Ranked 6th nationally in the BYTS-India Hackathon, cracking complex algorithmic nodes and data structures under clock stress.",
-    category: "Hackathon",
-    date: "2024"
-  },
-  {
-    id: 3,
-    title: "HackGeniX-2025 Top 10 Plaque",
-    description: "Clawed into the Top 10 national teams at Sathyabama University HackGeniX-2025, deploying scalable systems.",
-    category: "Hackathon",
-    date: "2025"
-  }
-];
+import { skills } from "./data/skills";
+import { projects } from "./data/projects";
+import { achievements } from "./data/achievements";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -109,9 +25,7 @@ function App() {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [achievements, setAchievements] = useState([]);
+
 
   // Live GitHub Stats State
   const [githubStats, setGithubStats] = useState({
@@ -242,37 +156,8 @@ function App() {
     };
   }, [scrollTimeout]);
 
-  // Fetch portfolio data and Live GitHub Stats
+  // Fetch Live GitHub Stats
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const apiBase = import.meta.env.VITE_API_URL;
-        const [projectsRes, skillsRes, achievementsRes] = await Promise.all([
-          axios.get(`${apiBase}/api/projects`),
-          axios.get(`${apiBase}/api/skills`),
-          axios.get(`${apiBase}/api/achievements`)
-        ]);
-
-        const normalizedSkills = (skillsRes.data || []).map(s => {
-          if (s.category === "Databases") {
-            return { ...s, category: "Backend" };
-          }
-          return s;
-        });
-        setProjects(projectsRes.data || []);
-        setSkills(normalizedSkills);
-        const filteredAchievements = (achievementsRes.data || [])
-          .filter(item => item.category !== "Certification" && !item.title.toLowerCase().includes("ideathon"))
-          .slice(0, 3);
-        setAchievements(filteredAchievements);
-      } catch (err) {
-        console.warn("Backend API not reachable. Using offline resume data.", err.message);
-        setSkills(fallbackSkills);
-        setProjects(fallbackProjects);
-        setAchievements(fallbackAchievements);
-      }
-    };
-
     const fetchGithub = async () => {
       try {
         const [userRes, reposRes] = await Promise.all([
@@ -329,7 +214,6 @@ function App() {
       }
     };
 
-    fetchData();
     fetchGithub();
   }, []);
 
