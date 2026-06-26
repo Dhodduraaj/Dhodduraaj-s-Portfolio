@@ -47,7 +47,7 @@ export default function Contact() {
 
     setStatus("loading");
     try {
-      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8085";
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
       const response = await axios.post(`${apiBase}/api/contact`, formData);
       if (response.status === 201) {
         setStatus("success");

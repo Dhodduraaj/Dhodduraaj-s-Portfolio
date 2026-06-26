@@ -246,7 +246,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8085";
+        const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
         const [projectsRes, skillsRes, achievementsRes] = await Promise.all([
           axios.get(`${apiBase}/api/projects`),
           axios.get(`${apiBase}/api/skills`),
