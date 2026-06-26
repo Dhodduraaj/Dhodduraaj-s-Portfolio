@@ -149,7 +149,7 @@ export default function About() {
             {/* Sector 1 */}
             <div className="p-6 comic-card dark:comic-card-dark flex flex-col justify-between h-44 relative overflow-hidden group hover:-rotate-1 transition-transform">
               <div className="absolute top-0 right-0 bg-[#E63946] text-white text-[9px] font-black px-3 py-1 border-b-3 border-l-3 border-black">
-                SECTOR #01
+                INTEREST #01
               </div>
               <div className="p-2 w-fit border-2 border-black bg-yellow-300 text-black mb-3">
                 <BookOpen size={24} strokeWidth={2.5} />
@@ -163,7 +163,7 @@ export default function About() {
             {/* Sector 2 */}
             <div className="p-6 comic-card dark:comic-card-dark flex flex-col justify-between h-44 relative overflow-hidden group hover:rotate-1 transition-transform">
               <div className="absolute top-0 right-0 bg-[#E63946] text-white text-[9px] font-black px-3 py-1 border-b-3 border-l-3 border-black">
-                SECTOR #02
+                INTEREST #02
               </div>
               <div className="p-2 w-fit border-2 border-black bg-[#E63946] text-white mb-3">
                 <GraduationCap size={24} strokeWidth={2.5} />
@@ -177,7 +177,7 @@ export default function About() {
             {/* Sector 3 */}
             <div className="p-6 comic-card dark:comic-card-dark flex flex-col justify-between h-44 relative overflow-hidden group hover:-rotate-1 transition-transform">
               <div className="absolute top-0 right-0 bg-[#E63946] text-white text-[9px] font-black px-3 py-1 border-b-3 border-l-3 border-black">
-                SECTOR #03
+                INTEREST #03
               </div>
               <div className="p-2 w-fit border-2 border-black bg-[#1D3557] text-white mb-3">
                 <Award size={24} strokeWidth={2.5} />

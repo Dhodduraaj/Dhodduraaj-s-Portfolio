@@ -128,7 +128,7 @@ export default function Skills({ skills }) {
             <motion.button
               onClick={() => setSelectedCategory("All")}
               className="absolute z-25 p-4 rounded-full bg-[#E63946] text-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
-              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
+
               whileHover={{ scale: 1.1 }}
               title="Reset Power Grid"
             >
@@ -141,27 +141,41 @@ export default function Skills({ skills }) {
               const isActive = activeCategory === cat.id;
 
               return (
-                <motion.button
+                <motion.div
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  whileHover={{ scale: 1.10 }}
-                  className={`absolute z-20 p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center ${isActive
-                      ? "bg-[#E63946] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                      : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200"
-                    }`}
-                  style={{ left: `${cat.x}%`, top: `${cat.y}%`, transform: "translate(-50%, -50%)" }}
-                  aria-label={cat.label}
+                  className="absolute z-20"
+                  style={{
+                    left: `${cat.x}%`,
+                    top: `${cat.y}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
                 >
-                  <CatIcon size={20} />
+                  <motion.button
+                    onClick={() => setSelectedCategory(cat.id)}
+                    whileHover={{ scale: 1.10 }}
+                    whileTap={{ scale: 1.10 }}
+                    className={`p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer
+          shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+          flex items-center justify-center
+          ${isActive
+                        ? "bg-[#E63946] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                        : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200"
+                      }`}
+                    aria-label={cat.label}
+                  >
+                    <CatIcon size={20} />
 
-                  <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider uppercase text-black bg-yellow-300 dark:bg-yellow-400 px-2.5 py-0.5 rounded border-2 border-black whitespace-nowrap shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                    {cat.label}
-                  </div>
-                </motion.button>
+                    <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider uppercase
+          text-black bg-yellow-300 dark:bg-yellow-400 px-2.5 py-0.5 rounded
+          border-2 border-black whitespace-nowrap
+          shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                      {cat.label}
+                    </div>
+                  </motion.button>
+                </motion.div>
               );
             })}
           </div>
-
           {/* Connected Grid Details */}
           <div className="flex-grow w-full space-y-6">
             <div className="flex items-center justify-between border-b-4 border-black pb-3">

@@ -490,6 +490,7 @@ export default function WebHero({ activeSection, isSwinging }) {
             {activeSection === "certifications" && "Specialized Certs! 🎖️"}
             {activeSection === "stats" && "Reality Check! 🖥️"}
             {activeSection === "contact" && "Signal active! 📡"}
+            {activeSection === "ComicReveal" && "That's me! 😁 "}
           </>
         )}
       </div>

@@ -16,7 +16,7 @@ const Github = (props) => (
 );
 
 const dossierStamps = {
-  "dog-ecommerce": { text: "CLASSIFIED", color: "bg-[#E63946] text-white" },
+  "dog-ecommerce": { text: "FINALIZED", color: "bg-[#E63946] text-white" },
   "smart-wallet": { text: "APPROVED", color: "bg-emerald-600 text-white" },
   "wellbeing": { text: "SURVIVED", color: "bg-[#1D3557] text-white" },
   default: { text: "ACTIVE", color: "bg-slate-900 text-white" }

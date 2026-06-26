@@ -378,7 +378,7 @@ export default function ComicReveal() {
                   <div className="relative z-10 bg-[#E63946] border-b-4 border-black px-5 py-3 flex items-center justify-between">
                     <div>
                       <div className="text-[10px] font-black text-white/80 uppercase tracking-[0.2em]">
-                        S.H.I.E.L.D. FILE #0042
+                        S.H.I.E.L.D. FILE #0039
                       </div>
                       <div className="text-lg font-black text-white uppercase leading-none">
                         IDENTITY CARD

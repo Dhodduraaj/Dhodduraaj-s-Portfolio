@@ -120,7 +120,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
                 className={`crt-panel crt-screen p-6 md:p-8 flex flex-col justify-between group transition-all duration-300 ${profile.color}`}
               >
                 {/* CRT Terminal Header */}
-                <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-80">
+                <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[12px] font-mono tracking-widest font-black uppercase opacity-80">
                   <span>{profile.terminalHeader}</span>
                   <span className="animate-pulse">● ONLINE</span>
                 </div>
@@ -141,11 +141,11 @@ export default function CodingProfiles({ githubStats, darkMode }) {
                   <h3 className="text-2xl font-black text-white mb-3 leading-none uppercase">
                     {profile.name}
                   </h3>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 border-2 border-black bg-[#E63946] text-white text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-1 select-none">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 border-2 border-black bg-[#E63946] text-white text-s font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-1 select-none">
                     {profile.stats}
                   </div>
 
-                  <p className="text-xs font-semibold text-slate-300 leading-relaxed">
+                  <p className="text-s font-semibold text-slate-300 leading-relaxed">
                     {profile.desc}
                   </p>
                 </div>
@@ -170,7 +170,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
             viewport={{ once: true }}
             className="p-6 md:p-8 crt-panel crt-screen text-[#E63946] border-[#E63946]/60 shadow-[6px_6px_0px_0px_#E63946] flex flex-col"
           >
-            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-85">
+            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[12px] font-mono tracking-widest font-black uppercase opacity-85">
               <span>[SYSTEM METRIC: GITHUB SYNC]</span>
               <span className="animate-pulse text-[#E63946]">● ONLINE TRACKER</span>
             </div>
@@ -180,7 +180,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
                 <Terminal size={18} className="text-[#E63946]" />
                 GitHub Contribution Network
               </h3>
-              <p className="text-xs font-semibold text-slate-400">
+              <p className="text-s font-semibold text-slate-400">
                 Daily code commit matrix tracing live contributions on github.com/Dhodduraaj
               </p>
             </div>
@@ -200,26 +200,26 @@ export default function CodingProfiles({ githubStats, darkMode }) {
             {/* Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4 border-t border-b border-black/30 py-3 text-white">
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
-                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Repositories</span>
+                <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Repositories</span>
                 <span className="text-lg font-black text-[#E63946]">{githubStats.repos || 0}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
-                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Stars</span>
+                <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Stars</span>
                 <span className="text-lg font-black text-yellow-400">{githubStats.stars !== undefined ? githubStats.stars : 4}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
-                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Followers</span>
+                <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Followers</span>
                 <span className="text-lg font-black text-emerald-400">{githubStats.followers || 0}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
-                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Following</span>
+                <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Following</span>
                 <span className="text-lg font-black text-blue-400">{githubStats.following !== undefined ? githubStats.following : 8}</span>
               </div>
             </div>
 
             {/* Top Languages */}
             <div className="mb-4">
-              <span className="text-[9px] text-slate-400 uppercase font-black tracking-wider block mb-2 text-center sm:text-left">TOP LANGUAGES</span>
+              <span className="text-[12px] text-slate-400 uppercase font-black tracking-wider block mb-2 text-center sm:text-left">TOP LANGUAGES</span>
               <div className="h-2 w-full bg-slate-950/50 rounded-full overflow-hidden flex border border-black/30">
                 {(githubStats.languages || [
                   { name: "Java", percentage: 55 },
@@ -272,7 +272,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
             transition={{ delay: 0.1 }}
             className="p-6 md:p-8 crt-panel crt-screen text-[#E63946] border-[#E63946]/60 shadow-[6px_6px_0px_0px_#E63946] flex flex-col"
           >
-            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-85">
+            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[12px] font-mono tracking-widest font-black uppercase opacity-85">
               <span>[SYSTEM METRIC: LEETCODE FEED]</span>
               <span className="animate-pulse text-[#E63946]">● ONLINE SYNC</span>
             </div>
@@ -282,7 +282,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
                 <Code2 size={18} className="text-[#E63946]" />
                 LeetCode Active Days
               </h3>
-              <p className="text-xs font-semibold text-slate-400">
+              <p className="text-s font-semibold text-slate-400">
                 Algorithmic structures, submissions, and active problem-solving streak
               </p>
             </div>

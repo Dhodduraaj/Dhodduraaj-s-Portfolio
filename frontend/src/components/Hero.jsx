@@ -3,9 +3,9 @@ import { ArrowRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const roles = [
-  "Responsibility-driven frontend  engineer.",
-  "I build projects that don't panic under load.",
-  "I catch bugs in mid-air before they escape."
+  "Responsibility-driven full-stack engineer",
+  "I build projects that don't panic under load",
+  "I catch bugs in mid-air before they escape"
 ];
 
 const originalLetters = Array.from("DHODDURAAJ");

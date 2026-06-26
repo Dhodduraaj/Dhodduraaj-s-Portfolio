@@ -5,24 +5,24 @@ import { Award, Calendar, X, Eye } from "lucide-react";
 const certificationsData = [
   {
     id: 1,
-    title: "Oracle Cloud Infrastructure 2024 Generative AI Professional",
+    title: "Java SE 17 Developer Certificate",
+    issuer: "Oracle",
+    year: "2026",
+    image: "/JAVA SE 17.png"
+  },
+  {
+    id: 2,
+    title: "Oracle Cloud Infrastructure 2025 Generative AI Professional",
     issuer: "Oracle",
     year: "2025",
     image: "/generative AI professional.png"
   },
   {
-    id: 2,
-    title: "Oracle Cloud Infrastructure 2024 AI Foundations Associate",
+    id: 3,
+    title: "Oracle Cloud Infrastructure 2025 AI Foundations Associate",
     issuer: "Oracle",
     year: "2025",
     image: "/AI foundations associate.png"
-  },
-  {
-    id: 3,
-    title: "Java SE 17 Developer Certificate",
-    issuer: "Oracle",
-    year: "2026",
-    image: "/JAVA SE 17.png"
   },
   {
     id: 4,
