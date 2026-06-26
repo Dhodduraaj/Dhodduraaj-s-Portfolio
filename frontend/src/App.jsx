@@ -156,11 +156,11 @@ function App() {
 
     // Global click listener for red headings / logo splat
     const handleGlobalClick = (e) => {
-      const isTrigger = e.target.closest("span.text-white.bg-\\[\\#E63946\\]") || 
-                        e.target.closest("header div.text-xl") ||
-                        e.target.closest("h2 span.text-white") ||
-                        e.target.closest("h1 span.text-white");
-      
+      const isTrigger = e.target.closest("span.text-white.bg-\\[\\#E63946\\]") ||
+        e.target.closest("header div.text-xl") ||
+        e.target.closest("h2 span.text-white") ||
+        e.target.closest("h1 span.text-white");
+
       if (isTrigger) {
         const splatX = e.pageX;
         const splatY = e.pageY;
@@ -246,13 +246,13 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+        const apiBase = import.meta.env.VITE_API_URL;
         const [projectsRes, skillsRes, achievementsRes] = await Promise.all([
           axios.get(`${apiBase}/api/projects`),
           axios.get(`${apiBase}/api/skills`),
           axios.get(`${apiBase}/api/achievements`)
         ]);
-        
+
         const normalizedSkills = (skillsRes.data || []).map(s => {
           if (s.category === "Databases") {
             return { ...s, category: "Backend" };
@@ -282,10 +282,10 @@ function App() {
 
         if (userRes.data && reposRes.data) {
           const reposData = reposRes.data;
-          
+
           // Calculate stars
           const stars = reposData.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
-          
+
           // Calculate languages
           const langMap = {};
           reposData.forEach(repo => {
@@ -293,7 +293,7 @@ function App() {
               langMap[repo.language] = (langMap[repo.language] || 0) + 1;
             }
           });
-          
+
           const totalLangs = Object.values(langMap).reduce((a, b) => a + b, 0);
           const topLanguages = Object.entries(langMap)
             .map(([lang, count]) => ({
