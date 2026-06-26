@@ -11,7 +11,7 @@ const icons = {
 const colors = {
   Hackathon: "text-[#E63946] bg-red-100 border-red-400 dark:bg-red-950/20",
   Academic: "text-blue-600 bg-blue-100 border-blue-400 dark:text-blue-400 dark:bg-blue-950/20",
-  Certification: "text-slate-800 bg-slate-100 border-slate-350 dark:text-slate-300 dark:bg-slate-800/80"
+  Certification: "text-slate-800 bg-slate-100 border-slate-300 dark:text-slate-300 dark:bg-slate-800/80"
 };
 
 const rotations = [
@@ -31,11 +31,11 @@ export default function Achievements({ achievements }) {
   return (
     <section id="achievements" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated pattern */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.01] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="achievements-wall" width="60" height="60" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="60" y2="0" stroke="#000000" strokeWidth="2" />
-            <line x1="0" y1="0" x2="0" y2="60" stroke="#000000" strokeWidth="2" />
+            <line x1="0" y1="0" x2="60" y2="0" stroke="currentColor" strokeWidth="2" />
+            <line x1="0" y1="0" x2="0" y2="60" stroke="currentColor" strokeWidth="2" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#achievements-wall)" />
         </svg>

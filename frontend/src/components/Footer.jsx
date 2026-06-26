@@ -21,7 +21,7 @@ export default function Footer() {
           <p className="text-sm font-black text-black dark:text-white uppercase tracking-wider">
             © {new Date().getFullYear()} DHODDURAAJ S P
           </p>
-          <p className="text-xs font-black text-[#E63946] dark:text-slate-450 uppercase tracking-tight mt-1">
+          <p className="text-xs font-black text-[#E63946] dark:text-slate-400 uppercase tracking-tight mt-1">
             STATISTICS COMPILED WITH SPRING BOOT + REACT + TAILWIND & MOTIONS.
           </p>
         </div>

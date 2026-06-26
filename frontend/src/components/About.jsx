@@ -14,14 +14,14 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
+    <section id="about" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background Illustrated Brick Pattern/Grid (Solid vector shapes) */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="brick-pattern" width="40" height="20" patternUnits="userSpaceOnUse">
-              <rect width="40" height="20" fill="none" stroke="#000000" strokeWidth="1.5" />
-              <line x1="20" y1="0" x2="20" y2="20" stroke="#000000" strokeWidth="1.5" />
+              <rect width="40" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <line x1="20" y1="0" x2="20" y2="20" stroke="currentColor" strokeWidth="1.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#brick-pattern)" />
@@ -77,13 +77,13 @@ export default function About() {
 
             <div className="space-y-5 pt-6 flex-grow">
               <h3 className="text-2xl md:text-3xl font-black text-black dark:text-white uppercase leading-tight mt-2">
-                "API frameworks that don't panic under query stress!"
+                "With great power comes great responsibility!"
               </h3>
               <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
                 Motivated Computer Science and Design student who builds robust architectures and scalable systems.
                 I thrive at the intersection of database relational logic and clean user-focused interactions.
               </p>
-              <p className="text-sm font-black text-slate-750 dark:text-slate-350 leading-relaxed">
+              <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
                 Rather than relying on templated designs, I prefer constructing custom mechanical frames, writing  entity mapping tables, and slinging responsive responsive code widgets.
               </p>
             </div>
@@ -155,8 +155,8 @@ export default function About() {
                 <BookOpen size={24} strokeWidth={2.5} />
               </div>
               <div>
-                <h4 className="font-black text-black dark:text-white text-base uppercase">Data Architectures</h4>
-                <p className="text-xs text-slate-500 font-black mt-1.5">Cracking recursive solutions, stack algorithms, and graph iterations.</p>
+                <h4 className="font-black text-black dark:text-white text-base uppercase">Data Structures and Algorithms</h4>
+                <p className="text-xs text-slate-500 font-black mt-1.5">Webbing together arrays and strings with efficient logics.</p>
               </div>
             </div>
 
@@ -170,7 +170,7 @@ export default function About() {
               </div>
               <div>
                 <h4 className="font-black text-black dark:text-white text-base uppercase">Java Microservices</h4>
-                <p className="text-xs text-slate-500 font-black mt-1.5">Structuring Spring dependency graphs and clean transaction filters.</p>
+                <p className="text-xs text-slate-500 font-black mt-1.5">Building the backend suit with Spring Boot fundamentals.</p>
               </div>
             </div>
 
@@ -183,8 +183,8 @@ export default function About() {
                 <Award size={24} strokeWidth={2.5} />
               </div>
               <div>
-                <h4 className="font-black text-black dark:text-white text-base uppercase">Relational Modelers</h4>
-                <p className="text-xs text-slate-500 font-black mt-1.5">Mapping clean database constraints, index parameters, and schema logs.</p>
+                <h4 className="font-black text-black dark:text-white text-base uppercase">Database Management Systems</h4>
+                <p className="text-xs text-slate-500 font-black mt-1.5">Making sure data stays consistent - query by query.</p>
               </div>
             </div>
           </motion.div>

@@ -36,13 +36,13 @@ export default function Projects({ projects }) {
   };
 
   return (
-    <section id="projects" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
+    <section id="projects" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated blueprint layout */}
-      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.02] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] text-[#000055] dark:text-[#E63946] pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <rect width="40" height="40" fill="none" stroke="#000055" strokeWidth="1" />
-            <circle cx="20" cy="20" r="1.5" fill="#000055" />
+            <rect width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1" />
+            <circle cx="20" cy="20" r="1.5" fill="currentColor" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
         </svg>
@@ -66,7 +66,7 @@ export default function Projects({ projects }) {
               Dossiers
             </span>
           </motion.h2>
-          <p className="text-xs text-slate-550 dark:text-slate-400 mt-3 font-black uppercase tracking-wider">Live deployments — bugs squashed in mid-air.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 font-black uppercase tracking-wider">Live deployments — bugs squashed in mid-air.</p>
           <div className="h-[4px] w-16 bg-[#E63946] border-2 border-black mx-auto mt-5" />
         </div>
 
@@ -101,8 +101,8 @@ export default function Projects({ projects }) {
                   {/* Manila Folder Tab Header */}
                   <div className="relative pt-6 border-b-4 border-black">
                     {/* Tab element */}
-                    <div className="absolute top-0 left-16 h-6 w-32 bg-[#EAD49E] dark:bg-slate-850 border-t-4 border-x-4 border-black transform -skew-x-12 origin-bottom flex items-center justify-center">
-                      <span className="text-[8px] font-black uppercase text-black dark:text-slate-350 tracking-wider">PROJECT-FILE</span>
+                    <div className="absolute top-0 left-16 h-6 w-32 bg-[#EAD49E] dark:bg-slate-800 border-t-4 border-x-4 border-black transform -skew-x-12 origin-bottom flex items-center justify-center">
+                      <span className="text-[8px] font-black uppercase text-black dark:text-slate-300 tracking-wider">PROJECT-FILE</span>
                     </div>
 
                     {/* Banner main block */}
@@ -200,7 +200,7 @@ export default function Projects({ projects }) {
               </div>
 
               {/* Mission Directives */}
-              <div className="space-y-3 mb-6 bg-white dark:bg-slate-850 p-5 border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+              <div className="space-y-3 mb-6 bg-white dark:bg-slate-800 p-5 border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                 <h4 className="text-xs font-black uppercase tracking-widest text-[#E63946] mb-1">
                   MISSION PARAMETERS & DEPLOYED DELIVERABLES:
                 </h4>
@@ -223,7 +223,7 @@ export default function Projects({ projects }) {
                   {selectedProject.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="text-[9px] font-black uppercase px-2.5 py-1 border-2 border-black bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-350 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                      className="text-[9px] font-black uppercase px-2.5 py-1 border-2 border-black bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     >
                       {tech}
                     </span>

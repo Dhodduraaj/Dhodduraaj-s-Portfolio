@@ -76,7 +76,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
                 className={`text-xs font-black uppercase transition-colors cursor-pointer relative py-1 ${
                   activeSection === item.id
                     ? "text-[#E63946]"
-                    : "text-slate-650 hover:text-[#E63946] dark:text-slate-400 dark:hover:text-white"
+                    : "text-slate-600 hover:text-[#E63946] dark:text-slate-400 dark:hover:text-white"
                 }`}
               >
                 {item.label}
@@ -128,7 +128,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
                 className={`text-left py-2 font-black uppercase border-b-2 border-black cursor-pointer ${
                   activeSection === item.id
                     ? "text-[#E63946]"
-                    : "text-slate-700 dark:text-slate-350"
+                    : "text-slate-700 dark:text-slate-300"
                 }`}
               >
                 {item.label}

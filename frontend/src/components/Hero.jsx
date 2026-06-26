@@ -3,9 +3,9 @@ import { ArrowRight, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 const roles = [
-  "I build Spring Boot APIs that don't panic under load.",
-  "Slinging clean code blocks and robust backend grids.",
-  "Catching server bugs in mid-air before they escape."
+  "Responsibility-driven frontend  engineer.",
+  "I build projects that don't panic under load.",
+  "I catch bugs in mid-air before they escape."
 ];
 
 export default function Hero() {
@@ -39,11 +39,11 @@ export default function Hero() {
       className="min-h-screen relative flex items-center justify-center overflow-hidden pt-28 pb-32 bg-[#FFFBF0] dark:bg-[#0B1329] border-b-4 border-black"
     >
       {/* Dynamic Comic Grid Pattern Background */}
-      <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.04] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
         <svg width="100%" height="100%">
           <defs>
             <pattern id="hero-halftone" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="12" cy="12" r="3" fill="#000000" />
+              <circle cx="12" cy="12" r="3" fill="currentColor" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#hero-halftone)" />
@@ -178,10 +178,10 @@ export default function Hero() {
       </svg>
 
       <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-        
+
         {/* Tilted Chapter Header */}
         <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#1D3557] text-white border-2 border-black px-4 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-20">
-          PAGE 1: A NEW BACKEND DEV AWAKENS...
+          PAGE 1: A NEW DEVELOPER AWAKENS...
         </div>
 
         {/* Swinging Badge */}
@@ -225,10 +225,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-sm md:text-lg text-slate-700 dark:text-slate-350 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="text-sm md:text-lg text-slate-700  justify-center dark:text-slate-300 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
-          Computer Science and Design student at Kongu Engineering College. By day, I structure robust database frameworks. 
-          By night, I swing across server codes to squash exceptions and secure deployments.
+          All right, let’s do this one last time.
+          My name is Dhodduraaj. I’m a full-stack developer.
+          I build reliable systems, chase down bugs & ship code that holds up under pressure.
+          And no matter how many times something breaks… I build it back stronger.
+          This is my portfolio.
         </motion.p>
 
         {/* CTAs in Flat Comic Design */}
@@ -245,11 +248,11 @@ export default function Hero() {
             INSPECT MISSIONS
             <ArrowRight size={20} strokeWidth={2.5} />
           </button>
-          
+
           <motion.a
             href="/Dhodduraaj_Resume.pdf"
             download="Dhodduraaj_Resume.pdf"
-            whileHover={{ 
+            whileHover={{
               scale: 1.05,
               backgroundColor: "#E63946",
               color: "#ffffff",
@@ -261,7 +264,7 @@ export default function Hero() {
           >
             <span className="absolute inset-0 opacity-0 group-hover:opacity-30 spidey-web-overlay pointer-events-none transition-opacity duration-300" />
             <FileText size={20} strokeWidth={2.5} className="relative z-10" />
-            <span className="relative z-10">DOWNLOAD DOSSIER</span>
+            <span className="relative z-10">DOWNLOAD RESUME</span>
           </motion.a>
         </motion.div>
       </div>

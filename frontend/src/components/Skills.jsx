@@ -32,18 +32,18 @@ export default function Skills({ skills }) {
   return (
     <section id="skills" className="py-24 bg-[#FFFBF0] dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated grid layout */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="skills-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="20" y2="0" stroke="#000000" strokeWidth="1" />
-            <line x1="0" y1="0" x2="0" y2="20" stroke="#000000" strokeWidth="1" />
+            <line x1="0" y1="0" x2="20" y2="0" stroke="currentColor" strokeWidth="1" />
+            <line x1="0" y1="0" x2="0" y2="20" stroke="currentColor" strokeWidth="1" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#skills-grid)" />
         </svg>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Section Heading */}
         <div className="text-center mb-16 relative">
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#1D3557] text-white border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -65,10 +65,10 @@ export default function Skills({ skills }) {
 
         {/* Web Node Interactive Container */}
         <div className="flex flex-col lg:flex-row gap-12 items-center justify-between">
-          
+
           {/* SVG Web Node Canvas */}
           <div className="relative w-full max-w-[500px] h-[400px] border-4 border-black rounded-3xl bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden flex items-center justify-center p-4">
-            
+
             {/* Custom halftone card pattern */}
             <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
               <svg width="100%" height="100%">
@@ -145,16 +145,15 @@ export default function Skills({ skills }) {
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
                   whileHover={{ scale: 1.15, rotate: [0, -3, 3, 0] }}
-                  className={`absolute z-20 p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center ${
-                    isActive
+                  className={`absolute z-20 p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center ${isActive
                       ? "bg-[#E63946] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                       : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200"
-                  }`}
+                    }`}
                   style={{ left: `${cat.x}%`, top: `${cat.y}%`, transform: "translate(-50%, -50%)" }}
                   aria-label={cat.label}
                 >
                   <CatIcon size={20} />
-                  
+
                   <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider uppercase text-black bg-yellow-300 dark:bg-yellow-400 px-2.5 py-0.5 rounded border-2 border-black whitespace-nowrap shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
                     {cat.label}
                   </div>
@@ -167,7 +166,7 @@ export default function Skills({ skills }) {
           <div className="flex-grow w-full space-y-6">
             <div className="flex items-center justify-between border-b-4 border-black pb-3">
               <h3 className="text-xl md:text-2xl font-black text-black dark:text-white uppercase tracking-tight">
-                Sector: <span className="text-[#E63946]">{activeCategory} Nodes</span>
+                Sector: <span className="text-[#E63946]">{activeCategory} Skills</span>
               </h3>
               {activeCategory !== "All" && (
                 <button
@@ -210,7 +209,7 @@ export default function Skills({ skills }) {
                       key={i}
                       className="p-5 comic-card dark:comic-card-dark animate-pulse h-16 flex items-center justify-between"
                     >
-                      <div className="h-4 w-24 bg-slate-200 dark:bg-slate-850 rounded" />
+                      <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
                       <div className="h-4 w-12 bg-slate-100 dark:bg-slate-800 border-2 border-black" />
                     </div>
                   ))

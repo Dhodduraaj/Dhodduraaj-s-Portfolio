@@ -589,7 +589,7 @@ export default function WebHero({ activeSection, isSwinging }) {
       >
         {/* SVG Web splat visual anchor at pivot */}
         <svg 
-          className="absolute -translate-x-1/2 -translate-y-1/2 overflow-visible text-slate-350 dark:text-slate-200"
+          className="absolute -translate-x-1/2 -translate-y-1/2 overflow-visible text-slate-300 dark:text-slate-500"
           style={{ width: "60px", height: "60px", top: 0, left: 0 }}
         >
           <path 
@@ -620,7 +620,7 @@ export default function WebHero({ activeSection, isSwinging }) {
           }}
         >
           {/* Web Path Bending */}
-          <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none text-slate-350 dark:text-slate-100">
+          <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none text-slate-300 dark:text-slate-500">
             <path
               d={`M 60,0 Q ${60 - currentBodyAngle * 0.7},210 60,420`}
               fill="none"

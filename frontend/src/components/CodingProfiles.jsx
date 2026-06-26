@@ -18,7 +18,7 @@ const LinkedinIcon = (props) => (
   </svg>
 );
 
-export default function CodingProfiles({ githubStats }) {
+export default function CodingProfiles({ githubStats, darkMode }) {
   const [leetcodeSolved, setLeetcodeSolved] = useState(null);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function CodingProfiles({ githubStats }) {
       url: "https://leetcode.com/u/Dhodduraaj_/",
       username: "Dhodduraaj_",
       stats: leetcodeSolved ? `${leetcodeSolved} Solved` : "300+ Solved Nodes",
-      desc: "Solving DSA nodes in Java. Focus on recursive stacks, binary searches, dynamic arrays, and paths.",
+      desc: "Solving DSA nodes in Java.Webbing together arrays and strings with efficient logics.",
       icon: Code2,
       color: "border-amber-500 hover:shadow-[6px_6px_0px_0px_#D97706] text-amber-400 bg-[#0B1329]",
       terminalHeader: "[CORE STATUS: RUNNING]"
@@ -70,19 +70,19 @@ export default function CodingProfiles({ githubStats }) {
   ];
 
   return (
-    <section id="stats" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
+    <section id="stats" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated print grid */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.02] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.06] text-black dark:text-[#E63946] pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="stats-print" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="12" cy="12" r="1.5" fill="#000000" />
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#stats-print)" />
         </svg>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Section Heading */}
         <div className="text-center mb-16 relative">
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#E63946] text-white border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -144,7 +144,7 @@ export default function CodingProfiles({ githubStats }) {
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 border-2 border-black bg-[#E63946] text-white text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-1 select-none">
                     {profile.stats}
                   </div>
-                  
+
                   <p className="text-xs font-semibold text-slate-300 leading-relaxed">
                     {profile.desc}
                   </p>
@@ -162,7 +162,7 @@ export default function CodingProfiles({ githubStats }) {
 
         {/* Dynamic Activity Panels (GitHub & LeetCode Heatmaps) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
+
           {/* GitHub Activity Card */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -189,11 +189,72 @@ export default function CodingProfiles({ githubStats }) {
             <div className="flex-grow flex items-center justify-center my-4">
               <div className="w-full border-2 border-black/30 p-4 bg-[#070b14]/90 rounded-xl flex items-center justify-center min-h-[140px] shadow-[inner_3px_3px_0px_0px_rgba(0,0,0,0.5)]">
                 <img
-                  src="https://ghchart.rshah.org/e63946/Dhodduraaj"
+                  src={darkMode ? "https://ghchart.rshah.org/e63946/Dhodduraaj" : "https://ghchart.rshah.org/1d3557/Dhodduraaj"}
                   alt="Dhodduraaj GitHub Contributions"
                   className="w-full h-auto filter brightness-110 contrast-105"
                   loading="lazy"
                 />
+              </div>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4 border-t border-b border-black/30 py-3 text-white">
+              <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
+                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Repositories</span>
+                <span className="text-lg font-black text-[#E63946]">{githubStats.repos || 0}</span>
+              </div>
+              <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
+                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Stars</span>
+                <span className="text-lg font-black text-yellow-400">{githubStats.stars !== undefined ? githubStats.stars : 4}</span>
+              </div>
+              <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
+                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Followers</span>
+                <span className="text-lg font-black text-emerald-400">{githubStats.followers || 0}</span>
+              </div>
+              <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
+                <span className="text-[9px] text-slate-400 uppercase font-black block mb-0.5">Following</span>
+                <span className="text-lg font-black text-blue-400">{githubStats.following !== undefined ? githubStats.following : 8}</span>
+              </div>
+            </div>
+
+            {/* Top Languages */}
+            <div className="mb-4">
+              <span className="text-[9px] text-slate-400 uppercase font-black tracking-wider block mb-2 text-center sm:text-left">TOP LANGUAGES</span>
+              <div className="h-2 w-full bg-slate-950/50 rounded-full overflow-hidden flex border border-black/30">
+                {(githubStats.languages || [
+                  { name: "Java", percentage: 55 },
+                  { name: "JavaScript", percentage: 25 },
+                  { name: "CSS", percentage: 12 },
+                  { name: "HTML", percentage: 8 }
+                ]).map((lang, index) => {
+                  const colors = ["bg-[#E63946]", "bg-[#FBBF24]", "bg-blue-500", "bg-emerald-500"];
+                  const colorClass = colors[index % colors.length];
+                  return (
+                    <div
+                      key={lang.name}
+                      style={{ width: `${lang.percentage}%` }}
+                      className={`${colorClass} h-full`}
+                      title={`${lang.name}: ${lang.percentage}%`}
+                    />
+                  );
+                })}
+              </div>
+              <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 justify-center sm:justify-start">
+                {(githubStats.languages || [
+                  { name: "Java", percentage: 55 },
+                  { name: "JavaScript", percentage: 25 },
+                  { name: "CSS", percentage: 12 },
+                  { name: "HTML", percentage: 8 }
+                ]).map((lang, index) => {
+                  const colors = ["bg-[#E63946]", "bg-[#FBBF24]", "bg-blue-500", "bg-emerald-500"];
+                  const colorClass = colors[index % colors.length];
+                  return (
+                    <div key={lang.name} className="flex items-center gap-1 text-[9px] font-mono text-slate-300">
+                      <span className={`w-2 h-2 rounded-full ${colorClass}`} />
+                      <span>{lang.name} ({lang.percentage}%)</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -230,7 +291,7 @@ export default function CodingProfiles({ githubStats }) {
             <div className="flex-grow flex items-center justify-center my-4">
               <div className="w-full border-2 border-black/30 p-2 bg-[#070b14]/90 rounded-xl flex items-center justify-center min-h-[140px] shadow-[inner_3px_3px_0px_0px_rgba(0,0,0,0.5)]">
                 <img
-                  src="https://leetcard.jacoblin.cool/Dhodduraaj_?theme=unicolor&color=e63946&font=Outfit&ext=activity"
+                  src={darkMode ? "https://leetcard.jacoblin.cool/Dhodduraaj_?theme=unicolor&color=e63946&font=Outfit&ext=heatmap" : "https://leetcard.jacoblin.cool/Dhodduraaj_?theme=unicolor&color=1d3557&font=Outfit&ext=heatmap"}
                   alt="Dhodduraaj LeetCode Activity"
                   className="w-full h-auto"
                   loading="lazy"
