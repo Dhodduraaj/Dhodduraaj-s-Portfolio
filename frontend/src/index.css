@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", "Inter", sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  
+  --color-brand-red: #E63946;
+  --color-brand-blue: #1D3557;
+  --color-night-dark: #0B1329;
+  
+  --animate-comic-wiggle: comic-wiggle 0.25s ease-in-out infinite;
+  --animate-comic-bob: comic-bob 3s ease-in-out infinite;
+  --animate-comic-swing: comic-swing 4s ease-in-out infinite;
+  --animate-flicker-slow: flicker-slow 6s infinite;
+  --animate-flicker-fast: flicker-fast 4s infinite;
+  
+  @keyframes comic-wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  @keyframes comic-bob {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    50% { transform: translateY(-8px) scaleY(1.02); }
+  }
+  @keyframes comic-swing {
+    0%, 100% { transform: rotate(-8deg); transform-origin: top center; }
+    50% { transform: rotate(8deg); transform-origin: top center; }
+  }
+  @keyframes flicker-slow {
+    0%, 100% { opacity: 1; }
+    48% { opacity: 1; }
+    50% { opacity: 0.2; }
+    52% { opacity: 0.9; }
+    54% { opacity: 0.2; }
+    56% { opacity: 1; }
+    90% { opacity: 1; }
+    92% { opacity: 0.4; }
+    94% { opacity: 1; }
+  }
+  @keyframes flicker-fast {
+    0%, 100% { opacity: 1; }
+    28% { opacity: 1; }
+    30% { opacity: 0.3; }
+    32% { opacity: 1; }
+    70% { opacity: 1; }
+    72% { opacity: 0.1; }
+    74% { opacity: 0.8; }
+    76% { opacity: 0.2; }
+    78% { opacity: 1; }
+  }
+}
+
+@utility comic-card {
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px 0px #000000;
+  background-color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@utility comic-card-dark {
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px 0px #000000;
+  background-color: #1D3557;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@utility comic-btn-red {
+  border: 3.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #E63946;
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+  }
+
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0px 0px #000000;
+  }
+}
+
+@utility comic-btn-blue {
+  border: 3.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #1D3557;
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+  }
+
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0px 0px #000000;
+  }
+}
+
+@utility comic-bubble {
+  border: 4px solid #000000;
+  box-shadow: 5px 5px 0px 0px #000000;
+  background-color: #ffffff;
+  position: relative;
+}
+
+@utility crt-panel {
+  background-color: #0c1524;
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px 0px #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+@utility crt-screen {
+  background: radial-gradient(circle, rgba(29,53,87,0.3) 0%, rgba(11,19,41,0.9) 100%);
+  &::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+  
+  body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Custom Scrollbar - Flat Comic Style */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1D3557;
+    border-left: 4px solid #000000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #E63946;
+    border: 4px solid #000000;
+  }
+}

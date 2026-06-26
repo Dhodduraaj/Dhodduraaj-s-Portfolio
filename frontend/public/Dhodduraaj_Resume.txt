@@ -1,0 +1,81 @@
+======================================================================
+                         DHODDURAAJ S P
+======================================================================
+Email: dhodduraajsp@gmail.com | Phone: +91 8220920776
+LinkedIn: https://www.linkedin.com/in/dhodduraaj
+GitHub: https://github.com/Dhodduraaj
+LeetCode: https://leetcode.com/u/Dhodduraaj_/
+CodeChef: https://www.codechef.com/users/dhodduraaj
+
+----------------------------------------------------------------------
+CAREER OBJECTIVE
+----------------------------------------------------------------------
+Motivated Computer Science and Design student with hands-on experience 
+in full-stack and backend development using Java, Spring Boot, and the 
+MERN stack. Passionate about building scalable, user-centric applications 
+and eager to apply strong problem-solving skills to real-world software 
+development challenges.
+
+----------------------------------------------------------------------
+EDUCATION
+----------------------------------------------------------------------
+* B.E. Computer Science and Design
+  Kongu Engineering College (2023 - 2027)
+  CGPA: 9.11 / 10.0 (Upto 5th Semester)
+
+* Higher Secondary (Class XII) - 92%
+  Bharathiyar Matriculation Hr Sec School, Attur
+
+* SSLC (Class X) - 92%
+  St. Michael’s Matriculation Hr Sec School, Thumbal
+
+----------------------------------------------------------------------
+TECHNICAL SKILLS
+----------------------------------------------------------------------
+* Programming Languages: JAVA, C, C++, JavaScript
+* Web & Frameworks: HTML, CSS, React, Node.js, Express.js, Spring Boot
+* Databases & Tools: VS Code, IntelliJ IDEA, Git, GitHub, MongoDB, PostgreSQL
+* Design Tools: Framer, Figma, Adobe Illustrator, Blender
+
+----------------------------------------------------------------------
+AREAS OF INTEREST
+----------------------------------------------------------------------
+* JAVA Core & EE
+* Data Structures and Algorithms (DSA)
+* Database Management Systems (DBMS)
+
+----------------------------------------------------------------------
+PROJECTS
+----------------------------------------------------------------------
+1. Portfolio cum Dog Supplements E-Commerce Platform | MERN, Razorpay, Resend, Cloudinary, Google OAuth
+   - Built a full-stack e-commerce platform for ordering dog supplements with secure authentication and online payments.
+   - Implemented cart, order management, and automated email notifications for real-time order status updates.
+   - Developed an admin dashboard for product, inventory, and order workflow management.
+
+2. Smart Wallet - Expense Tracker & Finance Management App | Spring Boot, React, PostgreSQL (Neon), PWA, Android APK
+   - Designed a full-stack expense and income tracking system with reminders, notifications, and PDF exports.
+   - Built interactive dashboards, account transfers, and secure user profile management.
+   - Deployed scalable backend and frontend using cloud platforms with mobile APK support.
+
+3. Mental Wellbeing Monitoring Platform | React, Node.js, Express, MongoDB, Google Gemini AI
+   - Developed an AI-based mental health support platform providing therapy chat, mood assessment, and emotion analysis.
+   - Implemented a CBT-focused AI chatbot and real-time face mood detection using Google Gemini AI.
+   - Improved user engagement through a modern, responsive interface and instant AI-generated insights.
+
+----------------------------------------------------------------------
+CERTIFICATIONS
+----------------------------------------------------------------------
+* Infosys Springboard: Introduction to JAVA
+* ORACLE: AI Foundations Associate, Generative AI Professional, Data Science Professional
+* NPTEL: HCI Design & Implementation, Affective Computing, Privacy and Security in Online Social Media
+
+----------------------------------------------------------------------
+ACHIEVEMENTS
+----------------------------------------------------------------------
+* Top 5% Student Award for Academic Excellence Twice (2023-2024 & 2024-2025).
+* Secured 6th place in BYTS-India Hackathon conducted by BYTS Training Institution.
+* Secured top 10 in HackGeniX-2025 (Hackathon) conducted by Sathyabama University.
+* Secured second place in Ideathon POC event (2024) on the topic of AI Driven Water Quality Classifier.
+* Solved 300+ coding problems across LeetCode, Hackerrank, and Codechef.
+* Leadership: Serving as Executive member of CDCC (Department Coding Club).
+======================================================================
