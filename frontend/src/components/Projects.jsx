@@ -14,6 +14,24 @@ const Github = (props) => (
     <path d="M9 18c-4.51 2-5-2-7-2" />
   </svg>
 );
+const LiveURL = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={props.className} style={{ width: props.size || 24, height: props.size || 24 }}>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+const liveLink = {
+  "dog-ecommerce": "https://dog-vaathi.vercel.app",
+  "smart-wallet": "https://smarter-wallet-one.vercel.app/",
+  "wellbeing": "https://github.com/Dhodduraaj/MindEase"
+}
+const githubRepoMap = {
+  "dog-ecommerce": "https://github.com/Dhodduraaj/DogVaathi-Mern",
+  "smart-wallet": "https://github.com/Dhodduraaj/Smart-Wallet",
+  "wellbeing": "https://github.com/Dhodduraaj/MindEase"
+};
+
 
 const dossierStamps = {
   "dog-ecommerce": { text: "FINALIZED", color: "bg-[#E63946] text-white" },
@@ -190,6 +208,7 @@ export default function Projects({ projects }) {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm pointer-events-auto"
             onClick={() => setSelectedProject(null)}
           >
+
             {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -310,23 +329,23 @@ export default function Projects({ projects }) {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 border-t-3 border-black pt-5">
                 <a
-                  href={selectedProject.githubLink}
+                  href={githubRepoMap[selectedProject.imageKey]}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-3.5 comic-btn-red text-center text-xs flex items-center justify-center gap-2"
                 >
                   <Github size={16} />
-                  INSPECT SOURCE CODE
+                  INSPECT CODE
                 </a>
-                {selectedProject.liveLink && (
+                {liveLink[selectedProject.imageKey] && (
                   <a
-                    href={selectedProject.liveLink}
+                    href={liveLink[selectedProject.imageKey]}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3.5 comic-btn-blue text-center text-xs flex items-center justify-center gap-2"
                   >
-                    <ExternalLink size={16} />
-                    LAUNCH ACTIVE DEPLOYMENT
+                    <LiveURL size={16} />
+                    LAUNCH DEPLOYMENT
                   </a>
                 )}
                 <button
