@@ -109,37 +109,36 @@ export default function WebHero({ activeSection, isSwinging }) {
       // Pendulum: α = -(g/L)·sin(θ)
       let alpha = -(g / L_base) * Math.sin(thetaRef.current);
 
-      // Damping — faster when idle
-      const drag = scrollActiveRef.current ? 0.30 : 0.75;
+      // Higher damping to make the swing gentle and controlled
+      const drag = scrollActiveRef.current ? 1.5 : 2.5;
       alpha -= drag * omegaRef.current;
 
       // ── Scroll-driven impulse ────────────────────────────────────────────
       if (scrollActiveRef.current && Math.abs(scrollDeltaRef.current) > 0) {
-        // Map scroll delta → angular velocity kick
-        // Positive scroll (down) → swing right (+omega), negative → swing left
-        const impulse = scrollDeltaRef.current * 0.018;
+        // Map scroll delta → gentle angular velocity kick
+        const impulse = scrollDeltaRef.current * 0.003;
         omegaRef.current += impulse;
-        scrollDeltaRef.current *= 0.6; // decay accumulated delta
-      }
-
-      // Natural pumping if actively swinging (keeps arc alive)
-      if (scrollActiveRef.current) {
-        const maxSwing = 52 * (Math.PI / 180);
-        if (Math.abs(thetaRef.current) < maxSwing) {
-          const pumpDir = omegaRef.current >= 0 ? 1 : -1;
-          alpha += pumpDir * 8.5;
-        }
+        scrollDeltaRef.current *= 0.3; // fast decay
       }
 
       // Integrate
       omegaRef.current += alpha * dt;
       thetaRef.current += omegaRef.current * dt;
 
-      // Elastic rope stretch at bottom of arc
-      const tension = g * Math.cos(thetaRef.current) + L_base * omegaRef.current ** 2 * 0.10;
-      ropeLengthRef.current = L_base + (tension - g) * 0.035;
+      // Hard clamp theta to an acute angle of ±35° (70° total swing arc)
+      const maxTheta = 35 * Math.PI / 180;
+      if (thetaRef.current < -maxTheta) {
+        thetaRef.current = -maxTheta;
+        omegaRef.current = 0;
+      } else if (thetaRef.current > maxTheta) {
+        thetaRef.current = maxTheta;
+        omegaRef.current = 0;
+      }
 
-      // Settle to rest
+      // Fixed rope length (no stretch)
+      ropeLengthRef.current = L_base;
+
+      // Settle to rest quickly when not scrolling
       if (
         !scrollActiveRef.current &&
         Math.abs(thetaRef.current) < 0.04 &&
@@ -150,8 +149,8 @@ export default function WebHero({ activeSection, isSwinging }) {
         ropeLengthRef.current = L_base;
       }
 
-      // Body lag sway
-      bodyTiltRef.current = thetaRef.current + omegaRef.current * 0.10;
+      // Keep character vertically upright (no rotation)
+      bodyTiltRef.current = 0;
 
       // Pose update
       if (scrollActiveRef.current || Math.abs(omegaRef.current) > 0.5) {
@@ -302,10 +301,10 @@ export default function WebHero({ activeSection, isSwinging }) {
             stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
 
           {/* Left hand — oversized chibi knuckle + finger bumps */}
-          <circle cx={handX} cy={handY} r="7"   fill="#000000" />
+          <circle cx={handX} cy={handY} r="7" fill="#000000" />
           <circle cx={handX} cy={handY} r="4.2" fill="#E10600" />
           <circle cx={handX - 3} cy={handY - 5} r="1.6" fill="#000000" />
-          <circle cx={handX}     cy={handY - 6} r="1.6" fill="#000000" />
+          <circle cx={handX} cy={handY - 6} r="1.6" fill="#000000" />
           <circle cx={handX + 3} cy={handY - 5} r="1.6" fill="#000000" />
 
           {/* ── Left leg — thigh (navy) + boot (red) + kneecap + oversized foot */}
@@ -316,11 +315,11 @@ export default function WebHero({ activeSection, isSwinging }) {
           <path d={`M ${leftHipX},${leftHipY} L ${leftKneeX},${leftKneeY}`}
             stroke="#1D3557" strokeWidth="5.5" strokeLinecap="round" fill="none" />
           {/* Boot — knee to foot in red */}
-          <path d={`M ${leftKneeX},${leftKneeY} Q ${(leftKneeX+leftFootX)/2},${(leftKneeY+leftFootY)/2+4} ${leftFootX},${leftFootY}`}
+          <path d={`M ${leftKneeX},${leftKneeY} Q ${(leftKneeX + leftFootX) / 2},${(leftKneeY + leftFootY) / 2 + 4} ${leftFootX},${leftFootY}`}
             stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           <circle cx={leftKneeX} cy={leftKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
-          <circle cx={leftFootX} cy={leftFootY} r="8"   fill="#000000" />
-          <circle cx={leftFootX} cy={leftFootY} r="5"   fill="#E10600" />
+          <circle cx={leftFootX} cy={leftFootY} r="8" fill="#000000" />
+          <circle cx={leftFootX} cy={leftFootY} r="5" fill="#E10600" />
 
           {/* ── Right leg — thigh (navy) + boot (red) + kneecap + oversized foot */}
           {/* Full leg outline */}
@@ -330,11 +329,11 @@ export default function WebHero({ activeSection, isSwinging }) {
           <path d={`M ${rightHipX},${rightHipY} L ${rightKneeX},${rightKneeY}`}
             stroke="#1D3557" strokeWidth="5.5" strokeLinecap="round" fill="none" />
           {/* Boot — knee to foot in red */}
-          <path d={`M ${rightKneeX},${rightKneeY} Q ${(rightKneeX+rightFootX)/2},${(rightKneeY+rightFootY)/2+4} ${rightFootX},${rightFootY}`}
+          <path d={`M ${rightKneeX},${rightKneeY} Q ${(rightKneeX + rightFootX) / 2},${(rightKneeY + rightFootY) / 2 + 4} ${rightFootX},${rightFootY}`}
             stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           <circle cx={rightKneeX} cy={rightKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
-          <circle cx={rightFootX} cy={rightFootY} r="8"   fill="#000000" />
-          <circle cx={rightFootX} cy={rightFootY} r="5"   fill="#E10600" />
+          <circle cx={rightFootX} cy={rightFootY} r="8" fill="#000000" />
+          <circle cx={rightFootX} cy={rightFootY} r="5" fill="#E10600" />
 
           {/* ── Torso — barrel-chest silhouette ──────────────────────── */}
           {/* Black outer silhouette */}
@@ -362,26 +361,20 @@ export default function WebHero({ activeSection, isSwinging }) {
           />
           {/* Blue side panels */}
           <path
-            d={`M ${shX - 14},${shY + 5}
-                C ${shX - 17},${shY + 12} ${leftHipX - 2},${leftHipY - 3} ${leftHipX + 1},${leftHipY - 1}
-                L ${leftHipX + 5},${leftHipY - 1}
-                C ${leftHipX + 3},${leftHipY - 5} ${shX - 7},${shY + 7} Z`}
+            d={`M ${shX - 14},${shY + 5} L ${leftHipX + 1},${leftHipY - 1} L ${leftHipX + 5},${leftHipY - 1} L ${shX - 7},${shY + 7} Z`}
             fill="#1D3557"
           />
           <path
-            d={`M ${shX + 14},${shY + 5}
-                C ${shX + 17},${shY + 12} ${rightHipX + 2},${rightHipY - 3} ${rightHipX - 1},${rightHipY - 1}
-                L ${rightHipX - 5},${rightHipY - 1}
-                C ${rightHipX - 3},${rightHipY - 5} ${shX + 7},${shY + 7} Z`}
+            d={`M ${shX + 14},${shY + 5} L ${rightHipX - 1},${rightHipY - 1} L ${rightHipX - 5},${rightHipY - 1} L ${shX + 7},${shY + 7} Z`}
             fill="#1D3557"
           />
           {/* Spider emblem — larger, centred */}
           <ellipse cx={shX} cy={shY + 10} rx="3" ry="2.5" fill="#000000" />
           <ellipse cx={shX} cy={shY + 14} rx="2" ry="1.8" fill="#000000" />
-          <path d={`M ${shX},${shY+10} Q ${shX-5},${shY+7}  ${shX-9},${shY+10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d={`M ${shX},${shY+10} Q ${shX-5},${shY+13} ${shX-9},${shY+17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d={`M ${shX},${shY+10} Q ${shX+5},${shY+7}  ${shX+9},${shY+10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d={`M ${shX},${shY+10} Q ${shX+5},${shY+13} ${shX+9},${shY+17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY + 10} Q ${shX - 5},${shY + 7}  ${shX - 9},${shY + 10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY + 10} Q ${shX - 5},${shY + 13} ${shX - 9},${shY + 17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY + 10} Q ${shX + 5},${shY + 7}  ${shX + 9},${shY + 10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY + 10} Q ${shX + 5},${shY + 13} ${shX + 9},${shY + 17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
 
           {/* ── Right arm — thicker, chibi proportions */}
           <path d={`M ${shX + 9},${shY + 2} Q ${rightElbowX},${rightElbowY} ${rightHandX},${rightHandY}`}
@@ -392,7 +385,7 @@ export default function WebHero({ activeSection, isSwinging }) {
           <circle cx={rightHandX} cy={rightHandY} r="6.5" fill="#000000" />
           <circle cx={rightHandX} cy={rightHandY} r="3.8" fill="#E10600" />
           <circle cx={rightHandX - 2.5} cy={rightHandY - 4.5} r="1.5" fill="#000000" />
-          <circle cx={rightHandX}       cy={rightHandY - 5.5} r="1.5" fill="#000000" />
+          <circle cx={rightHandX} cy={rightHandY - 5.5} r="1.5" fill="#000000" />
           <circle cx={rightHandX + 2.5} cy={rightHandY - 4.5} r="1.5" fill="#000000" />
 
           {/* ── HEAD: chibi style, large, upright, centred ─────────────── */}
@@ -420,9 +413,9 @@ export default function WebHero({ activeSection, isSwinging }) {
             <ellipse cx={headCX} cy={headCY} rx="18" ry="21" fill="#E10600" />
 
             {/* Blue chin + side mask zones */}
-            <ellipse cx={headCX - 8}  cy={headCY + 4}  rx="8"  ry="11" fill="#1D3557" opacity="0.7" />
-            <ellipse cx={headCX + 8}  cy={headCY + 4}  rx="8"  ry="11" fill="#1D3557" opacity="0.7" />
-            <ellipse cx={headCX}      cy={headCY + 15} rx="10" ry="6"  fill="#1D3557" opacity="0.55" />
+            <ellipse cx={headCX - 8} cy={headCY + 4} rx="8" ry="11" fill="#1D3557" opacity="0.7" />
+            <ellipse cx={headCX + 8} cy={headCY + 4} rx="8" ry="11" fill="#1D3557" opacity="0.7" />
+            <ellipse cx={headCX} cy={headCY + 15} rx="10" ry="6" fill="#1D3557" opacity="0.55" />
 
             {/* Web-lines on mask */}
             <ellipse cx={headCX} cy={headCY} rx="11" ry="14"
@@ -436,27 +429,40 @@ export default function WebHero({ activeSection, isSwinging }) {
             <line x1={headCX + 14} y1={headCY - 16} x2={headCX - 14} y2={headCY + 16}
               stroke="#000000" strokeWidth="0.6" opacity="0.22" />
 
-            {/* ── Eyes: Spider-Verse arc-lens (inward-tilted wedges) ─── */}
-            {/* Left eye */}
+            {/* ── Eyes: Spider-Verse arc-lens (thick black outer + sharp inner white) ─── */}
+            {/* Left Eye Black Outline */}
             <path
-              d={`M ${headCX - 14},${headCY - 1} Q ${headCX - 11},${headCY - 13} ${headCX - 2},${headCY - 10} Q ${headCX - 3},${headCY - 1} ${headCX - 14},${headCY - 1} Z`}
-              fill="#FFFFFF" stroke="#000000" strokeWidth="1.8" strokeLinejoin="round"
+              d={`M ${headCX - 16},${headCY - 2} C ${headCX - 15},${headCY - 9} ${headCX - 10},${headCY - 12.5} ${headCX - 1.5},${headCY + 3.5} C ${headCX - 4},${headCY + 8.5} ${headCX - 12},${headCY + 9.5} ${headCX - 16},${headCY - 2} Z`}
+              fill="#000000" stroke="#000000" strokeWidth="1.2" strokeLinejoin="round"
             />
-            {/* Right eye */}
+            {/* Left Eye White Lens */}
             <path
-              d={`M ${headCX + 14},${headCY - 1} Q ${headCX + 11},${headCY - 13} ${headCX + 2},${headCY - 10} Q ${headCX + 3},${headCY - 1} ${headCX + 14},${headCY - 1} Z`}
-              fill="#FFFFFF" stroke="#000000" strokeWidth="1.8" strokeLinejoin="round"
+              d={`M ${headCX - 14.5},${headCY - 2} C ${headCX - 13.5},${headCY - 8} ${headCX - 9.5},${headCY - 11} ${headCX - 3},${headCY + 2.5} C ${headCX - 5},${headCY + 7} ${headCX - 11.5},${headCY + 8} ${headCX - 14.5},${headCY - 2} Z`}
+              fill="#FFFFFF" stroke="#000000" strokeWidth="0.8" strokeLinejoin="round"
             />
+
+            {/* Right Eye Black Outline */}
+            <path
+              d={`M ${headCX + 16},${headCY - 2} C ${headCX + 15},${headCY - 9} ${headCX + 10},${headCY - 12.5} ${headCX + 1.5},${headCY + 3.5} C ${headCX + 4},${headCY + 8.5} ${headCX + 12},${headCY + 9.5} ${headCX + 16},${headCY - 2} Z`}
+              fill="#000000" stroke="#000000" strokeWidth="1.2" strokeLinejoin="round"
+            />
+            {/* Right Eye White Lens */}
+            <path
+              d={`M ${headCX + 14.5},${headCY - 2} C ${headCX + 13.5},${headCY - 8} ${headCX + 9.5},${headCY - 11} ${headCX + 3},${headCY + 2.5} C ${headCX + 5},${headCY + 7} ${headCX + 11.5},${headCY + 8} ${headCX + 14.5},${headCY - 2} Z`}
+              fill="#FFFFFF" stroke="#000000" strokeWidth="0.8" strokeLinejoin="round"
+            />
+
             {/* Eye inner shadow */}
-            <path d={`M ${headCX - 13},${headCY - 2} Q ${headCX - 10},${headCY - 11} ${headCX - 3},${headCY - 9}`}
-              fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="2.2" strokeLinecap="round" />
-            <path d={`M ${headCX + 13},${headCY - 2} Q ${headCX + 10},${headCY - 11} ${headCX + 3},${headCY - 9}`}
-              fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="2.2" strokeLinecap="round" />
+            <path d={`M ${headCX - 13.5},${headCY - 2.5} C ${headCX - 12.5},${headCY - 7.5} ${headCX - 9.5},${headCY - 10} ${headCX - 4.5},${headCY + 1.5}`}
+              fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="2.0" strokeLinecap="round" />
+            <path d={`M ${headCX + 13.5},${headCY - 2.5} C ${headCX + 12.5},${headCY - 7.5} ${headCX + 9.5},${headCY - 10} ${headCX + 4.5},${headCY + 1.5}`}
+              fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="2.0" strokeLinecap="round" />
+
             {/* Eye gleam specks */}
-            <circle cx={headCX - 10} cy={headCY - 9}  r="2.2" fill="rgba(255,255,255,0.92)" />
-            <circle cx={headCX - 13} cy={headCY - 4}  r="1.2" fill="rgba(255,255,255,0.6)"  />
-            <circle cx={headCX + 10} cy={headCY - 9}  r="2.2" fill="rgba(255,255,255,0.92)" />
-            <circle cx={headCX + 13} cy={headCY - 4}  r="1.2" fill="rgba(255,255,255,0.6)"  />
+            <circle cx={headCX - 9.5} cy={headCY - 6.5} r="1.8" fill="rgba(255,255,255,0.9)" />
+            <circle cx={headCX - 12} cy={headCY - 3.5} r="1.0" fill="rgba(255,255,255,0.6)" />
+            <circle cx={headCX + 9.5} cy={headCY - 6.5} r="1.8" fill="rgba(255,255,255,0.9)" />
+            <circle cx={headCX + 12} cy={headCY - 3.5} r="1.0" fill="rgba(255,255,255,0.6)" />
 
           </g>
 
