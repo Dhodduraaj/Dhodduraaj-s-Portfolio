@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, FileText } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const roles = [
   "Responsibility-driven frontend  engineer.",
@@ -8,9 +8,70 @@ const roles = [
   "I catch bugs in mid-air before they escape."
 ];
 
+const originalLetters = Array.from("DHODDURAAJ");
+const targetLetters = Array.from("SPIDER-MAN");
+
+function InteractiveName() {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <span
+      className="relative text-white px-4 py-2.5 bg-[#E63946] border-4 border-black inline-flex items-center transform -rotate-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] cursor-pointer select-none overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Marvel Logo Red/White Diagonal Swipe Overlay on Hover */}
+      <motion.div
+        className="absolute inset-0 bg-[#CC1E2A] z-0"
+        initial={{ x: "-100%" }}
+        animate={{ x: isHovered ? "0%" : "-100%" }}
+        transition={{ type: "tween", ease: "easeInOut", duration: 0.25 }}
+      />
+      {/* Subtle Yellow Flash on Hover State Trigger */}
+      <motion.div
+        className="absolute inset-0 bg-yellow-400 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? [0, 0.8, 0] : 0 }}
+        transition={{ duration: 0.25 }}
+      />
+      
+      {/* Letter slots */}
+      <span className="relative z-10 inline-flex font-black tracking-tight">
+        {originalLetters.map((char, idx) => {
+          const targetChar = targetLetters[idx];
+          return (
+            <span
+              key={idx}
+              className="relative inline-block w-[0.68em] h-[1.15em] overflow-hidden"
+            >
+              <motion.span
+                className="absolute left-0 right-0 flex flex-col items-center justify-start"
+                animate={{ y: isHovered ? "-50%" : "0%" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 18,
+                  delay: idx * 0.03, // Staggered spring morph
+                }}
+                style={{ height: "200%" }}
+              >
+                {/* Top Letter: Original */}
+                <span className="h-[50%] flex items-center justify-center">{char}</span>
+                {/* Bottom Letter: Target (yellow/white Marvel style) */}
+                <span className="h-[50%] flex items-center justify-center text-yellow-300 font-sans tracking-tighter">{targetChar}</span>
+              </motion.span>
+            </span>
+          );
+        })}
+      </span>
+    </span>
+  );
+}
+
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [cameraFlash, setCameraFlash] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,14 +99,126 @@ export default function Hero() {
       id="home"
       className="min-h-screen relative flex items-center justify-center overflow-hidden pt-28 pb-32 bg-[#FFFBF0] dark:bg-[#0B1329] border-b-4 border-black"
     >
+      {/* Camera Flash Screen Overlay */}
+      <AnimatePresence>
+        {cameraFlash && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-white z-50 pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Left-Side Skyscraper Silhouette (Visual Balance) */}
+      <div className="absolute left-0 bottom-0 h-96 w-44 pointer-events-none z-0 hidden lg:flex items-end overflow-hidden opacity-85 dark:opacity-50">
+        <svg viewBox="0 0 100 200" className="w-full h-full text-[#1D3557] dark:text-[#0B1329]" fill="currentColor">
+          <polygon points="0,200 40,40 50,40 55,20 60,40 70,40 100,200" stroke="#000000" strokeWidth="2.5" />
+          <g fill="#FBBF24" stroke="#000000" strokeWidth="0.5">
+            <rect x="25" y="70" width="4" height="6" className="animate-flicker-slow" />
+            <rect x="35" y="70" width="4" height="6" />
+            <rect x="45" y="70" width="4" height="6" className="animate-flicker-fast" />
+            
+            <rect x="23" y="90" width="4" height="6" />
+            <rect x="33" y="90" width="4" height="6" className="animate-flicker-slow" />
+            <rect x="43" y="90" width="4" height="6" />
+            <rect x="53" y="90" width="4" height="6" className="animate-flicker-fast" />
+            
+            <rect x="20" y="110" width="4" height="6" className="animate-flicker-fast" />
+            <rect x="30" y="110" width="4" height="6" />
+            <rect x="40" y="110" width="4" height="6" className="animate-flicker-slow" />
+            <rect x="50" y="110" width="4" height="6" />
+            
+            <rect x="18" y="130" width="4" height="6" />
+            <rect x="28" y="130" width="4" height="6" className="animate-flicker-slow" />
+            <rect x="38" y="130" width="4" height="6" />
+            <rect x="48" y="130" width="4" height="6" className="animate-flicker-fast" />
+          </g>
+        </svg>
+      </div>
+
+      {/* Web Hanging Camera */}
+      <motion.div
+        animate={{ rotate: [-3, 3, -3] }}
+        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+        style={{ transformOrigin: "50% 0px" }}
+        className="absolute top-0 left-10 w-28 h-[260px] z-10 pointer-events-auto cursor-pointer group select-none hidden lg:block"
+        onClick={() => {
+          setCameraFlash(true);
+          setTimeout(() => setCameraFlash(false), 200);
+        }}
+      >
+        <svg viewBox="0 0 100 220" className="w-full h-full text-slate-800 dark:text-slate-200">
+          <line x1="50" y1="0" x2="50" y2="150" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+          <line x1="50" y1="0" x2="50" y2="150" stroke="#000000" strokeWidth="0.5" />
+          
+          <g transform="translate(50, 150) translate(-25, 0)">
+            <path d="M 12,0 C 12,-6 38,-6 38,0" fill="none" stroke="#000000" strokeWidth="2.5" />
+            <rect x="0" y="0" width="50" height="34" rx="4" fill="#2D3748" stroke="#000000" strokeWidth="3" />
+            <rect x="3" y="3" width="10" height="28" fill="#1A202C" />
+            <circle cx="30" cy="17" r="13" fill="#1A202C" stroke="#000000" strokeWidth="2.5" />
+            <circle cx="30" cy="17" r="8" fill="#4A5568" />
+            <circle cx="27" cy="14" r="2.5" fill="#FFFFFF" opacity="0.6" />
+            <rect x="18" y="-6" width="14" height="6" fill="#A0AEC0" stroke="#000000" strokeWidth="2.5" />
+            <polygon points="19,-1 31,-1 29,-5 21,-5" fill="#FFFFFF" />
+            <circle cx="8" cy="8" r="2" fill="#E63946" className="animate-pulse" />
+            <circle cx="8" cy="8" r="3.5" fill="none" stroke="#E63946" strokeWidth="0.5" className="animate-ping" style={{ transformOrigin: "8px 8px" }} />
+            
+            <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-[-10px] scale-75 origin-bottom">
+              <rect x="-10" y="42" width="70" height="18" fill="#FBBF24" stroke="#000000" strokeWidth="2" />
+              <text x="25" y="54" textAnchor="middle" fill="#000000" fontSize="9" fontWeight="900" fontFamily="sans-serif">📸 CLICK FLASH!</text>
+            </g>
+          </g>
+        </svg>
+      </motion.div>
+
+      {/* Floating Newspaper (Daily Bugle) */}
+      <motion.a
+        href="#projects"
+        onClick={(e) => {
+          e.preventDefault();
+          const el = document.getElementById("projects");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }}
+        animate={{ y: [0, -8, 0] }}
+        transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
+        className="absolute left-10 top-[280px] w-48 bg-[#FFFDF0] border-4 border-black p-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all rotate-3 z-10 hidden lg:block select-none cursor-pointer group"
+      >
+        <div className="border-b-2 border-black pb-1 mb-2 text-center">
+          <div className="bg-[#E63946] text-white text-[10px] font-black uppercase py-0.5 tracking-widest border-2 border-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+            DAILY BUGLE
+          </div>
+          <div className="text-[6px] font-black text-slate-500 uppercase mt-0.5 tracking-wider">
+            THE VOICE OF THE CITY • 10¢
+          </div>
+        </div>
+        
+        <h4 className="text-[10px] font-black uppercase text-black leading-tight mb-2 tracking-tight group-hover:text-[#E63946] transition-colors">
+          SPIDER-MAN SIGHTED DEVELOPING SPRING BOOT API PORTS!
+        </h4>
+        
+        <div className="flex gap-2">
+          <div className="w-1/2 text-[5.5px] font-bold text-slate-700 leading-normal border-r border-black/35 pr-1">
+            Bystanders claim Peter Parker webbed a Neon database connector to Java. "Bugs are disappearing in mid-air!" said one local citizen.
+          </div>
+          <div className="w-1/2 text-[5.5px] font-bold text-slate-700 leading-normal">
+            Daily Bugle chief demands answers: "Is he a menace or a full-stack engineer? Read page 3 for our complete analysis!"
+          </div>
+        </div>
+        
+        <div className="mt-3 text-[7px] font-black text-[#E63946] uppercase tracking-wider text-right animate-pulse">
+          READ FULL REPORT 🗞️
+        </div>
+      </motion.a>
+
       {/* Dynamic Comic Grid Pattern Background */}
-      <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
         <svg width="100%" height="100%">
-          <defs>
-            <pattern id="hero-halftone" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="12" cy="12" r="3" fill="currentColor" />
-            </pattern>
-          </defs>
+          <pattern id="hero-halftone" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="12" cy="12" r="3" fill="var(--pattern-color)" />
+          </pattern>
           <rect width="100%" height="100%" fill="url(#hero-halftone)" />
         </svg>
       </div>
@@ -201,10 +374,7 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
           className="text-5xl md:text-8xl font-black tracking-tight text-slate-900 dark:text-white mb-6 uppercase leading-none"
         >
-          I am{" "}
-          <span className="text-white px-4 py-2.5 bg-[#E63946] border-4 border-black inline-block transform -rotate-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            DHODDURAAJ
-          </span>
+          I am <InteractiveName />
         </motion.h1>
 
         {/* Narrative Tagline Loop */}

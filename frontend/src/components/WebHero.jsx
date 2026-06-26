@@ -1,455 +1,63 @@
-import React, { useEffect, useState, useRef } from "react";
-
-// -------------------------------------------------------------
-// ATHLETIC SPIDER-MAN VECTOR PARTS (1:7 Proportion skeletal frames)
-// -------------------------------------------------------------
-
-const SpideyEyes = ({ type, y }) => {
-  if (type === "squint") {
-    return (
-      <>
-        {/* Left Eye */}
-        <polygon points={`38,${y-1} 48,${y} 44,${y-3}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2" strokeLinejoin="round" />
-        {/* Right Eye */}
-        <polygon points={`62,${y-1} 52,${y} 56,${y-3}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2" strokeLinejoin="round" />
-      </>
-    );
-  }
-  if (type === "focused") {
-    return (
-      <>
-        {/* Left Eye */}
-        <polygon points={`36,${y-2} 48,${y+1} 44,${y-7}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-        {/* Right Eye */}
-        <polygon points={`64,${y-2} 52,${y+1} 56,${y-7}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-      </>
-    );
-  }
-  if (type === "wide") {
-    return (
-      <>
-        {/* Left Eye */}
-        <path d={`M 34,${y-3} C 34,${y-3} 46,${y+4} 47,${y-1} C 48,-5 35,-9 34,${y-3}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-        {/* Right Eye */}
-        <path d={`M 66,${y-3} C 66,${y-3} 54,${y+4} 53,${y-1} C 52,-5 65,-9 66,${y-3}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-      </>
-    );
-  }
-  // Normal athletic eyes
-  return (
-    <>
-      {/* Left Eye */}
-      <polygon points={`36,${y-1} 48,${y+2} 44,${y-6}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-      {/* Right Eye */}
-      <polygon points={`64,${y-1} 52,${y+2} 56,${y-6}`} fill="#FFFFFF" stroke="#000000" strokeWidth="2.5" strokeLinejoin="round" />
-    </>
-  );
-};
-
-const SpideyHead = ({ y, rot, eyeType }) => {
-  return (
-    <g transform={`rotate(${rot}, 50, ${y})`}>
-      {/* Sleek Oval Head Shape (1:7 proportion - smaller head) */}
-      <path
-        d={`M 50,${y-12} 
-           C 38,${y-12} 36,${y-8} 36,${y} 
-           C 36,${y+7} 40,${y+10} 50,${y+10} 
-           C 60,${y+7} 64,${y-8} 64,${y} 
-           C 64,${y-8} 62,${y-12} 50,${y-12} Z`}
-        fill="#E63946"
-        stroke="#000000"
-        strokeWidth="3.2"
-        strokeLinejoin="round"
-      />
-      {/* Mask web lines */}
-      <ellipse cx="50" cy={y} rx="9" ry="7" fill="none" stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <ellipse cx="50" cy={y} rx="4.5" ry="3.5" fill="none" stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="41" y2={y-9} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="59" y2={y-9} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="36" y2={y} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="64" y2={y} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="41" y2={y+8} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      <line x1="50" y1={y} x2="59" y2={y+8} stroke="#000000" strokeWidth="0.6" opacity="0.35" />
-      
-      <SpideyEyes type={eyeType} y={y} />
-    </g>
-  );
-};
-
-const SpideyTorso = ({ y, h, w, headY }) => {
-  const neckY = headY + 8;
-  const hipY = y + h;
-  const hipW = 10;
-  return (
-    <g>
-      {/* Broad V-shaped muscular Torso Outline */}
-      <path
-        d={`M 50,${neckY} 
-           C ${50 - w/2},${neckY+2} ${50 - w/2},${hipY-8} ${50 - hipW/2},${hipY} 
-           L ${50 + hipW/2},${hipY}
-           C ${50 + w/2},${hipY-8} ${50 + w/2},${neckY+2} 50,${neckY} Z`}
-        fill="#E63946"
-        stroke="#000000"
-        strokeWidth="3.2"
-        strokeLinejoin="round"
-      />
-      {/* Blue Muscular Sides */}
-      <path
-        d={`M ${50 - w/2 + 2},${neckY+5} C ${50 - w/2 + 2},${neckY+14} ${50 - w/3},${hipY} ${50 - hipW/2},${hipY} L ${50 - w/2},${hipY} Z`}
-        fill="#1D3557"
-        stroke="#000000"
-        strokeWidth="1.2"
-      />
-      <path
-        d={`M ${50 + w/2 - 2},${neckY+5} C ${50 + w/2 - 2},${neckY+14} ${50 + w/3},${hipY} ${50 + hipW/2},${hipY} L ${50 + w/2},${hipY} Z`}
-        fill="#1D3557"
-        stroke="#000000"
-        strokeWidth="1.2"
-      />
-      {/* Blue pelvis block */}
-      <path
-        d={`M ${50 - hipW/2},${hipY} L ${50 + hipW/2},${hipY} L 54,${hipY+5} L 46,${hipY+5} Z`}
-        fill="#1D3557"
-        stroke="#000000"
-        strokeWidth="1.5"
-      />
-      
-      {/* Spider Emblem */}
-      <circle cx="50" cy={neckY + 6} r="1.5" fill="#000000" />
-      <line x1="50" y1={neckY + 6} x2="50" y2={neckY + 3} stroke="#000000" strokeWidth="1.2" />
-      <path d={`M 50,${neckY+6} Q 45,${neckY+4} 43,${neckY+6}`} stroke="#000000" strokeWidth="0.8" fill="none" />
-      <path d={`M 50,${neckY+6} Q 45,${neckY+8} 43,${neckY+10}`} stroke="#000000" strokeWidth="0.8" fill="none" />
-      <path d={`M 50,${neckY+6} Q 55,${neckY+4} 57,${neckY+6}`} stroke="#000000" strokeWidth="0.8" fill="none" />
-      <path d={`M 50,${neckY+6} Q 55,${neckY+8} 57,${neckY+10}`} stroke="#000000" strokeWidth="0.8" fill="none" />
-    </g>
-  );
-};
-
-// Illustrated Double-Stroke Arm
-const SpideyArm = ({ side, type, headY, torsoW }) => {
-  const isLeft = side === "left";
-  const shX = isLeft ? (50 - torsoW/2 - 2) : (50 + torsoW/2 + 2);
-  const shY = headY + 11;
-
-  let pathD = "";
-  let showHand = false;
-  let handX = 50;
-  let handY = 0;
-
-  if (type === "up-straight") {
-    pathD = `M ${shX},${shY} L 50,0`;
-    showHand = true;
-    handX = 50;
-    handY = 0;
-  } else if (type === "up-bent") {
-    const elbowX = isLeft ? 34 : 66;
-    const elbowY = 16;
-    pathD = `M ${shX},${shY} L ${elbowX},${elbowY} L 50,5`;
-    showHand = true;
-    handX = 50;
-    handY = 5;
-  } else if (type === "shoot-forward") {
-    const targetX = isLeft ? 15 : 85;
-    const targetY = shY + 3;
-    pathD = `M ${shX},${shY} Q ${isLeft ? 26 : 74},${shY-4} ${targetX},${targetY}`;
-    showHand = true;
-    handX = targetX;
-    handY = targetY;
-  } else if (type === "out-balance") {
-    const targetX = isLeft ? 12 : 88;
-    const targetY = shY + 15;
-    pathD = `M ${shX},${shY} Q ${isLeft ? 24 : 76},${shY-6} ${targetX},${targetY}`;
-    showHand = true;
-    handX = targetX;
-    handY = targetY;
-  } else if (type === "hands-ground") {
-    const targetX = isLeft ? 26 : 74;
-    const targetY = 82;
-    pathD = `M ${shX},${shY} L ${isLeft ? 28 : 72},${shY+16} L ${targetX},${targetY}`;
-    showHand = true;
-    handX = targetX;
-    handY = targetY;
-  } else if (type === "pointing-right") {
-    pathD = `M ${shX},${shY} Q 72,${shY-6} 86,${shY-3}`;
-    showHand = true;
-    handX = 86;
-    handY = shY - 3;
-  }
-
-  // Double stroke vector rendering (thick black outline + colored core)
-  if (pathD) {
-    return (
-      <g>
-        <path d={pathD} stroke="#000000" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <path d={pathD} stroke="#E63946" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        {showHand && (
-          <>
-            <circle cx={handX} cy={handY} r="4" fill="#000000" />
-            <circle cx={handX} cy={handY} r="2.2" fill="#E63946" />
-          </>
-        )}
-        {type === "shoot-forward" && (
-          <>
-            {/* Shoot web line */}
-            <line x1={handX} y1={handY} x2={isLeft ? -45 : 145} y2={handY - 14} stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1={handX} y1={handY} x2={isLeft ? -45 : 145} y2={handY - 14} stroke="#000000" strokeWidth="0.8" />
-          </>
-        )}
-        {type === "pointing-right" && (
-          <line x1="89" y1={shY-3} x2="98" y2={shY-3} stroke="#E63946" strokeWidth="2.2" strokeDasharray="2 2" />
-        )}
-      </g>
-    );
-  }
-
-  // Default: Left arm (holding laptop) or Right arm (resting on hip)
-  if (isLeft) {
-    const laptopArmD = `M ${shX},${shY} C 30,${shY+2} 24,${shY+10} 24,${shY+18}`;
-    return (
-      <g>
-        <path d={laptopArmD} stroke="#000000" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-        <path d={laptopArmD} stroke="#1D3557" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-        {/* Laptop */}
-        <rect x="14" y="58" width="12" height="8" rx="0.5" fill="#000000" stroke="#000000" strokeWidth="1.5" />
-        <polygon points="12,66 28,66 30,71 10,71" fill="#1D3557" stroke="#000000" strokeWidth="1.5" />
-        <rect x="17" y="60" width="6" height="4" fill="#ffffff" />
-      </g>
-    );
-  } else {
-    const hipArmD = `M ${shX},${shY} C 70,${shY+2} 74,${shY+10} 74,${shY+18}`;
-    return (
-      <g>
-        <path d={hipArmD} stroke="#000000" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-        <path d={hipArmD} stroke="#1D3557" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-        <circle cx="74" cy={shY+18} r="3" fill="#E63946" stroke="#000000" strokeWidth="1.5" />
-      </g>
-    );
-  }
-};
-
-// Illustrated Double-Stroke Leg
-const SpideyLeg = ({ side, type, torsoY, torsoH, torsoW }) => {
-  const isLeft = side === "left";
-  const hipX = isLeft ? 45 : 55;
-  const hipY = torsoY + torsoH;
-
-  let pathD = "";
-  let bootPathD = "";
-
-  if (type === "tucked") {
-    const kneeX = isLeft ? 28 : 72;
-    const kneeY = hipY + 6;
-    const footX = isLeft ? 38 : 62;
-    const footY = hipY - 2;
-    pathD = `M ${hipX},${hipY} L ${kneeX},${kneeY} L ${footX},${footY}`;
-    bootPathD = `M ${kneeX},${kneeY} L ${footX},${footY}`;
-  } else if (type === "straight-back") {
-    const footX = isLeft ? 22 : 78;
-    const footY = hipY + 30;
-    pathD = `M ${hipX},${hipY} L ${footX},${footY}`;
-    bootPathD = `M ${hipX + (footX - hipX)*0.55},${hipY + (footY - hipY)*0.55} L ${footX},${footY}`;
-  } else if (type === "crunched") {
-    const kneeX = isLeft ? 26 : 74;
-    const kneeY = hipY + 14;
-    const footX = isLeft ? 38 : 62;
-    const footY = hipY + 22;
-    pathD = `M ${hipX},${hipY} L ${kneeX},${kneeY} L ${footX},${footY}`;
-    bootPathD = `M ${kneeX},${kneeY} L ${footX},${footY}`;
-  } else if (type === "split-forward" || type === "split-backward") {
-    const isForward = (type === "split-forward");
-    const footX = isLeft ? (isForward ? 20 : 38) : (isForward ? 80 : 62);
-    const footY = hipY + 28;
-    pathD = `M ${hipX},${hipY} L ${footX},${footY}`;
-    bootPathD = `M ${hipX + (footX - hipX)*0.5},${hipY + (footY - hipY)*0.5} L ${footX},${footY}`;
-  } else if (type === "squat-left" || type === "squat-right") {
-    const kneeX = isLeft ? 18 : 82;
-    const kneeY = 80;
-    const footX = isLeft ? 22 : 78;
-    const footY = 82;
-    pathD = `M ${hipX},${hipY} L ${kneeX},${kneeY} L ${footX},${footY}`;
-    bootPathD = `M ${kneeX},${kneeY} L ${footX},${footY}`;
-  }
-
-  // Render leg paths with outline
-  if (pathD) {
-    return (
-      <g>
-        <path d={pathD} stroke="#000000" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <path d={pathD} stroke="#1D3557" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        {bootPathD && (
-          <path d={bootPathD} stroke="#E63946" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        )}
-      </g>
-    );
-  }
-
-  // Default: stand-left / stand-right
-  const kneeX = isLeft ? 41 : 59;
-  const kneeY = hipY + 16;
-  const footX = isLeft ? 36 : 64;
-  const footY = 90;
-  const standD = `M ${hipX},${hipY} L ${kneeX},${kneeY} L ${footX},${footY}`;
-  const bootD = `M ${kneeX},${kneeY} L ${footX},${footY}`;
-
-  return (
-    <g>
-      <path d={standD} stroke="#000000" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <path d={standD} stroke="#1D3557" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <path d={bootD} stroke="#E63946" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </g>
-  );
-};
-
-// Dynamic skeletal config
-function getSpideyConfig(pose, frameIndex) {
-  if (pose === "swinging") {
-    const swingFrames = [
-      // Frame 0: Launch
-      {
-        headY: 15, headRot: -15, eyeType: "focused",
-        torsoY: 23, torsoH: 26, torsoW: 16,
-        armLeft: "up-straight", armRight: "shoot-forward",
-        legLeft: "tucked", legRight: "tucked"
-      },
-      // Frame 1: Max Speed stretch
-      {
-        headY: 17, headRot: 0, eyeType: "wide",
-        torsoY: 25, torsoH: 30, torsoW: 15,
-        armLeft: "up-straight", armRight: "up-straight",
-        legLeft: "straight-back", legRight: "straight-back"
-      },
-      // Frame 2: Pull-up rising
-      {
-        headY: 12, headRot: 12, eyeType: "focused",
-        torsoY: 21, torsoH: 22, torsoW: 18,
-        armLeft: "up-bent", armRight: "up-bent",
-        legLeft: "crunched", legRight: "crunched"
-      },
-      // Frame 3: Apex heroic split
-      {
-        headY: 14, headRot: -20, eyeType: "wide",
-        torsoY: 23, torsoH: 26, torsoW: 16,
-        armLeft: "up-straight", armRight: "out-balance",
-        legLeft: "split-forward", legRight: "split-backward"
-      }
-    ];
-    return swingFrames[frameIndex % 4];
-  } else if (pose === "landing") {
-    const landingFrames = [
-      // Frame 0: Ground crouch (three point landing)
-      {
-        headY: 30, headRot: 0, eyeType: "squint",
-        torsoY: 36, torsoH: 16, torsoW: 20,
-        armLeft: "hands-ground", armRight: "hands-ground",
-        legLeft: "squat-left", legRight: "squat-right"
-      },
-      // Frame 1: Alert ready stance
-      {
-        headY: 16, headRot: 5, eyeType: "focused",
-        torsoY: 24, torsoH: 26, torsoW: 16,
-        armLeft: "idle-left", armRight: "idle-right",
-        legLeft: "stand-left", legRight: "stand-right"
-      }
-    ];
-    return landingFrames[frameIndex % 2];
-  } else if (pose === "pointing") {
-    return {
-      headY: 13, headRot: 4, eyeType: "focused",
-      torsoY: 22, torsoH: 26, torsoW: 16,
-      armLeft: "idle-left", armRight: "pointing-right",
-      legLeft: "stand-left", legRight: "stand-right"
-    };
-  } else {
-    // Idle Stance (4 frames breathing)
-    const breathingOffset = [0, 1.2, 2.5, 1.2][frameIndex % 4];
-    const breathingScale = [1.0, 1.02, 1.04, 1.02][frameIndex % 4];
-    return {
-      headY: 13 + breathingOffset * 0.4, headRot: 0, eyeType: "normal",
-      torsoY: 22 + breathingOffset * 0.2, torsoH: 26 * breathingScale, torsoW: 16,
-      armLeft: "idle-left", armRight: "idle-right",
-      legLeft: "stand-left", legRight: "stand-right"
-    };
-  }
-}
-
-const SpideySprite = ({ pose, frameIndex, bodyAngle }) => {
-  const config = getSpideyConfig(pose, frameIndex);
-  const { headY, headRot, eyeType, torsoY, torsoH, torsoW, armLeft, armRight, legLeft, legRight } = config;
-
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className="w-32 h-32 overflow-visible drop-shadow-[5px_5px_0px_rgba(0,0,0,1)] transition-all duration-100"
-      style={{
-        transform: `rotate(${bodyAngle}deg)`,
-        transformOrigin: "50% 11%", // Shoulder line rotation
-      }}
-    >
-      {/* Left arm behind torso (idle / standing / pointing) */}
-      {armLeft !== "up-straight" && armLeft !== "up-bent" && (
-        <SpideyArm side="left" type={armLeft} headY={headY} torsoW={torsoW} />
-      )}
-
-      {/* Left Leg */}
-      <SpideyLeg side="left" type={legLeft} torsoY={torsoY} torsoH={torsoH} torsoW={torsoW} />
-
-      {/* Right Leg */}
-      <SpideyLeg side="right" type={legRight} torsoY={torsoY} torsoH={torsoH} torsoW={torsoW} />
-
-      {/* Torso */}
-      <SpideyTorso y={torsoY} h={torsoH} w={torsoW} headY={headY} />
-
-      {/* Left arm in front if holding web */}
-      {(armLeft === "up-straight" || armLeft === "up-bent") && (
-        <SpideyArm side="left" type={armLeft} headY={headY} torsoW={torsoW} />
-      )}
-
-      {/* Right Arm */}
-      <SpideyArm side="right" type={armRight} headY={headY} torsoW={torsoW} />
-
-      {/* Head drawn on top */}
-      <SpideyHead y={headY} rot={headRot} eyeType={eyeType} />
-    </svg>
-  );
-};
-
-// -------------------------------------------------------------
-// MAIN SYSTEM SYSTEM COMPONENT
-// -------------------------------------------------------------
+import React, { useEffect, useState, useRef, useCallback } from "react";
 
 export default function WebHero({ activeSection, isSwinging }) {
-  const [pose, setPose] = useState("idle");
-  const [frame, setFrame] = useState(0);
+  const [pose, setPose] = useState("idle"); // idle, swinging, pointing
   const [customQuote, setCustomQuote] = useState("");
   const [isSpinning, setIsSpinning] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  // Layout swing angles
-  const [currentAngle, setCurrentAngle] = useState(0);
-  const [currentBodyAngle, setCurrentBodyAngle] = useState(0);
+  // ─── Physics simulation state (for React renders) ───────────────────────
+  const [theta, setTheta] = useState(0);
+  const [omega, setOmega] = useState(0);
+  const [ropeLength, setRopeLength] = useState(360);
+  const [bodyTilt, setBodyTilt] = useState(0);
 
-  // Velocity-driven squash/stretch states
-  const [scaleX, setScaleX] = useState(1.0);
-  const [scaleY, setScaleY] = useState(1.0);
+  // ─── Refs for the inner physics loop ────────────────────────────────────
+  const thetaRef = useRef(0);
+  const omegaRef = useRef(0);
+  const ropeLengthRef = useRef(360);
+  const bodyTiltRef = useRef(0);
+  const lastTimeRef = useRef(Date.now());
 
-  // Physics simulation refs
-  const ropeAngle = useRef(0);
-  const prevRopeAngle = useRef(0);
-  const ropeVelocity = useRef(0);
-  const prevRopeVelocity = useRef(0);
-  const bodyAngle = useRef(0);
-  const bodyVelocity = useRef(0);
-
-  const lastTime = useRef(Date.now());
-  const frameTimer = useRef(0);
-
-  // Sync prop refs
   const isSwingingRef = useRef(isSwinging);
   const activeSectionRef = useRef(activeSection);
 
+  // ─── Scroll-delta tracking ───────────────────────────────────────────────
+  const lastScrollY = useRef(window.scrollY);
+  const scrollDeltaRef = useRef(0);     // accumulated scroll delta
+  const scrollActiveRef = useRef(false); // true while user is scrolling
+
+  // Keep refs in sync with props
   useEffect(() => {
     isSwingingRef.current = isSwinging;
     activeSectionRef.current = activeSection;
   }, [isSwinging, activeSection]);
+
+  // ─── Scroll listener: accumulate delta ──────────────────────────────────
+  useEffect(() => {
+    let scrollTimer = null;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+      lastScrollY.current = currentY;
+
+      // Clamp contribution per scroll event
+      scrollDeltaRef.current += Math.max(-40, Math.min(40, delta));
+      scrollActiveRef.current = true;
+
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        scrollActiveRef.current = false;
+      }, 300);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(scrollTimer);
+    };
+  }, []);
 
   const spideyQuotes = [
     "Spring Boot is my web-shooter! 🕸️",
@@ -457,210 +65,427 @@ export default function WebHero({ activeSection, isSwinging }) {
     "Query load? I swing past it! 🚀",
     "Need a backend hero? PING ME!",
     "No radioactive servers were harmed. 🧪",
-    "Deploying at terminal velocity! ⚡"
+    "Deploying at terminal velocity! ⚡",
   ];
 
-  const handleSpideyClick = (e) => {
+  const handleSpideyClick = useCallback((e) => {
     if (isSpinning) return;
     setIsSpinning(true);
-    // Custom spin quote
     const randomIdx = Math.floor(Math.random() * spideyQuotes.length);
     setCustomQuote(spideyQuotes[randomIdx]);
 
-    // Apply spin force to body angle physics
-    bodyVelocity.current = 720; 
+    // Big velocity kick on click
+    omegaRef.current = 18.0;
 
-    // Dispatch global events for camera shake and cursor splat
     window.dispatchEvent(new CustomEvent("spidey-shake"));
-    window.dispatchEvent(new CustomEvent("spidey-shoot-splat", {
-      detail: { x: e.clientX || window.innerWidth - 100, y: (e.clientY + window.scrollY) || 450 }
-    }));
+    window.dispatchEvent(
+      new CustomEvent("spidey-shoot-splat", {
+        detail: {
+          x: e.clientX || window.innerWidth - 100,
+          y: (e.clientY + window.scrollY) || 450,
+        },
+      })
+    );
 
-    setTimeout(() => {
-      setIsSpinning(false);
-    }, 1200);
-  };
+    setTimeout(() => setIsSpinning(false), 1200);
+  }, [isSpinning]);
 
-  useEffect(() => {
-    setCustomQuote("");
-  }, [activeSection]);
+  // Clear quote when section changes
+  useEffect(() => { setCustomQuote(""); }, [activeSection]);
 
+  // ─── Physics Simulation Loop ─────────────────────────────────────────────
   useEffect(() => {
     let animId;
 
-    const updatePhysics = () => {
+    const loop = () => {
       const now = Date.now();
-      let dt = (now - lastTime.current) / 1000;
-      if (dt > 0.08) dt = 0.08;
-      lastTime.current = now;
+      let dt = (now - lastTimeRef.current) / 1000;
+      if (dt > 0.05) dt = 0.05;
+      lastTimeRef.current = now;
 
-      // 1. ROPE MOTION
-      if (isSwingingRef.current) {
-        prevRopeAngle.current = ropeAngle.current;
-        ropeAngle.current = Math.sin(now / 170) * 45; 
+      const g = 900;   // gravity px/s²
+      const L_base = 360;   // base web length px
 
-        prevRopeVelocity.current = ropeVelocity.current;
-        ropeVelocity.current = (ropeAngle.current - prevRopeAngle.current) / dt;
-        setPose("swinging");
-      } else {
-        // Natural pendulum decay
-        const g = 280; 
-        const L = 3.5; 
-        const ropeRad = ropeAngle.current * Math.PI / 180;
-        const ropeAccel = -(g / L) * Math.sin(ropeRad);
-        
-        ropeVelocity.current += ropeAccel * dt;
-        ropeVelocity.current *= 0.94; 
-        ropeAngle.current += ropeVelocity.current * dt;
+      // Pendulum: α = -(g/L)·sin(θ)
+      let alpha = -(g / L_base) * Math.sin(thetaRef.current);
 
-        // Reset to center
-        if (Math.abs(ropeAngle.current) < 1.2 && Math.abs(ropeVelocity.current) < 10) {
-          ropeAngle.current = 0;
-          ropeVelocity.current = 0;
-          
-          if (activeSectionRef.current === "projects" || activeSectionRef.current === "contact") {
-            setPose("pointing");
-          } else {
-            setPose("idle");
-          }
-        } else {
-          setPose("landing"); 
+      // Damping — faster when idle
+      const drag = scrollActiveRef.current ? 0.30 : 0.75;
+      alpha -= drag * omegaRef.current;
+
+      // ── Scroll-driven impulse ────────────────────────────────────────────
+      if (scrollActiveRef.current && Math.abs(scrollDeltaRef.current) > 0) {
+        // Map scroll delta → angular velocity kick
+        // Positive scroll (down) → swing right (+omega), negative → swing left
+        const impulse = scrollDeltaRef.current * 0.018;
+        omegaRef.current += impulse;
+        scrollDeltaRef.current *= 0.6; // decay accumulated delta
+      }
+
+      // Natural pumping if actively swinging (keeps arc alive)
+      if (scrollActiveRef.current) {
+        const maxSwing = 52 * (Math.PI / 180);
+        if (Math.abs(thetaRef.current) < maxSwing) {
+          const pumpDir = omegaRef.current >= 0 ? 1 : -1;
+          alpha += pumpDir * 8.5;
         }
       }
 
-      const ropeAccelCurrent = (ropeVelocity.current - prevRopeVelocity.current) / dt;
+      // Integrate
+      omegaRef.current += alpha * dt;
+      thetaRef.current += omegaRef.current * dt;
 
-      // 2. BODY LAG PHYSICS
-      const k = 140;
-      const c = 7.5;
-      const lagFactor = 0.55;
+      // Elastic rope stretch at bottom of arc
+      const tension = g * Math.cos(thetaRef.current) + L_base * omegaRef.current ** 2 * 0.10;
+      ropeLengthRef.current = L_base + (tension - g) * 0.035;
 
-      const bodyAccel = -k * bodyAngle.current - c * bodyVelocity.current - lagFactor * ropeAccelCurrent;
-      bodyVelocity.current += bodyAccel * dt;
-      bodyAngle.current += bodyVelocity.current * dt;
-
-      // 3. SQUASH AND STRETCH CALCS
-      const velocityMagnitude = Math.abs(ropeVelocity.current);
-      let targetScaleX = 1.0;
-      let targetScaleY = 1.0;
-      if (isSwingingRef.current) {
-        // Stretch long at maximum velocity, squeeze narrow
-        targetScaleY = 1.0 + (velocityMagnitude * 0.00045);
-        targetScaleX = 1.0 - (velocityMagnitude * 0.00022);
-      } else if (pose === "landing") {
-        // Squash on deceleration/landing
-        targetScaleY = 0.82;
-        targetScaleX = 1.18;
+      // Settle to rest
+      if (
+        !scrollActiveRef.current &&
+        Math.abs(thetaRef.current) < 0.04 &&
+        Math.abs(omegaRef.current) < 0.04
+      ) {
+        thetaRef.current = 0;
+        omegaRef.current = 0;
+        ropeLengthRef.current = L_base;
       }
 
-      setScaleX(targetScaleX);
-      setScaleY(targetScaleY);
+      // Body lag sway
+      bodyTiltRef.current = thetaRef.current + omegaRef.current * 0.10;
 
-      // Sync state angles for UI
-      setCurrentAngle(ropeAngle.current);
-      setCurrentBodyAngle(bodyAngle.current);
-
-      // 4. FRAME TIMER
-      frameTimer.current += dt * 1000;
-      const msPerFrame = isSwingingRef.current ? 100 : 250;
-      if (frameTimer.current >= msPerFrame) {
-        setFrame((prev) => prev + 1);
-        frameTimer.current = 0;
+      // Pose update
+      if (scrollActiveRef.current || Math.abs(omegaRef.current) > 0.5) {
+        setPose("swinging");
+      } else if (
+        activeSectionRef.current === "projects" ||
+        activeSectionRef.current === "contact"
+      ) {
+        setPose("pointing");
+      } else {
+        setPose("idle");
       }
 
-      animId = requestAnimationFrame(updatePhysics);
+      // Push state to React
+      setTheta(thetaRef.current);
+      setOmega(omegaRef.current);
+      setRopeLength(ropeLengthRef.current);
+      setBodyTilt(bodyTiltRef.current);
+
+      animId = requestAnimationFrame(loop);
     };
 
-    animId = requestAnimationFrame(updatePhysics);
+    animId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animId);
-  }, [pose]);
+  }, []);
+
+  // ─── Coordinate Calculations ─────────────────────────────────────────────
+  // Container is 320px wide; pivot is near top-right
+  const pivotX = 155;
+  const pivotY = -30;  // above viewport edge
+
+  // Web attachment point (Spidey's left hand)
+  const handX = pivotX + ropeLength * Math.sin(theta);
+  const handY = pivotY + ropeLength * Math.cos(theta);
+
+  // Body centre (slightly below hand along swing axis)
+  const bodyX = handX - 8 * Math.sin(bodyTilt);
+  const bodyY = handY + 18 * Math.cos(bodyTilt);
+
+  // Web control point bows with velocity
+  const webCtrlX = (pivotX + handX) / 2 - omega * 14;
+  const webCtrlY = (pivotY + handY) / 2;
+
+  // ── Chibi skeleton ──────────────────────────────────────────────────────
+  // Shoulder centre
+  const shX = bodyX;
+  const shY = bodyY - 16;
+
+  // Hip centre (shorter torso = 22 px)
+  const hipX = bodyX + 18 * Math.sin(bodyTilt);
+  const hipY = bodyY + 22 * Math.cos(bodyTilt);
+
+  // ── HEAD (chibi: large, upright, centred above shoulders) ───────────────
+  // Head sits directly above shoulders and rotates with body axis — never inverts
+  // We clamp bodyTilt to avoid flipping past ±90°
+  const clampedTilt = Math.max(-1.1, Math.min(0, bodyTilt));
+  const headCX = shX - 4 * Math.sin(clampedTilt);
+  const headCY = shY - 20 * Math.cos(clampedTilt);   // 20 px above shoulders
+  // Head tilt angle in degrees for SVG transform — much smaller than body tilt
+  const headDeg = (clampedTilt * 180 / Math.PI) * 0.55;
+
+  // ── Arms ────────────────────────────────────────────────────────────────
+  // Left arm → locked onto web-attachment hand
+  const leftElbowX = (shX - 8 + handX) / 2 - 14 * Math.cos(bodyTilt);
+  const leftElbowY = (shY + handY) / 2 - 8 * Math.sin(bodyTilt);
+
+  // Right arm → free / pose-dependent
+  let rightHandX, rightHandY;
+  if (pose === "pointing") {
+    rightHandX = shX + 40;
+    rightHandY = shY - 4;
+  } else if (pose === "swinging") {
+    const t = Date.now() / 150;
+    rightHandX = shX + 26 * Math.sin(bodyTilt + 1.2 + Math.sin(t) * 0.4);
+    rightHandY = shY - 18 * Math.cos(bodyTilt + 1.2);
+  } else {
+    const t = Date.now() / 300;
+    rightHandX = shX + 18 + Math.sin(t) * 2;
+    rightHandY = shY + 16 + Math.sin(t) * 1.5;
+  }
+  const rightElbowX = (shX + 8 + rightHandX) / 2 + 8 * Math.cos(bodyTilt);
+  const rightElbowY = (shY + rightHandY) / 2 + 4 * Math.sin(bodyTilt);
+
+  // ── Legs (shorter — chibi proportions) ──────────────────────────────────
+  const leftHipX = hipX - 6 * Math.cos(bodyTilt);
+  const leftHipY = hipY + 5 * Math.sin(bodyTilt);
+
+  let leftFootX = leftHipX - 9 * Math.sin(bodyTilt) - omega * 9;
+  let leftFootY = leftHipY + 30 * Math.cos(bodyTilt) - Math.abs(omega) * 2.5;
+  if (pose === "idle") {
+    const t = Date.now() / 350;
+    leftFootX += Math.sin(t) * 1.0;
+    leftFootY += Math.sin(t) * 1.5;
+  }
+  const leftKneeX = (leftHipX + leftFootX) / 2 - 7 * Math.cos(bodyTilt);
+  const leftKneeY = (leftHipY + leftFootY) / 2 + 4 * Math.sin(bodyTilt);
+
+  const rightHipX = hipX + 6 * Math.cos(bodyTilt);
+  const rightHipY = hipY - 5 * Math.sin(bodyTilt);
+
+  let rightFootX = rightHipX + 9 * Math.sin(bodyTilt) - omega * 6;
+  let rightFootY = rightHipY + 25 * Math.cos(bodyTilt) - Math.abs(omega) * 1.5;
+  if (pose === "idle") {
+    const t = Date.now() / 350 + 0.5;
+    rightFootX += Math.sin(t) * 1.0;
+    rightFootY += Math.sin(t) * 1.5;
+  }
+  const rightKneeX = (rightHipX + rightFootX) / 2 + 7 * Math.cos(bodyTilt);
+  const rightKneeY = (rightHipY + rightFootY) / 2 + 3 * Math.sin(bodyTilt);
 
   return (
     <div className="fixed top-0 right-0 h-screen w-[320px] pointer-events-none z-40 hidden md:block">
-      {/* Pivot Node: Visible Web-Splat Bracket Anchor */}
+
+      {/* ── Pivot splat ─────────────────────────────────────────────────── */}
+      <svg
+        className="absolute overflow-visible text-slate-300 dark:text-slate-600"
+        style={{ width: 60, height: 60, top: 0, left: pivotX, transform: "translate(-50%, -50%)" }}
+      >
+        <path
+          d="M 30,30 L 10,10 M 30,30 L 50,10 M 30,30 L 50,50 M 30,30 L 10,50 M 30,30 L 30,5 M 30,30 L 30,55 M 30,30 L 5,30 M 30,30 L 55,30"
+          stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.8"
+        />
+        <circle cx="30" cy="30" r="10" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.5" strokeDasharray="3 3" />
+        <circle cx="30" cy="30" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+        <circle cx="30" cy="30" r="4.5" fill="currentColor" />
+      </svg>
+
+      {/* ── Main canvas ─────────────────────────────────────────────────── */}
+      <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
+
+        {/* Web line — bolder outer silhouette + bright inner */}
+        <path
+          d={`M ${pivotX},${pivotY} Q ${webCtrlX},${webCtrlY} ${handX},${handY}`}
+          stroke="#000000" strokeWidth="5.5" fill="none" strokeLinecap="round"
+        />
+        <path
+          d={`M ${pivotX},${pivotY} Q ${webCtrlX},${webCtrlY} ${handX},${handY}`}
+          stroke="#EBEBEB" strokeWidth="2" fill="none" strokeLinecap="round"
+        />
+
+        {/* ── Clickable character group ──────────────────────────────────── */}
+        <g className="cursor-pointer pointer-events-auto select-none" onClick={handleSpideyClick}>
+
+          {/* ── Left arm — thicker, chibi proportions */}
+          <path d={`M ${shX - 9},${shY + 2} Q ${leftElbowX},${leftElbowY} ${handX},${handY}`}
+            stroke="#000000" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <path d={`M ${shX - 9},${shY + 2} Q ${leftElbowX},${leftElbowY} ${handX},${handY}`}
+            stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+
+          {/* Left hand — oversized chibi knuckle + finger bumps */}
+          <circle cx={handX} cy={handY} r="7"   fill="#000000" />
+          <circle cx={handX} cy={handY} r="4.2" fill="#E10600" />
+          <circle cx={handX - 3} cy={handY - 5} r="1.6" fill="#000000" />
+          <circle cx={handX}     cy={handY - 6} r="1.6" fill="#000000" />
+          <circle cx={handX + 3} cy={handY - 5} r="1.6" fill="#000000" />
+
+          {/* ── Left leg — thigh (navy) + boot (red) + kneecap + oversized foot */}
+          {/* Full leg outline */}
+          <path d={`M ${leftHipX},${leftHipY} Q ${leftKneeX},${leftKneeY} ${leftFootX},${leftFootY}`}
+            stroke="#000000" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          {/* Thigh — hip to knee in navy */}
+          <path d={`M ${leftHipX},${leftHipY} L ${leftKneeX},${leftKneeY}`}
+            stroke="#1D3557" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+          {/* Boot — knee to foot in red */}
+          <path d={`M ${leftKneeX},${leftKneeY} Q ${(leftKneeX+leftFootX)/2},${(leftKneeY+leftFootY)/2+4} ${leftFootX},${leftFootY}`}
+            stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <circle cx={leftKneeX} cy={leftKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
+          <circle cx={leftFootX} cy={leftFootY} r="8"   fill="#000000" />
+          <circle cx={leftFootX} cy={leftFootY} r="5"   fill="#E10600" />
+
+          {/* ── Right leg — thigh (navy) + boot (red) + kneecap + oversized foot */}
+          {/* Full leg outline */}
+          <path d={`M ${rightHipX},${rightHipY} Q ${rightKneeX},${rightKneeY} ${rightFootX},${rightFootY}`}
+            stroke="#000000" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          {/* Thigh — hip to knee in navy */}
+          <path d={`M ${rightHipX},${rightHipY} L ${rightKneeX},${rightKneeY}`}
+            stroke="#1D3557" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+          {/* Boot — knee to foot in red */}
+          <path d={`M ${rightKneeX},${rightKneeY} Q ${(rightKneeX+rightFootX)/2},${(rightKneeY+rightFootY)/2+4} ${rightFootX},${rightFootY}`}
+            stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <circle cx={rightKneeX} cy={rightKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
+          <circle cx={rightFootX} cy={rightFootY} r="8"   fill="#000000" />
+          <circle cx={rightFootX} cy={rightFootY} r="5"   fill="#E10600" />
+
+          {/* ── Torso — barrel-chest silhouette ──────────────────────── */}
+          {/* Black outer silhouette */}
+          <path
+            d={`M ${shX - 16},${shY + 1}
+                C ${shX - 20},${shY + 8} ${leftHipX - 4},${leftHipY - 6} ${leftHipX},${leftHipY}
+                L ${rightHipX},${rightHipY}
+                C ${rightHipX + 4},${rightHipY - 6} ${shX + 20},${shY + 8} ${shX + 16},${shY + 1} Z`}
+            fill="#000000" strokeLinejoin="round"
+          />
+          {/* Red torso fill */}
+          <path
+            d={`M ${shX - 14},${shY + 2}
+                C ${shX - 17},${shY + 9} ${leftHipX - 2},${leftHipY - 4} ${leftHipX + 1},${leftHipY - 1}
+                L ${rightHipX - 1},${rightHipY - 1}
+                C ${rightHipX + 2},${rightHipY - 4} ${shX + 17},${shY + 9} ${shX + 14},${shY + 2} Z`}
+            fill="#E10600" strokeLinejoin="round"
+          />
+          {/* Chest-puff highlight band */}
+          <path
+            d={`M ${shX - 13},${shY + 3}
+                C ${shX - 16},${shY + 7} ${shX - 10},${shY + 5} ${shX},${shY + 5}
+                C ${shX + 10},${shY + 5} ${shX + 16},${shY + 7} ${shX + 13},${shY + 3} Z`}
+            fill="#FF2A1F" opacity="0.5"
+          />
+          {/* Blue side panels */}
+          <path
+            d={`M ${shX - 14},${shY + 5}
+                C ${shX - 17},${shY + 12} ${leftHipX - 2},${leftHipY - 3} ${leftHipX + 1},${leftHipY - 1}
+                L ${leftHipX + 5},${leftHipY - 1}
+                C ${leftHipX + 3},${leftHipY - 5} ${shX - 7},${shY + 7} Z`}
+            fill="#1D3557"
+          />
+          <path
+            d={`M ${shX + 14},${shY + 5}
+                C ${shX + 17},${shY + 12} ${rightHipX + 2},${rightHipY - 3} ${rightHipX - 1},${rightHipY - 1}
+                L ${rightHipX - 5},${rightHipY - 1}
+                C ${rightHipX - 3},${rightHipY - 5} ${shX + 7},${shY + 7} Z`}
+            fill="#1D3557"
+          />
+          {/* Spider emblem — larger, centred */}
+          <ellipse cx={shX} cy={shY + 10} rx="3" ry="2.5" fill="#000000" />
+          <ellipse cx={shX} cy={shY + 14} rx="2" ry="1.8" fill="#000000" />
+          <path d={`M ${shX},${shY+10} Q ${shX-5},${shY+7}  ${shX-9},${shY+10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY+10} Q ${shX-5},${shY+13} ${shX-9},${shY+17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY+10} Q ${shX+5},${shY+7}  ${shX+9},${shY+10}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <path d={`M ${shX},${shY+10} Q ${shX+5},${shY+13} ${shX+9},${shY+17}`} stroke="#000000" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+
+          {/* ── Right arm — thicker, chibi proportions */}
+          <path d={`M ${shX + 9},${shY + 2} Q ${rightElbowX},${rightElbowY} ${rightHandX},${rightHandY}`}
+            stroke="#000000" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <path d={`M ${shX + 9},${shY + 2} Q ${rightElbowX},${rightElbowY} ${rightHandX},${rightHandY}`}
+            stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          {/* Right hand — oversized chibi knuckle + finger bumps */}
+          <circle cx={rightHandX} cy={rightHandY} r="6.5" fill="#000000" />
+          <circle cx={rightHandX} cy={rightHandY} r="3.8" fill="#E10600" />
+          <circle cx={rightHandX - 2.5} cy={rightHandY - 4.5} r="1.5" fill="#000000" />
+          <circle cx={rightHandX}       cy={rightHandY - 5.5} r="1.5" fill="#000000" />
+          <circle cx={rightHandX + 2.5} cy={rightHandY - 4.5} r="1.5" fill="#000000" />
+
+          {/* ── HEAD: chibi style, large, upright, centred ─────────────── */}
+          {/*
+            We rotate about (headCX, headCY) by headDeg — a small fraction of body tilt.
+            rx / ry are generous for a chibi look.
+            Origin stays above shoulders and never inverts.
+          */}
+          <g transform={`rotate(${headDeg}, ${headCX}, ${headCY})`}>
+
+            {/* Neck — curved connector shoulder→head */}
+            <path
+              d={`M ${shX - 3},${shY - 1} Q ${shX},${(shY + headCY + 20) / 2} ${headCX},${headCY + 20}`}
+              stroke="#000000" strokeWidth="8" strokeLinecap="round" fill="none"
+            />
+            <path
+              d={`M ${shX - 3},${shY - 1} Q ${shX},${(shY + headCY + 20) / 2} ${headCX},${headCY + 20}`}
+              stroke="#E10600" strokeWidth="4" strokeLinecap="round" fill="none"
+            />
+
+            {/* Outer black halo (silhouette border) */}
+            <ellipse cx={headCX} cy={headCY} rx="20" ry="23" fill="#000000" />
+
+            {/* Main red head fill */}
+            <ellipse cx={headCX} cy={headCY} rx="18" ry="21" fill="#E10600" />
+
+            {/* Blue chin + side mask zones */}
+            <ellipse cx={headCX - 8}  cy={headCY + 4}  rx="8"  ry="11" fill="#1D3557" opacity="0.7" />
+            <ellipse cx={headCX + 8}  cy={headCY + 4}  rx="8"  ry="11" fill="#1D3557" opacity="0.7" />
+            <ellipse cx={headCX}      cy={headCY + 15} rx="10" ry="6"  fill="#1D3557" opacity="0.55" />
+
+            {/* Web-lines on mask */}
+            <ellipse cx={headCX} cy={headCY} rx="11" ry="14"
+              fill="none" stroke="#000000" strokeWidth="0.8" opacity="0.35" />
+            <line x1={headCX} y1={headCY - 21} x2={headCX} y2={headCY + 21}
+              stroke="#000000" strokeWidth="0.8" opacity="0.35" />
+            <line x1={headCX - 18} y1={headCY} x2={headCX + 18} y2={headCY}
+              stroke="#000000" strokeWidth="0.8" opacity="0.35" />
+            <line x1={headCX - 14} y1={headCY - 16} x2={headCX + 14} y2={headCY + 16}
+              stroke="#000000" strokeWidth="0.6" opacity="0.22" />
+            <line x1={headCX + 14} y1={headCY - 16} x2={headCX - 14} y2={headCY + 16}
+              stroke="#000000" strokeWidth="0.6" opacity="0.22" />
+
+            {/* ── Eyes: Spider-Verse arc-lens (inward-tilted wedges) ─── */}
+            {/* Left eye */}
+            <path
+              d={`M ${headCX - 14},${headCY - 1} Q ${headCX - 11},${headCY - 13} ${headCX - 2},${headCY - 10} Q ${headCX - 3},${headCY - 1} ${headCX - 14},${headCY - 1} Z`}
+              fill="#FFFFFF" stroke="#000000" strokeWidth="1.8" strokeLinejoin="round"
+            />
+            {/* Right eye */}
+            <path
+              d={`M ${headCX + 14},${headCY - 1} Q ${headCX + 11},${headCY - 13} ${headCX + 2},${headCY - 10} Q ${headCX + 3},${headCY - 1} ${headCX + 14},${headCY - 1} Z`}
+              fill="#FFFFFF" stroke="#000000" strokeWidth="1.8" strokeLinejoin="round"
+            />
+            {/* Eye inner shadow */}
+            <path d={`M ${headCX - 13},${headCY - 2} Q ${headCX - 10},${headCY - 11} ${headCX - 3},${headCY - 9}`}
+              fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="2.2" strokeLinecap="round" />
+            <path d={`M ${headCX + 13},${headCY - 2} Q ${headCX + 10},${headCY - 11} ${headCX + 3},${headCY - 9}`}
+              fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="2.2" strokeLinecap="round" />
+            {/* Eye gleam specks */}
+            <circle cx={headCX - 10} cy={headCY - 9}  r="2.2" fill="rgba(255,255,255,0.92)" />
+            <circle cx={headCX - 13} cy={headCY - 4}  r="1.2" fill="rgba(255,255,255,0.6)"  />
+            <circle cx={headCX + 10} cy={headCY - 9}  r="2.2" fill="rgba(255,255,255,0.92)" />
+            <circle cx={headCX + 13} cy={headCY - 4}  r="1.2" fill="rgba(255,255,255,0.6)"  />
+
+          </g>
+
+        </g>
+      </svg>
+
+      {/* ── Speech bubble ───────────────────────────────────────────────── */}
       <div
         style={{
           position: "absolute",
-          top: "-50px",
-          right: "120px",
-          width: "4px",
-          height: "4px",
+          left: `${bodyX}px`,
+          top: `${bodyY - 95}px`,
+          transform: "translate(-50%, -50%)",
+          transition: "left 0.05s linear, top 0.05s linear",
         }}
+        className="border-3 border-black bg-white text-black text-[9px] font-black px-3 py-2 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider whitespace-nowrap z-30 pointer-events-none select-none"
       >
-        {/* SVG Web splat visual anchor at pivot */}
-        <svg 
-          className="absolute -translate-x-1/2 -translate-y-1/2 overflow-visible text-slate-300 dark:text-slate-500"
-          style={{ width: "60px", height: "60px", top: 0, left: 0 }}
-        >
-          <path 
-            d="M 30,30 L 10,10 M 30,30 L 50,10 M 30,30 L 50,50 M 30,30 L 10,50 M 30,30 L 30,5 M 30,30 L 30,55 M 30,30 L 5,30 M 30,30 L 55,30" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
-            strokeLinecap="round" 
-            opacity="0.8"
-          />
-          <circle cx="30" cy="30" r="10" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.5" strokeDasharray="3 3" />
-          <circle cx="30" cy="30" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-          <circle cx="30" cy="30" r="4.5" fill="currentColor" />
-        </svg>
-
-        {/* Rope Container */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            transformOrigin: "top center",
-            transform: `rotate(${currentAngle}deg)`,
-            width: "120px",
-            height: "420px", 
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {/* Web Path Bending */}
-          <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none text-slate-300 dark:text-slate-500">
-            <path
-              d={`M 60,0 Q ${60 - currentBodyAngle * 0.7},210 60,420`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              opacity="0.85"
-            />
-          </svg>
-
-          {/* Spidey Character body (with dynamic squash and stretch scaling) */}
-          <div
-            onClick={handleSpideyClick}
-            style={{
-              transform: `scale(${scaleX}, ${scaleY})`,
-              transformOrigin: "center top",
-              transition: "transform 0.05s linear",
-            }}
-            className="absolute bottom-0 left-[50%] -translate-x-[50%] w-32 h-32 flex items-center justify-center cursor-pointer pointer-events-auto select-none group"
-            title="Click Spidey to shake the city!"
-          >
-            <SpideySprite pose={pose} frameIndex={frame} bodyAngle={currentBodyAngle} />
-
-            {/* Bubble Quotes */}
-            {(pose === "idle" || pose === "pointing") && (
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 border-3 border-black bg-white text-black text-[9px] font-black px-2.5 py-1.5 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider whitespace-nowrap z-30">
-                {customQuote ? customQuote : (
-                  <>
-                    {activeSection === "home" && "Bugs? Caught! 🕸️"}
-                    {activeSection === "about" && "Check stats below! 👇"}
-                    {activeSection === "skills" && "Active Power Grid! 📡"}
-                    {activeSection === "projects" && "Missions Survived! 🎖️"}
-                    {activeSection === "achievements" && "Wall of Wins! 🏆"}
-                    {activeSection === "stats" && "Reality Check! 🖥️"}
-                    {activeSection === "contact" && "Signal active! 📡"}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+        {customQuote ? customQuote : (
+          <>
+            {activeSection === "home" && "Bugs? Caught! 🕸️"}
+            {activeSection === "about" && "Check stats below! 👇"}
+            {activeSection === "skills" && "Active Power Grid! 📡"}
+            {activeSection === "projects" && "Missions Survived! 🎖️"}
+            {activeSection === "achievements" && "Wall of Wins! 🏆"}
+            {activeSection === "certifications" && "Specialized Certs! 🎖️"}
+            {activeSection === "stats" && "Reality Check! 🖥️"}
+            {activeSection === "contact" && "Signal active! 📡"}
+          </>
+        )}
       </div>
     </div>
   );

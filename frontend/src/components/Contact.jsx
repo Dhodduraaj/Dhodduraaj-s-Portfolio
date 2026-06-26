@@ -64,12 +64,12 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#FFFBF0] dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
+    <section id="contact" className="py-24 bg-[#FFFBF0] dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated print halftone dots */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="contact-halftone" width="16" height="16" patternUnits="userSpaceOnUse">
-            <circle cx="8" cy="8" r="1.5" fill="currentColor" />
+            <circle cx="8" cy="8" r="1.5" fill="var(--pattern-color)" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#contact-halftone)" />
         </svg>

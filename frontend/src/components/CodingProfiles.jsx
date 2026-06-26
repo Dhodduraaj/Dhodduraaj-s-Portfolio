@@ -70,12 +70,12 @@ export default function CodingProfiles({ githubStats, darkMode }) {
   ];
 
   return (
-    <section id="stats" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
+    <section id="stats" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated print grid */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.06] text-black dark:text-[#E63946] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="stats-print" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+            <circle cx="12" cy="12" r="1.5" fill="var(--pattern-color)" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#stats-print)" />
         </svg>

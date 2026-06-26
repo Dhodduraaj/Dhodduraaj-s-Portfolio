@@ -3,6 +3,16 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --pattern-color: rgba(0, 0, 0, 0.05);
+  --pattern-blue: rgba(0, 0, 85, 0.04);
+}
+
+.dark {
+  --pattern-color: rgba(230, 57, 70, 0.18);
+  --pattern-blue: rgba(90, 165, 255, 0.18);
+}
+
 @theme {
   --font-sans: "Outfit", "Inter", sans-serif;
   --font-heading: "Outfit", sans-serif;

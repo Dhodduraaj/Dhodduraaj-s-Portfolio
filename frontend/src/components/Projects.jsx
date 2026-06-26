@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, CheckSquare, Folder, X } from "lucide-react";
+import { ExternalLink, CheckSquare, Folder, X, ChevronLeft, ChevronRight } from "lucide-react";
+
+const projectScreenshots = {
+  "dog-ecommerce": ["/dog-ecommerce.png", "/dog-ecommerce-2.png", "/dog-ecommerce-3.png"],
+  "smart-wallet": ["/smart-wallet.png", "/smart-wallet-2.png", "/smart-wallet-3.png"],
+  "wellbeing": ["/wellbeing.png", "/wellbeing2.png", "/wellbeing3.png"]
+};
 
 const Github = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={props.className} style={{ width: props.size || 24, height: props.size || 24 }}>
@@ -18,6 +24,22 @@ const dossierStamps = {
 
 export default function Projects({ projects }) {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // Close modal on escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedProject(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    setActiveSlide(0);
+  }, [selectedProject]);
 
   const containerVariants = {
     hidden: {},
@@ -38,18 +60,18 @@ export default function Projects({ projects }) {
   return (
     <section id="projects" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated blueprint layout */}
-      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] text-[#000055] dark:text-[#E63946] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <rect width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1" />
-            <circle cx="20" cy="20" r="1.5" fill="currentColor" />
+            <rect width="40" height="40" fill="none" stroke="var(--pattern-blue)" strokeWidth="1" />
+            <circle cx="20" cy="20" r="1.5" fill="var(--pattern-blue)" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
         </svg>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Section Heading */}
         <div className="text-center mb-16 relative">
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#E63946] text-white border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -107,7 +129,7 @@ export default function Projects({ projects }) {
 
                     {/* Banner main block */}
                     <div className="h-32 bg-[#EAD49E] dark:bg-slate-800 p-6 flex flex-col justify-end relative mt-0 z-10 border-t-4 border-black">
-                      
+
                       {/* Halftone dot pattern per card */}
                       <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
                         <svg width="100%" height="100%">
@@ -164,7 +186,10 @@ export default function Projects({ projects }) {
       {/* Dossier Detailed Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm pointer-events-auto">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm pointer-events-auto"
+            onClick={() => setSelectedProject(null)}
+          >
             {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -172,6 +197,7 @@ export default function Projects({ projects }) {
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
               className="relative w-full max-w-2xl border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 text-black dark:text-white p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
@@ -192,12 +218,69 @@ export default function Projects({ projects }) {
                 </h3>
               </div>
 
+              {/* Screenshots Carousel */}
+              {projectScreenshots[selectedProject.imageKey] && (
+                <div className="relative h-48 md:h-72 border-4 border-black bg-slate-950 overflow-hidden mb-6 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={activeSlide}
+                      src={projectScreenshots[selectedProject.imageKey][activeSlide]}
+                      alt={`${selectedProject.title} screenshot ${activeSlide + 1}`}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const slides = projectScreenshots[selectedProject.imageKey];
+                      setActiveSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
+                    }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-10"
+                    aria-label="Previous screenshot"
+                  >
+                    <ChevronLeft size={16} strokeWidth={3} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const slides = projectScreenshots[selectedProject.imageKey];
+                      setActiveSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-10"
+                    aria-label="Next screenshot"
+                  >
+                    <ChevronRight size={16} strokeWidth={3} />
+                  </button>
+
+                  {/* Indicator Dots */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 bg-black/40 px-2.5 py-1 rounded-full border border-white/20">
+                    {projectScreenshots[selectedProject.imageKey].map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveSlide(idx);
+                        }}
+                        className={`w-2 h-2 rounded-full border border-black transition-colors ${idx === activeSlide ? "bg-yellow-300" : "bg-white"}`}
+                        aria-label={`Go to screenshot ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Description */}
-              <div className="mb-6">
+              {/*<div className="mb-6">
                 <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
                   {selectedProject.description}
                 </p>
-              </div>
+              </div>*/}
 
               {/* Mission Directives */}
               <div className="space-y-3 mb-6 bg-white dark:bg-slate-800 p-5 border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">

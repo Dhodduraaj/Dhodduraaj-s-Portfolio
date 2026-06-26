@@ -5,9 +5,11 @@ import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Achievements from "./components/Achievements";
+import Certifications from "./components/Certifications";
 import CodingProfiles from "./components/CodingProfiles";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import ComicReveal from "./components/ComicReveal";
 import WebHero from "./components/WebHero";
 import axios from "axios";
 
@@ -95,27 +97,6 @@ const fallbackAchievements = [
     description: "Clawed into the Top 10 national teams at Sathyabama University HackGeniX-2025, deploying scalable systems.",
     category: "Hackathon",
     date: "2025"
-  },
-  {
-    id: 4,
-    title: "Ideathon AI Prototype Prize",
-    description: "Captured 2nd place in the college Ideathon POC event by engineering a real-time 'AI Driven Water Quality Classifier'.",
-    category: "Hackathon",
-    date: "2024"
-  },
-  {
-    id: 5,
-    title: "Oracle Professional Credentials",
-    description: "Cleared certification criteria for Oracle Cloud Infrastructure (OCI) AI Foundations, Generative AI Professional, and OCI Data Science.",
-    category: "Certification",
-    date: "2024"
-  },
-  {
-    id: 6,
-    title: "NPTEL Specialized Credentials",
-    description: "Acquired credentials in Human-Computer Interaction Design & Implementation, Affective Computing, and OSN Privacy & Security.",
-    category: "Certification",
-    date: "2024"
   }
 ];
 
@@ -241,7 +222,7 @@ function App() {
       setScrollTimeout(timeout);
 
       const scrollPosition = window.scrollY + 250;
-      const navItems = ["home", "about", "skills", "projects", "achievements", "stats", "contact"];
+      const navItems = ["home", "about", "skills", "projects", "achievements", "certifications", "stats", "contact"];
       for (const id of navItems) {
         const el = document.getElementById(id);
         if (el) {
@@ -280,7 +261,10 @@ function App() {
         });
         setProjects(projectsRes.data || []);
         setSkills(normalizedSkills);
-        setAchievements(achievementsRes.data || []);
+        const filteredAchievements = (achievementsRes.data || [])
+          .filter(item => item.category !== "Certification" && !item.title.toLowerCase().includes("ideathon"))
+          .slice(0, 3);
+        setAchievements(filteredAchievements);
       } catch (err) {
         console.warn("Backend API not reachable. Using offline resume data.", err.message);
         setSkills(fallbackSkills);
@@ -357,8 +341,10 @@ function App() {
       <Skills skills={skills} />
       <Projects projects={projects} />
       <Achievements achievements={achievements} />
+      <Certifications />
       <CodingProfiles githubStats={githubStats} darkMode={darkMode} />
       <Contact />
+      <ComicReveal />
       <Footer />
       {/* Floating vector guide */}
       <WebHero activeSection={activeSection} isSwinging={isSwinging} />

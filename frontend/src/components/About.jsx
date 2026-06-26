@@ -16,12 +16,12 @@ export default function About() {
   return (
     <section id="about" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
       {/* Background Illustrated Brick Pattern/Grid (Solid vector shapes) */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none">
+      <div className="absolute inset-0 opacity-100 pointer-events-none">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="brick-pattern" width="40" height="20" patternUnits="userSpaceOnUse">
-              <rect width="40" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="20" y1="0" x2="20" y2="20" stroke="currentColor" strokeWidth="1.5" />
+              <rect width="40" height="20" fill="none" stroke="var(--pattern-color)" strokeWidth="1.5" />
+              <line x1="20" y1="0" x2="20" y2="20" stroke="var(--pattern-color)" strokeWidth="1.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#brick-pattern)" />

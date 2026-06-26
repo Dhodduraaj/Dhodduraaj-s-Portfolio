@@ -32,11 +32,11 @@ export default function Skills({ skills }) {
   return (
     <section id="skills" className="py-24 bg-[#FFFBF0] dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated grid layout */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.05] text-black dark:text-[#E63946] pointer-events-none z-0">
+      <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
         <svg width="100%" height="100%">
           <pattern id="skills-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="20" y2="0" stroke="currentColor" strokeWidth="1" />
-            <line x1="0" y1="0" x2="0" y2="20" stroke="currentColor" strokeWidth="1" />
+            <line x1="0" y1="0" x2="20" y2="0" stroke="var(--pattern-color)" strokeWidth="1" />
+            <line x1="0" y1="0" x2="0" y2="20" stroke="var(--pattern-color)" strokeWidth="1" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#skills-grid)" />
         </svg>
