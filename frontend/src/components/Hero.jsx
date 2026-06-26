@@ -34,7 +34,7 @@ function InteractiveName() {
         animate={{ opacity: isHovered ? [0, 0.8, 0] : 0 }}
         transition={{ duration: 0.25 }}
       />
-      
+
       {/* Letter slots */}
       <span className="relative z-10 inline-flex font-black tracking-tight">
         {originalLetters.map((char, idx) => {
@@ -42,7 +42,7 @@ function InteractiveName() {
           return (
             <span
               key={idx}
-              className="relative inline-block w-[0.68em] h-[1.15em] overflow-hidden"
+              className="relative inline-block w-[0.75em] h-[1.15em] overflow-hidden"
             >
               <motion.span
                 className="absolute left-0 right-0 flex flex-col items-center justify-start"
@@ -58,7 +58,7 @@ function InteractiveName() {
                 {/* Top Letter: Original */}
                 <span className="h-[50%] flex items-center justify-center">{char}</span>
                 {/* Bottom Letter: Target (yellow/white Marvel style) */}
-                <span className="h-[50%] flex items-center justify-center text-yellow-300 font-sans tracking-tighter">{targetChar}</span>
+                <span className="h-[50%] flex items-center justify-center text-[#114C92] font-sans tracking-tighter">{targetChar}</span>
               </motion.span>
             </span>
           );
@@ -120,17 +120,17 @@ export default function Hero() {
             <rect x="25" y="70" width="4" height="6" className="animate-flicker-slow" />
             <rect x="35" y="70" width="4" height="6" />
             <rect x="45" y="70" width="4" height="6" className="animate-flicker-fast" />
-            
+
             <rect x="23" y="90" width="4" height="6" />
             <rect x="33" y="90" width="4" height="6" className="animate-flicker-slow" />
             <rect x="43" y="90" width="4" height="6" />
             <rect x="53" y="90" width="4" height="6" className="animate-flicker-fast" />
-            
+
             <rect x="20" y="110" width="4" height="6" className="animate-flicker-fast" />
             <rect x="30" y="110" width="4" height="6" />
             <rect x="40" y="110" width="4" height="6" className="animate-flicker-slow" />
             <rect x="50" y="110" width="4" height="6" />
-            
+
             <rect x="18" y="130" width="4" height="6" />
             <rect x="28" y="130" width="4" height="6" className="animate-flicker-slow" />
             <rect x="38" y="130" width="4" height="6" />
@@ -153,7 +153,7 @@ export default function Hero() {
         <svg viewBox="0 0 100 220" className="w-full h-full text-slate-800 dark:text-slate-200">
           <line x1="50" y1="0" x2="50" y2="150" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
           <line x1="50" y1="0" x2="50" y2="150" stroke="#000000" strokeWidth="0.5" />
-          
+
           <g transform="translate(50, 150) translate(-25, 0)">
             <path d="M 12,0 C 12,-6 38,-6 38,0" fill="none" stroke="#000000" strokeWidth="2.5" />
             <rect x="0" y="0" width="50" height="34" rx="4" fill="#2D3748" stroke="#000000" strokeWidth="3" />
@@ -165,7 +165,7 @@ export default function Hero() {
             <polygon points="19,-1 31,-1 29,-5 21,-5" fill="#FFFFFF" />
             <circle cx="8" cy="8" r="2" fill="#E63946" className="animate-pulse" />
             <circle cx="8" cy="8" r="3.5" fill="none" stroke="#E63946" strokeWidth="0.5" className="animate-ping" style={{ transformOrigin: "8px 8px" }} />
-            
+
             <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-[-10px] scale-75 origin-bottom">
               <rect x="-10" y="42" width="70" height="18" fill="#FBBF24" stroke="#000000" strokeWidth="2" />
               <text x="25" y="54" textAnchor="middle" fill="#000000" fontSize="9" fontWeight="900" fontFamily="sans-serif">📸 CLICK FLASH!</text>
@@ -194,11 +194,11 @@ export default function Hero() {
             THE VOICE OF THE CITY • 10¢
           </div>
         </div>
-        
+
         <h4 className="text-[10px] font-black uppercase text-black leading-tight mb-2 tracking-tight group-hover:text-[#E63946] transition-colors">
           SPIDER-MAN SIGHTED DEVELOPING SPRING BOOT API PORTS!
         </h4>
-        
+
         <div className="flex gap-2">
           <div className="w-1/2 text-[5.5px] font-bold text-slate-700 leading-normal border-r border-black/35 pr-1">
             Bystanders claim Peter Parker webbed a Neon database connector to Java. "Bugs are disappearing in mid-air!" said one local citizen.
@@ -207,7 +207,7 @@ export default function Hero() {
             Daily Bugle chief demands answers: "Is he a menace or a full-stack engineer? Read page 3 for our complete analysis!"
           </div>
         </div>
-        
+
         <div className="mt-3 text-[7px] font-black text-[#E63946] uppercase tracking-wider text-right animate-pulse">
           READ FULL REPORT 🗞️
         </div>

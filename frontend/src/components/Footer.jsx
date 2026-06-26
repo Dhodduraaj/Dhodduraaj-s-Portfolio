@@ -22,7 +22,7 @@ export default function Footer() {
             © {new Date().getFullYear()} DHODDURAAJ S P
           </p>
           <p className="text-xs font-black text-[#E63946] dark:text-slate-400 uppercase tracking-tight mt-1">
-            STATISTICS COMPILED WITH SPRING BOOT + REACT + TAILWIND & MOTIONS.
+            YOURS FRIENDLY NEIGHBOURHOOD DEVELOPER.
           </p>
         </div>
 

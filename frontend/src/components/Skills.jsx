@@ -144,7 +144,7 @@ export default function Skills({ skills }) {
                 <motion.button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  whileHover={{ scale: 1.15, rotate: [0, -3, 3, 0] }}
+                  whileHover={{ scale: 1.10 }}
                   className={`absolute z-20 p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center ${isActive
                       ? "bg-[#E63946] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                       : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200"

@@ -434,7 +434,7 @@ export default function ComicReveal() {
                             Role / Alias
                           </div>
                           <div className="text-[11px] font-black text-white uppercase leading-snug">
-                            Backend Engineer &<br />Friendly Neighbourhood<br />Developer 🌐
+                            Full-Stack Engineer &<br />Friendly Neighbourhood<br />Developer 🌐
                           </div>
                         </div>
 
@@ -491,7 +491,7 @@ export default function ComicReveal() {
                     {/* Card footer */}
                     <div className="flex items-center justify-between border-t-3 border-black pt-3">
                       <div className="text-[9px] font-black text-black/50 uppercase tracking-widest">
-                        KEC · 2025 · Full-Stack
+                        KEC · 2026 · Full-Stack
                       </div>
                       <div className="flex gap-1">
                         {["⭐", "🏆", "🚀"].map((emoji, i) => (

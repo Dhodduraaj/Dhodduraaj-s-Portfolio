@@ -221,18 +221,11 @@ export default function Projects({ projects }) {
               {/* Screenshots Carousel */}
               {projectScreenshots[selectedProject.imageKey] && (
                 <div className="relative h-48 md:h-72 border-4 border-black bg-slate-950 overflow-hidden mb-6 flex items-center justify-center">
-                  <AnimatePresence mode="wait">
-                    <motion.img
-                      key={activeSlide}
-                      src={projectScreenshots[selectedProject.imageKey][activeSlide]}
-                      alt={`${selectedProject.title} screenshot ${activeSlide + 1}`}
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="w-full h-full object-cover"
-                    />
-                  </AnimatePresence>
+                  <img
+                    src={projectScreenshots[selectedProject.imageKey][activeSlide]}
+                    alt={`${selectedProject.title} screenshot ${activeSlide + 1}`}
+                    className="w-full h-full object-cover select-none pointer-events-none"
+                  />
 
                   {/* Navigation Arrows */}
                   <button
@@ -241,10 +234,10 @@ export default function Projects({ projects }) {
                       const slides = projectScreenshots[selectedProject.imageKey];
                       setActiveSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
                     }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-10"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
                     aria-label="Previous screenshot"
                   >
-                    <ChevronLeft size={16} strokeWidth={3} />
+                    <ChevronLeft size={16} strokeWidth={3} className="pointer-events-none" />
                   </button>
                   <button
                     onClick={(e) => {
@@ -252,14 +245,14 @@ export default function Projects({ projects }) {
                       const slides = projectScreenshots[selectedProject.imageKey];
                       setActiveSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
                     }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-10"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
                     aria-label="Next screenshot"
                   >
-                    <ChevronRight size={16} strokeWidth={3} />
+                    <ChevronRight size={16} strokeWidth={3} className="pointer-events-none" />
                   </button>
 
                   {/* Indicator Dots */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 bg-black/40 px-2.5 py-1 rounded-full border border-white/20">
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 bg-black/40 px-2.5 py-1 rounded-full border border-white/20">
                     {projectScreenshots[selectedProject.imageKey].map((_, idx) => (
                       <button
                         key={idx}
