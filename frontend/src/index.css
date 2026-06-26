@@ -160,3 +160,28 @@
     border: 4px solid #000000;
   }
 }
+
+/* Easter Egg: Camera Shake Effect */
+@keyframes camera-shake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+  20% { transform: translate(2px, -3px) rotate(0.5deg); }
+  30% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+  40% { transform: translate(3px, 2px) rotate(0.5deg); }
+  50% { transform: translate(-1px, 3px) rotate(-0.5deg); }
+  60% { transform: translate(-3px, -2px) rotate(0.5deg); }
+  70% { transform: translate(2px, 2px) rotate(-0.5deg); }
+  80% { transform: translate(-2px, -3px) rotate(0.5deg); }
+  90% { transform: translate(3px, 1px) rotate(-0.5deg); }
+}
+
+.camera-shake-active {
+  animation: camera-shake 0.4s ease-in-out;
+}
+
+/* Comic diagonal web pattern utilities */
+.spidey-web-overlay {
+  background-image: radial-gradient(rgba(230, 57, 70, 0.15) 1px, transparent 0), radial-gradient(rgba(230, 57, 70, 0.15) 1px, transparent 0);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+}

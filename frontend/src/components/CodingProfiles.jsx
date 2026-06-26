@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, ArrowUpRight, Terminal, RefreshCw } from "lucide-react";
+import { Code2, ArrowUpRight, Terminal } from "lucide-react";
 import axios from "axios";
 
 const GithubIcon = (props) => (
@@ -19,31 +19,9 @@ const LinkedinIcon = (props) => (
 );
 
 export default function CodingProfiles({ githubStats }) {
-  const [gitEvents, setGitEvents] = useState([]);
-  const [gitLoading, setGitLoading] = useState(true);
-  const [gitError, setGitError] = useState(false);
-
   const [leetcodeSolved, setLeetcodeSolved] = useState(null);
-  const [leetcodeLoading, setLeetcodeLoading] = useState(true);
 
-  // Fetch real GitHub events
   useEffect(() => {
-    const fetchGitEvents = async () => {
-      try {
-        const res = await axios.get("https://api.github.com/users/Dhodduraaj/events");
-        const pushes = (res.data || [])
-          .filter(e => e.type === "PushEvent")
-          .slice(0, 4); // Get top 4 recent pushes
-        setGitEvents(pushes);
-        setGitError(false);
-      } catch (err) {
-        console.warn("Failed to fetch real Git events. Bypassing grid.", err.message);
-        setGitError(true);
-      } finally {
-        setGitLoading(false);
-      }
-    };
-
     const fetchLeetcodeStats = async () => {
       try {
         const res = await axios.get("https://leetcode-api-faisal.appspot.com/api/v1/Dhodduraaj_");
@@ -52,12 +30,9 @@ export default function CodingProfiles({ githubStats }) {
         }
       } catch (err) {
         console.warn("Leetcode stats fetch blocked or offline. Falling back to profile link.");
-      } finally {
-        setLeetcodeLoading(false);
       }
     };
 
-    fetchGitEvents();
     fetchLeetcodeStats();
   }, []);
 
@@ -185,65 +160,93 @@ export default function CodingProfiles({ githubStats }) {
           })}
         </div>
 
-        {/* Git Contribution Grid - Glowing Monitor Frame with REAL Git push events */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="p-6 md:p-8 crt-panel crt-screen text-emerald-400 border-emerald-500/60 shadow-[6px_6px_0px_0px_#059669]"
-        >
-          <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-85">
-            <span>[GITHUB CORE METRIC: RECENT ACTIVITIES]</span>
-            <span className="animate-pulse text-emerald-400">● LIVE FEED</span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <h3 className="font-black text-white text-lg flex items-center gap-2 uppercase tracking-tight">
-                <Terminal size={18} className="text-[#E63946]" />
-                Recent Git Commits Log (Real Data Only)
-              </h3>
-              <p className="text-xs font-semibold text-slate-400">Showing public repository push logs dynamically fetched from GitHub</p>
+        {/* Dynamic Activity Panels (GitHub & LeetCode Heatmaps) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          {/* GitHub Activity Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-6 md:p-8 crt-panel crt-screen text-[#E63946] border-[#E63946]/60 shadow-[6px_6px_0px_0px_#E63946] flex flex-col"
+          >
+            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-85">
+              <span>[SYSTEM METRIC: GITHUB SYNC]</span>
+              <span className="animate-pulse text-[#E63946]">● ONLINE TRACKER</span>
             </div>
-            <span className="text-xs font-black px-3 py-1 border-2 border-black bg-emerald-500/10 text-emerald-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase flex items-center gap-1.5">
-              <RefreshCw className="animate-spin [animation-duration:8s]" size={12} />
-              {githubStats.followers} Followers
-            </span>
-          </div>
 
-          {/* Activity Console */}
-          <div className="border-2 border-black/30 p-5 bg-[#070b14]/95 font-mono text-xs md:text-sm text-emerald-400 space-y-3 max-h-60 overflow-y-auto leading-relaxed shadow-[inner_3px_3px_0px_0px_rgba(0,0,0,1)]">
-            {gitLoading ? (
-              <div className="flex items-center gap-2">
-                <span className="animate-ping w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                <span>SYSTEM LOADER ACTIVE... RETRIEVING LIVE COMMITS...</span>
-              </div>
-            ) : gitError || gitEvents.length === 0 ? (
-              <div className="text-rose-400 space-y-2">
-                <div>[ERROR: CONNECTION BLOCKED OR RATELIMITED BY HOST]</div>
-                <div className="text-slate-400 text-xs">Direct API call bypassed. Please click the GitHub button above to inspect my commits directly!</div>
-              </div>
-            ) : (
-              gitEvents.map((evt, idx) => {
-                const repoName = evt.repo.name.replace("Dhodduraaj/", "");
-                const commits = evt.payload.commits || [];
-                const latestCommitMsg = commits[0]?.message || "Modified files";
-                const eventDate = new Date(evt.created_at).toLocaleDateString();
+            <div className="mb-6">
+              <h3 className="font-black text-white text-lg flex items-center gap-2 uppercase tracking-tight mb-2">
+                <Terminal size={18} className="text-[#E63946]" />
+                GitHub Contribution Network
+              </h3>
+              <p className="text-xs font-semibold text-slate-400">
+                Daily code commit matrix tracing live contributions on github.com/Dhodduraaj
+              </p>
+            </div>
 
-                return (
-                  <div key={evt.id} className="border-b border-black/30 pb-2.5 last:border-0 last:pb-0">
-                    <span className="text-[#E63946] font-bold">[{eventDate}]</span>{" "}
-                    <span className="text-white font-bold">dhodduraaj</span> pushed to{" "}
-                    <span className="underline text-emerald-300 font-bold">{repoName}</span>:
-                    <div className="pl-4 text-slate-350 italic mt-0.5 font-sans font-semibold">
-                      "{latestCommitMsg}"
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </motion.div>
+            {/* Chart container */}
+            <div className="flex-grow flex items-center justify-center my-4">
+              <div className="w-full border-2 border-black/30 p-4 bg-[#070b14]/90 rounded-xl flex items-center justify-center min-h-[140px] shadow-[inner_3px_3px_0px_0px_rgba(0,0,0,0.5)]">
+                <img
+                  src="https://ghchart.rshah.org/e63946/Dhodduraaj"
+                  alt="Dhodduraaj GitHub Contributions"
+                  className="w-full h-auto filter brightness-110 contrast-105"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <div className="mt-auto pt-5 border-t-2 border-black/40 flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
+              <span>Metric Module</span>
+              <span className="text-[#E63946]">{githubStats.followers} Followers</span>
+            </div>
+          </motion.div>
+
+          {/* LeetCode Activity Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="p-6 md:p-8 crt-panel crt-screen text-[#E63946] border-[#E63946]/60 shadow-[6px_6px_0px_0px_#E63946] flex flex-col"
+          >
+            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[8px] font-mono tracking-widest font-black uppercase opacity-85">
+              <span>[SYSTEM METRIC: LEETCODE FEED]</span>
+              <span className="animate-pulse text-[#E63946]">● ONLINE SYNC</span>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="font-black text-white text-lg flex items-center gap-2 uppercase tracking-tight mb-2">
+                <Code2 size={18} className="text-[#E63946]" />
+                LeetCode Active Days
+              </h3>
+              <p className="text-xs font-semibold text-slate-400">
+                Algorithmic structures, submissions, and active problem-solving streak
+              </p>
+            </div>
+
+            {/* Chart container */}
+            <div className="flex-grow flex items-center justify-center my-4">
+              <div className="w-full border-2 border-black/30 p-2 bg-[#070b14]/90 rounded-xl flex items-center justify-center min-h-[140px] shadow-[inner_3px_3px_0px_0px_rgba(0,0,0,0.5)]">
+                <img
+                  src="https://leetcard.jacoblin.cool/Dhodduraaj_?theme=unicolor&color=e63946&font=Outfit&ext=activity"
+                  alt="Dhodduraaj LeetCode Activity"
+                  className="w-full h-auto"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <div className="mt-auto pt-5 border-t-2 border-black/40 flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
+              <span>Metric Module</span>
+              <span className="text-[#E63946]">
+                {leetcodeSolved ? `${leetcodeSolved} Solved` : "300+ Solved Nodes"}
+              </span>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

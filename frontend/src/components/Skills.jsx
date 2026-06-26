@@ -10,10 +10,9 @@ const categories = [
 ];
 
 export default function Skills({ skills }) {
-  const [hoveredCategory, setHoveredCategory] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const activeCategory = hoveredCategory || selectedCategory;
+  const activeCategory = selectedCategory;
 
   const filteredSkills = activeCategory === "All"
     ? skills
@@ -128,7 +127,6 @@ export default function Skills({ skills }) {
             {/* Center Core Node Button */}
             <motion.button
               onClick={() => setSelectedCategory("All")}
-              onMouseEnter={() => setHoveredCategory(null)}
               className="absolute z-25 p-4 rounded-full bg-[#E63946] text-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
               style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
               whileHover={{ scale: 1.1 }}
@@ -146,8 +144,6 @@ export default function Skills({ skills }) {
                 <motion.button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  onMouseEnter={() => setHoveredCategory(cat.id)}
-                  onMouseLeave={() => setHoveredCategory(null)}
                   whileHover={{ scale: 1.15, rotate: [0, -3, 3, 0] }}
                   className={`absolute z-20 p-3.5 rounded-2xl border-3 border-black transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center ${
                     isActive

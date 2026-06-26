@@ -246,14 +246,23 @@ export default function Hero() {
             <ArrowRight size={20} strokeWidth={2.5} />
           </button>
           
-          <a
-            href="/Dhodduraaj_Resume.txt"
-            download="Dhodduraaj_Resume.txt"
-            className="w-full sm:w-auto px-10 py-5 border-4 border-black bg-white hover:bg-slate-50 text-black font-black text-lg uppercase flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer"
+          <motion.a
+            href="/Dhodduraaj_Resume.pdf"
+            download="Dhodduraaj_Resume.pdf"
+            whileHover={{ 
+              scale: 1.05,
+              backgroundColor: "#E63946",
+              color: "#ffffff",
+              boxShadow: "6px 6px 0px 0px #1D3557",
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 350, damping: 15 }}
+            className="w-full sm:w-auto px-10 py-5 border-4 border-black bg-white text-black font-black text-lg uppercase flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer relative overflow-hidden group"
           >
-            <FileText size={20} strokeWidth={2.5} />
-            DOWNLOAD DOSSIER
-          </a>
+            <span className="absolute inset-0 opacity-0 group-hover:opacity-30 spidey-web-overlay pointer-events-none transition-opacity duration-300" />
+            <FileText size={20} strokeWidth={2.5} className="relative z-10" />
+            <span className="relative z-10">DOWNLOAD DOSSIER</span>
+          </motion.a>
         </motion.div>
       </div>
 
