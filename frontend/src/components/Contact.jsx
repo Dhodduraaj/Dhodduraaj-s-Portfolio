@@ -291,7 +291,7 @@ export default function Contact() {
                       onChange={handleChange}
                       disabled={status === "loading"}
                       className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
-                      placeholder="Peter Parker"
+                      placeholder="Your Name"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -303,7 +303,7 @@ export default function Contact() {
                       onChange={handleChange}
                       disabled={status === "loading"}
                       className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
-                      placeholder="peter.parker@dailybugle.com"
+                      placeholder="Your Email"
                     />
                   </div>
                 </div>
@@ -317,7 +317,7 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={status === "loading"}
                     className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
-                    placeholder="Interview / Web Project / Collaboration"
+                    placeholder="Interview / Web Project / Collaboration / Feedback"
                   />
                 </div>
 
@@ -330,7 +330,7 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={status === "loading"}
                     className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors resize-none rounded-none"
-                    placeholder="Write details of your backend or full-stack mission..."
+                    placeholder="Type your Message Here..."
                   />
                 </div>
 

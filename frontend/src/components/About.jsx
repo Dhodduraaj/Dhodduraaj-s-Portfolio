@@ -84,7 +84,7 @@ export default function About() {
                 I thrive at the intersection of database relational logic and clean user-focused interactions.
               </p>
               <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
-                Rather than relying on templated designs, I prefer constructing custom mechanical frames, writing  entity mapping tables, and slinging responsive responsive code widgets.
+                Rather than relying on templated designs, I prefer constructing custom mechanical frames, writing  entity mapping tables, and slinging responsive code widgets.
               </p>
             </div>
 

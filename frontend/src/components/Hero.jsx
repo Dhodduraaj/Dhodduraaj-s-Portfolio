@@ -398,7 +398,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="text-sm md:text-lg text-slate-700  justify-center dark:text-slate-300 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
-          All right, let’s do this one last time.
+          All right, let’s do this one more time.
           My name is Dhodduraaj. I’m a full-stack developer.
           I build reliable systems, chase down bugs & ship code that holds up under pressure.
           And no matter how many times something breaks… I build it back stronger.
