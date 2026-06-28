@@ -122,9 +122,23 @@ function InteractiveName({ introPhase }) {
               <motion.span
                 className="absolute left-0 right-0 flex flex-col items-center justify-start h-[200%]"
                 custom={idx}
-                variants={realTextVariants}
-                animate={introPhase}
-                style={{ y: (isHovered && (introPhase === "reveal" || introPhase === "complete")) ? "-50%" : "0%" }}
+                animate={{
+                  y: (isHovered && (introPhase === "reveal" || introPhase === "complete")) ? "-50%" : "0%",
+                  ...(introPhase === "logo" ? realTextVariants.logo : {}),
+                  ...(introPhase === "name" ? realTextVariants.name(idx) : {}),
+                  ...(introPhase === "reveal" ? realTextVariants.reveal : {}),
+                  ...(introPhase === "complete" ? realTextVariants.complete : {})
+                }}
+                transition={{
+                  y: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 18,
+                    delay: idx * 0.03
+                  },
+                  opacity: { duration: 0.5, delay: introPhase === "name" ? 0.15 + idx * 0.05 : 0 },
+                  scale: { duration: 0.5, delay: introPhase === "name" ? 0.15 + idx * 0.05 : 0 }
+                }}
               >
                 {/* Top Letter: Original */}
                 <span className="h-[50%] flex items-center justify-center">{char}</span>
