@@ -13,10 +13,17 @@ const navItems = [
   { label: "Signal", id: "contact" },
 ];
 
-export default function Navbar({ darkMode, setDarkMode, activeSection }) {
+export default function Navbar({ darkMode, setDarkMode, activeSection, introPhase }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  const navbarVariants = {
+    logo: { opacity: 0, y: -80 },
+    name: { opacity: 0, y: -80 },
+    reveal: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut", delay: 0.6 } },
+    complete: { opacity: 1, y: 0 }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,7 +49,9 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
 
   return (
     <>
-      <header
+      <motion.header
+        variants={navbarVariants}
+        animate={introPhase}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "py-3 bg-white dark:bg-[#0B1329] border-b-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
           : "py-5 bg-transparent border-b-3 border-transparent"
@@ -109,7 +118,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Mobile Menu Dropdown */}
       <AnimatePresence>

@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ComicReveal from "./components/ComicReveal";
 import WebHero from "./components/WebHero";
+import SpiderOverlay from "./components/SpiderOverlay";
 import axios from "axios";
 import { skills } from "./data/skills";
 import { projects } from "./data/projects";
@@ -26,7 +27,21 @@ function App() {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
-
+  const [introPhase, setIntroPhase] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("intro") === "true" || params.get("replay") === "true") {
+      return "logo";
+    }
+    if (sessionStorage.getItem("spider_intro_played") === "true") {
+      return "complete";
+    }
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const lowPerf = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+    if (reducedMotion || lowPerf) {
+      return "complete";
+    }
+    return "logo";
+  });
 
   // Live GitHub Stats State
   const [githubStats, setGithubStats] = useState({
@@ -183,6 +198,47 @@ function App() {
     };
   }, [scrollTimeout]);
 
+  useEffect(() => {
+    if (introPhase === "logo" || introPhase === "name") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [introPhase]);
+
+  useEffect(() => {
+    if (introPhase === "logo") {
+      const timer = setTimeout(() => {
+        setIntroPhase("name");
+      }, 3200);
+      return () => clearTimeout(timer);
+    } else if (introPhase === "name") {
+      const timer = setTimeout(() => {
+        setIntroPhase("reveal");
+      }, 1200);
+      return () => clearTimeout(timer);
+    } else if (introPhase === "reveal") {
+      const timer = setTimeout(() => {
+        setIntroPhase("complete");
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [introPhase]);
+
+  useEffect(() => {
+    if (introPhase === "complete") {
+      sessionStorage.setItem("spider_intro_played", "true");
+    }
+  }, [introPhase]);
+
+  const handleSkipIntro = () => {
+    setIntroPhase("complete");
+    sessionStorage.setItem("spider_intro_played", "true");
+  };
+
   // Fetch Live GitHub Stats
   useEffect(() => {
     const fetchGithub = async () => {
@@ -246,8 +302,9 @@ function App() {
 
   return (
     <div className={`min-h-screen text-slate-900 dark:text-slate-100 bg-[#FFFBF0] dark:bg-[#0B1329] transition-colors duration-300 relative ${shakeActive ? "camera-shake-active" : ""}`}>
-      <Navbar darkMode={darkMode} setDarkMode={toggleDarkMode} activeSection={activeSection} />
-      <Hero />
+      {introPhase !== "complete" && <SpiderOverlay introPhase={introPhase} onSkip={handleSkipIntro} darkMode={darkMode} />}
+      <Navbar darkMode={darkMode} setDarkMode={toggleDarkMode} activeSection={activeSection} introPhase={introPhase} />
+      <Hero introPhase={introPhase} darkMode={darkMode} />
       <About />
       <Skills skills={skills} />
       <Projects projects={projects} />
@@ -257,8 +314,12 @@ function App() {
       <Contact />
       <ComicReveal />
       <Footer />
-      {/* Floating vector guide */}
-      <WebHero activeSection={activeSection} isSwinging={isSwinging} />
+      {/* Floating vector guide (Swinging Spider-man drops in ONLY after intro is fully complete) */}
+      {introPhase === "complete" && (
+        <div className="hidden md:block">
+          <WebHero activeSection={activeSection} isSwinging={isSwinging} />
+        </div>
+      )}
 
       {/* Floating Web Splat Layer */}
       {splats.map((splat) => (

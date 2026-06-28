@@ -7,17 +7,19 @@ export default function WebHero({ activeSection, isSwinging }) {
   const [visible, setVisible] = useState(true);
 
   // ─── Physics simulation state (for React renders) ───────────────────────
-  const [theta, setTheta] = useState(0);
+  const [theta, setTheta] = useState(-25 * Math.PI / 180);
   const [omega, setOmega] = useState(0);
-  const [ropeLength, setRopeLength] = useState(360);
+  const [ropeLength, setRopeLength] = useState(-100);
   const [bodyTilt, setBodyTilt] = useState(0);
 
   // ─── Refs for the inner physics loop ────────────────────────────────────
-  const thetaRef = useRef(0);
+  const thetaRef = useRef(-25 * Math.PI / 180);
   const omegaRef = useRef(0);
-  const ropeLengthRef = useRef(360);
+  const ropeLengthRef = useRef(-100);
+  const omegaRopeRef = useRef(0);
   const bodyTiltRef = useRef(0);
   const lastTimeRef = useRef(Date.now());
+  const isDroppedIn = useRef(false);
 
   const isSwingingRef = useRef(isSwinging);
   const activeSectionRef = useRef(activeSection);
@@ -109,8 +111,8 @@ export default function WebHero({ activeSection, isSwinging }) {
       // Pendulum: α = -(g/L)·sin(θ)
       let alpha = -(g / L_base) * Math.sin(thetaRef.current);
 
-      // Higher damping to make the swing gentle and controlled
-      const drag = scrollActiveRef.current ? 1.5 : 2.5;
+      // Lower damping during drop-in to make the initial swing fluid and natural
+      const drag = !isDroppedIn.current ? 0.75 : (scrollActiveRef.current ? 1.5 : 2.5);
       alpha -= drag * omegaRef.current;
 
       // ── Scroll-driven impulse ────────────────────────────────────────────
@@ -136,10 +138,25 @@ export default function WebHero({ activeSection, isSwinging }) {
       }
 
       // Fixed rope length (no stretch)
-      ropeLengthRef.current = L_base;
+      if (!isDroppedIn.current) {
+        const targetL = 360;
+        const k = 140; // stiffness
+        const d = 10;  // damping
+        const force = -k * (ropeLengthRef.current - targetL) - d * omegaRopeRef.current;
+        omegaRopeRef.current += force * dt;
+        ropeLengthRef.current += omegaRopeRef.current * dt;
 
-      // Settle to rest quickly when not scrolling
+        if (Math.abs(ropeLengthRef.current - targetL) < 0.25 && Math.abs(omegaRopeRef.current) < 0.25) {
+          ropeLengthRef.current = targetL;
+          isDroppedIn.current = true;
+        }
+      } else {
+        ropeLengthRef.current = L_base;
+      }
+
+      // Settle to rest quickly when not scrolling (only after drop-in is complete)
       if (
+        isDroppedIn.current &&
         !scrollActiveRef.current &&
         Math.abs(thetaRef.current) < 0.04 &&
         Math.abs(omegaRef.current) < 0.04
