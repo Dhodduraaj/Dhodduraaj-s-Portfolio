@@ -101,7 +101,7 @@ export default function Projects({ projects }) {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-black uppercase tracking-tight text-black dark:text-white"
           >
-            Mission{" "}
+            Projects{" "}
             <span className="text-white px-3 bg-[#E63946] border-4 border-black inline-block transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               Dossiers
             </span>
@@ -215,31 +215,31 @@ export default function Projects({ projects }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
-              className="relative w-full max-w-2xl border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 text-black dark:text-white p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+              className="relative w-full max-w-2xl max-h-[102vh] overflow-y-auto border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 text-black dark:text-white p-4 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-2 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                className="absolute top-4 right-4 p-2 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-40"
                 aria-label="Close dossier"
               >
                 <X size={18} strokeWidth={3} />
               </button>
 
               {/* Title Header */}
-              <div className="border-b-4 border-black pb-4 mb-6">
+              <div className="border-b-4 border-black pb-4 mb-6 pr-10 md:pr-0">
                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">
                   CLASSIFIED DOSSIER FILE: {selectedProject.imageKey?.toUpperCase()}
                 </span>
-                <h3 className="text-2xl md:text-3xl font-black uppercase text-[#E63946]">
+                <h3 className="text-2xl md:text-3xl font-black uppercase text-[#E63946] leading-tight">
                   {selectedProject.title}
                 </h3>
               </div>
 
               {/* Screenshots Carousel */}
               {projectScreenshots[selectedProject.imageKey] && (
-                <div className="relative h-48 md:h-72 border-4 border-black bg-slate-950 overflow-hidden mb-6 flex items-center justify-center">
+                <div className="relative h-40 sm:h-56 md:h-72 border-4 border-black bg-slate-950 overflow-hidden mb-6 flex items-center justify-center">
                   <img
                     src={projectScreenshots[selectedProject.imageKey][activeSlide]}
                     alt={`${selectedProject.title} screenshot ${activeSlide + 1}`}

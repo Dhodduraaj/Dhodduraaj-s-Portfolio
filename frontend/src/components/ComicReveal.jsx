@@ -468,17 +468,27 @@ export default function ComicReveal() {
                         Spider-Man Powers
                       </div>
                       {[
-                        "🕸️ Web-shooter of Spring Boot APIs",
-                        "🧠 Spidey Sense for Hidden Bugs",
-                        "🚀 Wall-crawls through Legacy Code",
-                        "⚡ Builds systems that don't snap under load",
-                        "🎯 Shoots PRs before deadlines swing past",
-                      ].map((power, i) => (
+                        { label: "Phone", value: "8220920776" },
+                        {
+                          label: "Insta",
+                          value: "@dhodduraaj_",
+                          link: "https://instagram.com/dhodduraaj_"
+                        },
+                        { label: "Hobby", value: "Movies, Vibecoding" },
+                        { label: "College", value: "KEC" },
+                        { label: "Alias", value: "Web Developer" }
+                      ].map((item, i) => (
                         <div
                           key={i}
                           className="text-[11px] font-bold text-black border-b border-black/10 last:border-0 py-1 leading-snug"
                         >
-                          {power}
+                          {item.link ? (
+                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                              {item.label} : {item.value}
+                            </a>
+                          ) : (
+                            `${item.label} : ${item.value}`
+                          )}
                         </div>
                       ))}
                     </div>

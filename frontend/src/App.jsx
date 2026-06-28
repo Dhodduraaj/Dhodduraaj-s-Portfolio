@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -50,6 +51,17 @@ function App() {
   const [shakeActive, setShakeActive] = useState(false);
   const [splats, setSplats] = useState([]);
 
+  // Polaroid Easter Egg States
+  const [polaroidActive, setPolaroidActive] = useState(false);
+  const polaroidTimeoutRef = useRef(null);
+
+  const closePolaroid = () => {
+    setPolaroidActive(false);
+    if (polaroidTimeoutRef.current) {
+      clearTimeout(polaroidTimeoutRef.current);
+    }
+  };
+
   useEffect(() => {
     const handleShake = () => {
       setShakeActive(true);
@@ -65,8 +77,19 @@ function App() {
       }, 1500);
     };
 
+    const handleShowPolaroid = () => {
+      setPolaroidActive(true);
+      if (polaroidTimeoutRef.current) {
+        clearTimeout(polaroidTimeoutRef.current);
+      }
+      polaroidTimeoutRef.current = setTimeout(() => {
+        setPolaroidActive(false);
+      }, 5000);
+    };
+
     window.addEventListener("spidey-shake", handleShake);
     window.addEventListener("spidey-shoot-splat", handleSplat);
+    window.addEventListener("show-spidey-polaroid", handleShowPolaroid);
 
     // Global click listener for red headings / logo splat
     const handleGlobalClick = (e) => {
@@ -90,7 +113,11 @@ function App() {
     return () => {
       window.removeEventListener("spidey-shake", handleShake);
       window.removeEventListener("spidey-shoot-splat", handleSplat);
+      window.removeEventListener("show-spidey-polaroid", handleShowPolaroid);
       window.removeEventListener("click", handleGlobalClick);
+      if (polaroidTimeoutRef.current) {
+        clearTimeout(polaroidTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -257,6 +284,57 @@ function App() {
           </svg>
         </div>
       ))}
+
+      {/* Polaroid Easter Egg Overlay */}
+      <AnimatePresence>
+        {polaroidActive && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto cursor-pointer"
+            onClick={closePolaroid}
+          >
+            <motion.div
+              initial={{ scale: 0.3, rotate: -25, y: -200, opacity: 0 }}
+              animate={{ scale: 1, rotate: -2, y: 0, opacity: 1 }}
+              exit={{ scale: 0.3, rotate: 15, y: 200, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="relative bg-white p-5 pb-10 border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] max-w-md w-full cursor-default select-none"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Tape Effect at the Top */}
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-yellow-200 border-2 border-black px-6 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase text-[9px] font-black tracking-wider -rotate-2 text-black">
+                📌 GOTCHA!
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={closePolaroid}
+                className="absolute z-20 top-2 right-2 w-7 h-7 flex items-center justify-center border-2 border-black bg-[#E63946] text-white font-black hover:bg-red-600 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer"
+              >
+                ✕
+              </button>
+
+              {/* Polaroid Image Box */}
+              <div className="border-4 border-black aspect-square overflow-hidden bg-slate-900 mb-4 relative">
+                <img
+                  src="/spidey-coding.png"
+                  alt="Spiderman Coding"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Polaroid Handwriting Caption */}
+              <div className="text-center text-black font-sans">
+                <p className="text-lg font-black tracking-tight uppercase select-none leading-none">
+                  You caught me in action!
+                </p>
+                <p className="text-[#E63946] text-[10px] font-black uppercase tracking-widest mt-1">
+                  🕸️ I don’t just vibe-code. I swing between logic and vibe.🕸️
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

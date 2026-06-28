@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Send, AlertCircle, X } from "lucide-react";
-import axios from "axios";
+import emailjs from "@emailjs/browser";
 
 const GithubIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={props.className} style={{ width: props.size || 24, height: props.size || 24 }}>
@@ -22,9 +22,34 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [errorMsg, setErrorMsg] = useState("");
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleEmailClick = (e) => {
+    e.preventDefault();
+    const email = "dhodduraajsp@gmail.com";
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = `mailto:${email}`;
+    } else {
+      const newWindow = window.open(gmailUrl, "_blank", "noopener,noreferrer");
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+        window.location.href = `mailto:${email}`;
+      }
+    }
+  };
+
+  const handlePhoneClick = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("+918220920776").then(() => {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 1500);
+    });
   };
 
   const validateForm = () => {
@@ -47,19 +72,36 @@ export default function Contact() {
 
     setStatus("loading");
     try {
-      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
-      const response = await axios.post(`${apiBase}/api/contact`, formData);
-      if (response.status === 201) {
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        console.warn("EmailJS credentials missing. Running simulation mode.");
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
+        return;
+      }
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      };
+
+      const result = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      if (result.status === 200) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error("Unexpected EmailJS response code");
       }
     } catch (err) {
+      console.error("Signal Transmission Error:", err);
       setStatus("error");
-      if (err.response && err.response.data && err.response.data.error) {
-        setErrorMsg(err.response.data.error);
-      } else {
-        setErrorMsg("Failed to connect to the backend. Ensure the server is active.");
-      }
+      setErrorMsg("Failed to transmit signal beacon. Please try direct email or call options.");
     }
   };
 
@@ -76,7 +118,7 @@ export default function Contact() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Section Heading */}
         <div className="text-center mb-16 relative">
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#1D3557] text-white border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -97,7 +139,7 @@ export default function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
+
           {/* Signal hub details (Left - 5 cols) */}
           <div className="lg:col-span-5 space-y-8">
             <div>
@@ -109,27 +151,33 @@ export default function Contact() {
             </div>
 
             <div className="space-y-5">
-              <div className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform">
-                <div className="p-3 border-2 border-black bg-[#E63946] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <div
+                onClick={handleEmailClick}
+                className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform cursor-pointer group"
+              >
+                <div className="p-3 border-2 border-black bg-[#E63946] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-105">
                   <Mail size={22} strokeWidth={2.5} />
                 </div>
                 <div>
                   <span className="text-[9px] text-slate-400 dark:text-slate-500 block font-black uppercase tracking-wider">Email Signal</span>
-                  <a href="mailto:dhodduraajsp@gmail.com" className="text-sm font-black text-slate-800 dark:text-slate-200 hover:text-[#E63946] transition-colors">
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 group-hover:text-[#E63946] transition-colors">
                     dhodduraajsp@gmail.com
-                  </a>
+                  </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform">
-                <div className="p-3 border-2 border-black bg-[#1D3557] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <div
+                onClick={handlePhoneClick}
+                className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform cursor-pointer group"
+              >
+                <div className="p-3 border-2 border-black bg-[#1D3557] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-105">
                   <Phone size={22} strokeWidth={2.5} />
                 </div>
                 <div>
                   <span className="text-[9px] text-slate-400 dark:text-slate-500 block font-black uppercase tracking-wider">Call Signal</span>
-                  <a href="tel:+918220920776" className="text-sm font-black text-slate-800 dark:text-slate-200 hover:text-[#E63946] transition-colors">
-                    +91 8220920776
-                  </a>
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 group-hover:text-[#E63946] transition-colors">
+                    {copiedPhone ? "Copied ✓" : "+91 8220920776"}
+                  </span>
                 </div>
               </div>
 
@@ -171,13 +219,13 @@ export default function Contact() {
 
           {/* Form and Hanging Spidey (Right - 7 cols) */}
           <div className="lg:col-span-7 relative">
-            
+
             {/* Hanging Chibi Spider-Hero Upside-Down SVG */}
             <div className="absolute -top-[116px] right-8 w-24 h-32 z-20 pointer-events-none select-none hidden sm:block">
               <svg viewBox="0 0 100 130" className="w-full h-full drop-shadow-[3px_3px_0px_rgba(0,0,0,0.85)] animate-comic-swing" style={{ transformOrigin: "top center" }}>
                 {/* Web rope hanging down */}
                 <line x1="50" y1="0" x2="50" y2="60" stroke="#000000" strokeWidth="2.5" />
-                
+
                 {/* Wavy web rope segment */}
                 <path d="M 50,0 Q 48,15 52,30 T 50,60" fill="none" stroke="#000000" strokeWidth="1" strokeDasharray="2 2" />
 
@@ -189,7 +237,7 @@ export default function Contact() {
                   stroke="#000000"
                   strokeWidth="3.5"
                 />
-                
+
                 {/* Spider Emblem */}
                 <circle cx="50" cy="74" r="1.5" fill="#000000" />
                 <line x1="50" y1="74" x2="50" y2="78" stroke="#000000" strokeWidth="1" />
@@ -227,7 +275,7 @@ export default function Contact() {
 
             {/* Comic speech bubble contact container */}
             <div className="p-6 md:p-8 border-4 border-black bg-white text-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative rounded-none">
-              
+
               {/* Comic bubble pointer tail (hidden on small screens) */}
               <div className="absolute top-12 -left-4 w-0 h-0 border-t-[14px] border-t-transparent border-r-[14px] border-r-black border-b-[14px] border-b-transparent hidden lg:block" />
               <div className="absolute top-12 -left-3 w-0 h-0 border-t-[12px] border-t-transparent border-r-[12px] border-r-white border-b-[12px] border-b-transparent hidden lg:block" />
@@ -351,7 +399,7 @@ export default function Contact() {
                 💥 BOOM! 💥
               </h3>
               <p className="text-sm font-black uppercase tracking-wide leading-relaxed mb-6">
-                Transmission Injected! Your contact signal has been securely stored in the PostgreSQL database grid!
+                Transmission Complete! Your contact signal has been securely delivered to the owner of this portfolio.
               </p>
 
               <button

@@ -6,7 +6,7 @@ const navItems = [
   { label: "Home", id: "home" },
   { label: "Origin", id: "about" },
   { label: "Skills", id: "skills" },
-  { label: "Missions", id: "projects" },
+  { label: "Projects", id: "projects" },
   { label: "Wins", id: "achievements" },
   { label: "Certs", id: "certifications" },
   { label: "Profiles", id: "stats" },
@@ -44,8 +44,8 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-            ? "py-3 bg-white dark:bg-[#0B1329] border-b-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
-            : "py-5 bg-transparent border-b-3 border-transparent"
+          ? "py-3 bg-white dark:bg-[#0B1329] border-b-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+          : "py-5 bg-transparent border-b-3 border-transparent"
           }`}
       >
         {/* Scroll Progress Bar - Solid Red */}
@@ -74,8 +74,8 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
                 className={`text-xs font-black uppercase transition-colors cursor-pointer relative py-1 ${activeSection === item.id
-                    ? "text-[#E63946]"
-                    : "text-slate-600 hover:text-[#E63946] dark:text-slate-400 dark:hover:text-white"
+                  ? "text-[#E63946]"
+                  : "text-slate-600 hover:text-[#E63946] dark:text-slate-400 dark:hover:text-white"
                   }`}
               >
                 {item.label}
@@ -125,8 +125,8 @@ export default function Navbar({ darkMode, setDarkMode, activeSection }) {
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
                 className={`text-left py-2 font-black uppercase border-b-2 border-black cursor-pointer ${activeSection === item.id
-                    ? "text-[#E63946]"
-                    : "text-slate-700 dark:text-slate-300"
+                  ? "text-[#E63946]"
+                  : "text-slate-700 dark:text-slate-300"
                   }`}
               >
                 {item.label}

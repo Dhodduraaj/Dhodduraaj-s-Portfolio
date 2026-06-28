@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const roles = [
   "Responsibility-driven full-stack engineer",
   "I build projects that don't panic under load",
-  "I catch bugs in mid-air before they escape"
+  "Yours Friendly Neighbourhood Developer"
 ];
 
 const originalLetters = Array.from("DHODDURAAJ");
@@ -144,10 +144,11 @@ export default function Hero() {
         animate={{ rotate: [-3, 3, -3] }}
         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
         style={{ transformOrigin: "50% 0px" }}
-        className="absolute top-0 left-10 w-28 h-[260px] z-10 pointer-events-auto cursor-pointer group select-none hidden lg:block"
+        className="absolute top-0 left-4 w-20 h-[180px] md:left-10 md:w-28 md:h-[260px] z-10 pointer-events-auto cursor-pointer group select-none block"
         onClick={() => {
           setCameraFlash(true);
           setTimeout(() => setCameraFlash(false), 200);
+          window.dispatchEvent(new CustomEvent("show-spidey-polaroid"));
         }}
       >
         <svg viewBox="0 0 100 220" className="w-full h-full text-slate-800 dark:text-slate-200">

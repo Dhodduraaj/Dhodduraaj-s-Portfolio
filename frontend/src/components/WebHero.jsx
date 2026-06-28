@@ -317,7 +317,7 @@ export default function WebHero({ activeSection, isSwinging }) {
           {/* Boot — knee to foot in red */}
           <path d={`M ${leftKneeX},${leftKneeY} Q ${(leftKneeX + leftFootX) / 2},${(leftKneeY + leftFootY) / 2 + 4} ${leftFootX},${leftFootY}`}
             stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          <circle cx={leftKneeX} cy={leftKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
+          <circle cx={leftKneeX} cy={leftKneeY} r="4" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
           <circle cx={leftFootX} cy={leftFootY} r="8" fill="#000000" />
           <circle cx={leftFootX} cy={leftFootY} r="5" fill="#E10600" />
 
@@ -331,7 +331,7 @@ export default function WebHero({ activeSection, isSwinging }) {
           {/* Boot — knee to foot in red */}
           <path d={`M ${rightKneeX},${rightKneeY} Q ${(rightKneeX + rightFootX) / 2},${(rightKneeY + rightFootY) / 2 + 4} ${rightFootX},${rightFootY}`}
             stroke="#E10600" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          <circle cx={rightKneeX} cy={rightKneeY} r="5.5" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
+          <circle cx={rightKneeX} cy={rightKneeY} r="4" fill="#1D3557" stroke="#000000" strokeWidth="2.2" />
           <circle cx={rightFootX} cy={rightFootY} r="8" fill="#000000" />
           <circle cx={rightFootX} cy={rightFootY} r="5" fill="#E10600" />
 
