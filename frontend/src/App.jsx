@@ -305,15 +305,17 @@ function App() {
       {introPhase !== "complete" && <SpiderOverlay introPhase={introPhase} onSkip={handleSkipIntro} darkMode={darkMode} />}
       <Navbar darkMode={darkMode} setDarkMode={toggleDarkMode} activeSection={activeSection} introPhase={introPhase} />
       <Hero introPhase={introPhase} darkMode={darkMode} />
-      <About />
-      <Skills skills={skills} />
-      <Projects projects={projects} />
-      <Achievements achievements={achievements} />
-      <Certifications />
-      <CodingProfiles githubStats={githubStats} darkMode={darkMode} />
-      <Contact />
-      <ComicReveal />
-      <Footer />
+      <div className={(introPhase === "logo" || introPhase === "name") ? "invisible" : "visible"}>
+        <About />
+        <Skills skills={skills} />
+        <Projects projects={projects} />
+        <Achievements achievements={achievements} />
+        <Certifications />
+        <CodingProfiles githubStats={githubStats} darkMode={darkMode} />
+        <Contact />
+        <ComicReveal />
+        <Footer />
+      </div>
       {/* Floating vector guide (Swinging Spider-man drops in ONLY after intro is fully complete) */}
       {introPhase === "complete" && (
         <div className="hidden md:block">

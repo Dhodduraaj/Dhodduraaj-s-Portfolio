@@ -83,6 +83,7 @@ function InteractiveName({ introPhase }) {
 
   return (
     <motion.span
+      initial="logo"
       variants={cardVariants}
       animate={introPhase}
       onMouseEnter={() => {
@@ -208,6 +209,7 @@ export default function Hero({ introPhase, darkMode }) {
 
       {/* Layer 1 - Backdrop Silhouettes & Environmental Elements */}
       <motion.div
+        initial="logo"
         variants={layer1Variants}
         animate={introPhase}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
@@ -429,6 +431,7 @@ export default function Hero({ introPhase, darkMode }) {
 
       {/* Layer 3 - Background Pop-Art Callouts */}
       <motion.div
+        initial="logo"
         variants={layer3Variants}
         animate={introPhase}
         className="absolute inset-0 z-10 pointer-events-none overflow-hidden"
@@ -458,6 +461,7 @@ export default function Hero({ introPhase, darkMode }) {
       <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
         {/* Tilted Chapter Header (Layer 2) */}
         <motion.div
+          initial="logo"
           variants={layer2Variants}
           animate={introPhase}
           className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#1D3557] text-white border-2 border-black px-4 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-20"
@@ -467,6 +471,7 @@ export default function Hero({ introPhase, darkMode }) {
 
         {/* Swinging Badge (Layer 2) */}
         <motion.div
+          initial="logo"
           variants={layer2Variants}
           animate={introPhase}
           className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-none border-4 border-black bg-white text-black text-xs md:text-sm font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-10"
@@ -478,6 +483,7 @@ export default function Hero({ introPhase, darkMode }) {
         {/* Main Tilted Heading (Mixed Coordination) */}
         <h1 className="text-5xl md:text-8xl font-black tracking-tight text-slate-900 dark:text-white mb-6 uppercase leading-none relative z-[49]">
           <motion.span
+            initial="logo"
             variants={{
               logo: { opacity: 0, filter: "blur(8px)" },
               name: { opacity: 0, filter: "blur(8px)" },
@@ -494,6 +500,7 @@ export default function Hero({ introPhase, darkMode }) {
 
         {/* Narrative Tagline Loop (Layer 2) */}
         <motion.div
+          initial="logo"
           variants={layer2Variants}
           animate={introPhase}
           className="h-12 md:h-16 overflow-hidden mb-10"
@@ -512,6 +519,7 @@ export default function Hero({ introPhase, darkMode }) {
 
         {/* Narrative Card (Layer 2) */}
         <motion.p
+          initial="logo"
           variants={layer2Variants}
           animate={introPhase}
           className="text-sm md:text-lg text-slate-700 justify-center dark:text-slate-300 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -525,6 +533,7 @@ export default function Hero({ introPhase, darkMode }) {
 
         {/* CTAs (Layer 3) */}
         <motion.div
+          initial="logo"
           variants={layer3Variants}
           animate={introPhase}
           className="flex flex-col sm:flex-row items-center justify-center gap-5"
