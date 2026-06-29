@@ -456,7 +456,7 @@ export default function Hero({ introPhase, darkMode }) {
             transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
             className="border-3 border-black bg-yellow-300 text-black px-4 py-2 text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-6"
           >
-            💥 BUG BUSTER!
+            💥 PROBLEM SOLVER!
           </motion.div>
         </div>
 
@@ -466,7 +466,7 @@ export default function Hero({ introPhase, darkMode }) {
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
             className="border-3 border-black bg-[#E63946] text-white px-4 py-2 text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-6"
           >
-            🚀 PROD SURVIVED!
+            🚀 PRESSURE PERFORMER!
           </motion.div>
         </div>
       </motion.div>
@@ -536,7 +536,7 @@ export default function Hero({ introPhase, darkMode }) {
           initial="logo"
           variants={layer2Variants}
           animate={introPhase}
-          className="text-sm md:text-lg text-slate-700 justify-center dark:text-slate-300 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="text-sm md:text-lg text-slate-700  dark:text-slate-300 max-w-xl mx-auto mb-14 font-black leading-relaxed border-2 border-black bg-white dark:bg-slate-900 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
           All right, let’s do this one more time.
           My name is Dhodduraaj. I’m a full-stack developer.

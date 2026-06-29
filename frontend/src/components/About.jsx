@@ -79,11 +79,12 @@ export default function About() {
               <h3 className="text-2xl md:text-3xl font-black text-black dark:text-white uppercase leading-tight mt-2">
                 "With great power comes great responsibility!"
               </h3>
-              <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
-                Motivated Computer Science and Design student who builds robust architectures and scalable systems.
-                I thrive at the intersection of database relational logic and clean user-focused interactions.
+              <p className="text-sm font-black text-justify text-slate-700 dark:text-slate-300 leading-relaxed">
+                Motivated Computer Science and Design student with hands-on experience in full-stack and backend development
+                using Java, Spring Boot, and the MERN stack. Passionate about building scalable, user-centric applications and eager
+                to apply strong problem-solving skills to real-world software development challenges.
               </p>
-              <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-sm font-black  text-slate-700 dark:text-slate-300 leading-relaxed">
                 Rather than relying on templated designs, I prefer constructing custom mechanical frames, writing  entity mapping tables, and slinging responsive code widgets.
               </p>
             </div>

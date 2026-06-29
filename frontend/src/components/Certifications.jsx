@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, Calendar, X, Eye } from "lucide-react";
 
@@ -49,6 +49,8 @@ const certificationsData = [
 
 export default function Certifications() {
   const [selectedCert, setSelectedCert] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const carouselRef = useRef(null);
 
   // Close modal on escape key
   useEffect(() => {
@@ -60,6 +62,31 @@ export default function Certifications() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cards = container.querySelectorAll("[data-cert-card]");
+    if (!cards.length) return;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+
+    cards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  };
 
   return (
     <section id="certifications" className="py-24 bg-white dark:bg-[#111C35] border-t-4 border-black relative overflow-hidden">
@@ -93,15 +120,20 @@ export default function Certifications() {
           <div className="h-[4px] w-16 bg-[#E63946] border-2 border-black mx-auto mt-5" />
         </div>
 
-        {/* Certifications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Certifications Grid / Mobile Carousel */}
+        <div
+          ref={carouselRef}
+          onScroll={handleScroll}
+          className="flex flex-row overflow-x-auto snap-x snap-mandatory scroll-smooth gap-6 pb-6 px-4 -mx-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible md:snap-none no-scrollbar"
+        >
           {certificationsData.map((cert) => (
             <motion.div
               key={cert.id}
+              data-cert-card
               onClick={() => setSelectedCert(cert)}
               whileHover={{ y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group cursor-pointer relative"
+              className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group cursor-pointer relative w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
             >
               {/* Image Preview Container (Visible on hover with smooth zoom) */}
               <div className="relative h-44 overflow-hidden border-b-4 border-black bg-slate-950/20">
@@ -142,6 +174,34 @@ export default function Certifications() {
                 </div>
               </div>
             </motion.div>
+          ))}
+        </div>
+
+        {/* Dot Indicators (Mobile Only) */}
+        <div className="flex justify-center gap-2 mt-6 md:hidden">
+          {certificationsData.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                if (carouselRef.current) {
+                  const cards = carouselRef.current.querySelectorAll("[data-cert-card]");
+                  const card = cards[index];
+                  if (card) {
+                    card.scrollIntoView({
+                      behavior: "smooth",
+                      block: "nearest",
+                      inline: "center",
+                    });
+                  }
+                }
+              }}
+              className={`w-3 h-3 rounded-full border-2 border-black transition-all cursor-pointer ${
+                activeIndex === index
+                  ? "bg-[#E63946] scale-110 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white dark:bg-slate-700"
+              }`}
+              aria-label={`Go to certificate ${index + 1}`}
+            />
           ))}
         </div>
       </div>
