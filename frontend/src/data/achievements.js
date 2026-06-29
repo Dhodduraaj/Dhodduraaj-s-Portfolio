@@ -9,7 +9,7 @@ export const achievements = [
   {
     id: 2,
     title: "BYTS-India Hackathon Finalist Medal",
-    description: "Ranked 6th nationally in the BYTS-India Hackathon, cracking complex algorithmic nodes and data structures under clock stress.",
+    description: "Ranked 6th nationally in the BYTS-India Hackathon, deploying solutions for real-time problems under clock stress.",
     category: "Hackathon",
     date: "2025"
   },

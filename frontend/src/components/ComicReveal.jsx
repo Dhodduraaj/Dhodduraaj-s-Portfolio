@@ -468,28 +468,32 @@ export default function ComicReveal() {
                         Spider-Man Powers
                       </div>
                       {[
-                        { label: "Phone", value: "8220920776" },
-                        {
-                          label: "Insta",
-                          value: "@dhodduraaj_",
-                          link: "https://instagram.com/dhodduraaj_"
-                        },
-                        { label: "Hobby", value: "Movies, Vibecoding" },
-                        { label: "College", value: "KEC" },
-                        { label: "Alias", value: "Web Developer" }
-                      ].map((item, i) => (
+                        "Adaptability",
+                        "Quick Learner",
+                        "Problem Solver",
+                      ].map((item) => (
                         <div
-                          key={i}
                           className="text-[11px] font-bold text-black border-b border-black/10 last:border-0 py-1 leading-snug"
                         >
-                          {item.link ? (
-                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                              {item.label} : {item.value}
-                            </a>
-                          ) : (
-                            `${item.label} : ${item.value}`
-                          )}
+                          {item}
                         </div>
+                      ))}
+                      <br />
+                      <div className="text-[9px] font-black uppercase tracking-widest text-black/50 mb-2">
+                        Spider-Man Weakness
+                      </div>
+                      {[
+                        "Over Confidence",
+                        "Hard worker",
+                        "Deadline Finisher"
+                      ].map((item) => (
+                        <div
+
+                          className="text-[11px] font-bold text-black border-b border-black/10 last:border-0 py-1 leading-snug"
+                        >
+                          {item}
+                        </div>
+
                       ))}
                     </div>
 
@@ -501,7 +505,13 @@ export default function ComicReveal() {
                     {/* Card footer */}
                     <div className="flex items-center justify-between border-t-3 border-black pt-3">
                       <div className="text-[9px] font-black text-black/50 uppercase tracking-widest">
-                        KEC · 2026 · Full-Stack
+                        KEC · 2026 <br />
+                        <a href="https://instagram.com/dhodduraaj_" target="_blank" rel="noopener noreferrer"
+                          className="hover:underline">
+                          Instagram : @dhodduraaj_
+                        </a>
+                        <br />
+
                       </div>
                       <div className="flex gap-1">
                         {["⭐", "🏆", "🚀"].map((emoji, i) => (

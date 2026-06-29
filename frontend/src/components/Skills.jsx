@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Network, Cpu, Layout, Wrench, Palette } from "lucide-react";
 
@@ -11,6 +11,17 @@ const categories = [
 
 export default function Skills({ skills }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const activeCategory = selectedCategory;
 
@@ -63,8 +74,30 @@ export default function Skills({ skills }) {
           <div className="h-[4px] w-16 bg-[#E63946] border-2 border-black mx-auto mt-5" />
         </div>
 
-        {/* Web Node Interactive Container */}
-        <div className="flex flex-col lg:flex-row gap-12 items-center justify-between">
+        {/* Toggle Button for Mobile */}
+        <div className="flex justify-center mb-8 md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="px-6 py-3.5 comic-btn-red text-center text-xs flex items-center justify-center gap-2 w-48 font-black uppercase tracking-wider"
+          >
+            {isOpen ? "Hide Skills" : "View Skills"}
+          </button>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {(!isMobile || isOpen) && (
+            <motion.div
+              initial={isMobile ? { height: 0, opacity: 0 } : false}
+              animate={{
+                height: isMobile ? "auto" : "auto",
+                opacity: isMobile ? 1 : 1,
+              }}
+              exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              {/* Web Node Interactive Container */}
+              <div className="flex flex-col lg:flex-row gap-12 items-center justify-between">
 
           {/* SVG Web Node Canvas */}
           <div className="relative w-full max-w-[500px] h-[400px] border-4 border-black rounded-3xl bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden flex items-center justify-center p-4">
@@ -232,7 +265,10 @@ export default function Skills({ skills }) {
             </motion.div>
           </div>
 
-        </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

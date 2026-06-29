@@ -50,6 +50,7 @@ const certificationsData = [
 export default function Certifications() {
   const [selectedCert, setSelectedCert] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
   const carouselRef = useRef(null);
 
   // Close modal on escape key
@@ -63,9 +64,19 @@ export default function Certifications() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSwipeHint(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleScroll = () => {
     if (!carouselRef.current) return;
     const container = carouselRef.current;
+    if (container.scrollLeft > 20) {
+      setShowSwipeHint(false);
+    }
     const cards = container.querySelectorAll("[data-cert-card]");
     if (!cards.length) return;
 
@@ -178,31 +189,46 @@ export default function Certifications() {
         </div>
 
         {/* Dot Indicators (Mobile Only) */}
-        <div className="flex justify-center gap-2 mt-6 md:hidden">
-          {certificationsData.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                if (carouselRef.current) {
-                  const cards = carouselRef.current.querySelectorAll("[data-cert-card]");
-                  const card = cards[index];
-                  if (card) {
-                    card.scrollIntoView({
-                      behavior: "smooth",
-                      block: "nearest",
-                      inline: "center",
-                    });
+        <div className="relative flex flex-col items-center mt-6 md:hidden">
+          <div className="flex justify-center gap-2">
+            {certificationsData.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (carouselRef.current) {
+                    const cards = carouselRef.current.querySelectorAll("[data-cert-card]");
+                    const card = cards[index];
+                    if (card) {
+                      card.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "center",
+                      });
+                    }
                   }
-                }
-              }}
-              className={`w-3 h-3 rounded-full border-2 border-black transition-all cursor-pointer ${
-                activeIndex === index
-                  ? "bg-[#E63946] scale-110 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white dark:bg-slate-700"
-              }`}
-              aria-label={`Go to certificate ${index + 1}`}
-            />
-          ))}
+                }}
+                className={`w-3 h-3 rounded-full border-2 border-black transition-all cursor-pointer ${
+                  activeIndex === index
+                    ? "bg-[#E63946] scale-110 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                    : "bg-white dark:bg-slate-700"
+                }`}
+                aria-label={`Go to certificate ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <AnimatePresence>
+            {showSwipeHint && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute -top-10 bg-yellow-300 text-black border-2 border-black px-2.5 py-1 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] animate-bounce z-30"
+              >
+                SWIPE ➡️
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

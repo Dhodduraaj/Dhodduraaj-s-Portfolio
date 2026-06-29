@@ -41,7 +41,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
       name: "LeetCode",
       url: "https://leetcode.com/u/Dhodduraaj_/",
       username: "Dhodduraaj_",
-      stats: leetcodeSolved ? `${leetcodeSolved} Solved` : "300+ Solved Nodes",
+      stats: leetcodeSolved ? `${leetcodeSolved} Solved` : "300+ Solved Problems",
       desc: "Solving DSA nodes in Java.Webbing together arrays and strings with efficient logics.",
       icon: Code2,
       color: "border-amber-500 hover:shadow-[6px_6px_0px_0px_#D97706] text-amber-400 bg-[#0B1329]",

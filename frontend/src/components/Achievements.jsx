@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Award, Scroll, Calendar } from "lucide-react";
 
 const icons = {
@@ -26,6 +26,45 @@ const pins = [
 ];
 
 export default function Achievements({ achievements }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSwipeHint(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    if (container.scrollLeft > 20) {
+      setShowSwipeHint(false);
+    }
+    const cards = container.querySelectorAll("[data-achievement-card]");
+    if (!cards.length) return;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+
+    cards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  };
+
   return (
     <section id="achievements" className="py-24 bg-white dark:bg-[#0B1329] border-t-4 border-black relative overflow-hidden">
       {/* Background illustrated pattern */}
@@ -79,7 +118,11 @@ export default function Achievements({ achievements }) {
             📌 TROPHY BULLETIN BOARD
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+          <div
+            ref={carouselRef}
+            onScroll={handleScroll}
+            className="flex flex-row overflow-x-auto snap-x snap-mandatory scroll-smooth gap-6 pb-6 px-4 -mx-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible md:snap-none no-scrollbar relative z-10"
+          >
             {achievements.length > 0 ? (
               achievements.map((item, idx) => {
                 const Icon = icons[item.category] || Award;
@@ -89,12 +132,13 @@ export default function Achievements({ achievements }) {
 
                 return (
                   <motion.div
+                    data-achievement-card
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ type: "spring", stiffness: 100, damping: 15, delay: idx * 0.08 }}
                     key={item.id}
-                    className={`relative p-6 bg-[#FFFFF0] text-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.85)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ${rot} pb-10 flex flex-col justify-between`}
+                    className={`relative p-6 bg-[#FFFFF0] text-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.85)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ${rot} pb-10 flex flex-col justify-between w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none`}
                     style={{ minHeight: "220px" }}
                   >
                     {/* Rendered SVG Push-Pin (No Gradients) */}
@@ -145,7 +189,7 @@ export default function Achievements({ achievements }) {
               Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="relative p-6 bg-[#FFFFF0] border-4 border-black animate-pulse h-48 flex flex-col justify-between"
+                  className="relative p-6 bg-[#FFFFF0] border-4 border-black animate-pulse h-48 flex flex-col justify-between w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
                 >
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-300 border-2 border-black rounded-full" />
                   <div className="h-4 w-1/3 bg-slate-200" />
@@ -155,6 +199,53 @@ export default function Achievements({ achievements }) {
               ))
             )}
           </div>
+
+          {/* Dot Indicators & Swipe Hint (Mobile Only) */}
+          {achievements.length > 0 && (
+            <div className="relative flex flex-col items-center mt-6 md:hidden z-20">
+              {/* Dot Indicators */}
+              <div className="flex justify-center gap-2">
+                {achievements.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      if (carouselRef.current) {
+                        const cards = carouselRef.current.querySelectorAll("[data-achievement-card]");
+                        const card = cards[index];
+                        if (card) {
+                          card.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest",
+                            inline: "center",
+                          });
+                        }
+                      }
+                    }}
+                    className={`w-3 h-3 rounded-full border-2 border-black transition-all cursor-pointer ${
+                      activeIndex === index
+                        ? "bg-[#E63946] scale-110 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                        : "bg-white dark:bg-slate-700"
+                    }`}
+                    aria-label={`Go to win ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Swipe Hint */}
+              <AnimatePresence>
+                {showSwipeHint && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute -top-10 bg-yellow-300 text-black border-2 border-black px-2.5 py-1 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] animate-bounce z-30"
+                  >
+                    SWIPE ➡️
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </div>
     </section>

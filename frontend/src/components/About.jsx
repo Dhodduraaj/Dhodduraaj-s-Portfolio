@@ -126,7 +126,7 @@ export default function About() {
                 {/* CGPA Star/Shield Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 mt-4 border-3 border-black bg-[#E63946] text-white text-xs font-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transform -rotate-1">
                   <Award size={16} strokeWidth={2.5} />
-                  CGPA: 9.11 / 10.0
+                  CGPA: 9.10 / 10.0
                 </div>
               </div>
 

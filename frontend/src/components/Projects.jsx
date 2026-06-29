@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, CheckSquare, Folder, X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -43,6 +43,9 @@ const dossierStamps = {
 export default function Projects({ projects }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const carouselRef = useRef(null);
 
   // Close modal on escape key
   useEffect(() => {
@@ -58,6 +61,41 @@ export default function Projects({ projects }) {
   useEffect(() => {
     setActiveSlide(0);
   }, [selectedProject]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSwipeHint(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    if (container.scrollLeft > 20) {
+      setShowSwipeHint(false);
+    }
+    const cards = container.querySelectorAll("[data-project-card]");
+    if (!cards.length) return;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+
+    cards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  };
 
   const containerVariants = {
     hidden: {},
@@ -112,11 +150,13 @@ export default function Projects({ projects }) {
 
         {/* Projects Grid */}
         <motion.div
+          ref={carouselRef}
+          onScroll={handleScroll}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="flex flex-row overflow-x-auto snap-x snap-mandatory scroll-smooth gap-6 pb-6 px-4 -mx-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible md:snap-none no-scrollbar"
         >
           {projects.length > 0 ? (
             projects.map((project) => {
@@ -124,11 +164,12 @@ export default function Projects({ projects }) {
 
               return (
                 <motion.div
+                  data-project-card
                   variants={cardVariants}
                   whileHover={{ y: -8, scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 12 } }}
                   key={project.id}
                   onClick={() => setSelectedProject(project)}
-                  className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group relative transition-all cursor-pointer"
+                  className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group relative transition-all cursor-pointer w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
                 >
                   {/* Mock Paperclip SVG */}
                   <div className="absolute top-4 left-6 z-25 pointer-events-none transform -rotate-12">
@@ -188,7 +229,7 @@ export default function Projects({ projects }) {
             Array.from({ length: 3 }).map((_, i) => (
               <div
                 key={i}
-                className="flex flex-col border-4 border-black animate-pulse h-[300px] overflow-hidden"
+                className="flex flex-col border-4 border-black animate-pulse h-[300px] overflow-hidden w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
               >
                 <div className="h-6 w-32 bg-slate-300 border-b-4 border-r-4 border-black" />
                 <div className="h-32 bg-slate-200 border-b-4 border-black" />
@@ -199,6 +240,53 @@ export default function Projects({ projects }) {
             ))
           )}
         </motion.div>
+
+        {/* Dot Indicators & Swipe Hint (Mobile Only) */}
+        {projects.length > 0 && (
+          <div className="relative flex flex-col items-center mt-6 md:hidden">
+            {/* Dot Indicators */}
+            <div className="flex justify-center gap-2">
+              {projects.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (carouselRef.current) {
+                      const cards = carouselRef.current.querySelectorAll("[data-project-card]");
+                      const card = cards[index];
+                      if (card) {
+                        card.scrollIntoView({
+                          behavior: "smooth",
+                          block: "nearest",
+                          inline: "center",
+                        });
+                      }
+                    }
+                  }}
+                  className={`w-3 h-3 rounded-full border-2 border-black transition-all cursor-pointer ${
+                    activeIndex === index
+                      ? "bg-[#E63946] scale-110 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                      : "bg-white dark:bg-slate-700"
+                  }`}
+                  aria-label={`Go to project ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Swipe Hint */}
+            <AnimatePresence>
+              {showSwipeHint && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute -top-10 bg-yellow-300 text-black border-2 border-black px-2.5 py-1 text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] animate-bounce z-30"
+                >
+                  SWIPE ➡️
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
       {/* Dossier Detailed Modal */}
