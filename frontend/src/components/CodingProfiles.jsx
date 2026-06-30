@@ -29,7 +29,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
           setLeetcodeSolved(res.data.totalSolved);
         }
       } catch (err) {
-        console.warn("Leetcode stats fetch blocked or offline. Falling back to profile link.");
+        console.warn("Leetcode stats fetch blocked or offline. Falling back to profile link.", err.message);
       }
     };
 

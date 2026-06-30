@@ -84,7 +84,7 @@ export default function About() {
                 using Java, Spring Boot, and the MERN stack. Passionate about building scalable, user-centric applications and eager
                 to apply strong problem-solving skills to real-world software development challenges.
               </p>
-              <p className="text-sm font-black  text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-sm font-black text-slate-700 dark:text-slate-300 leading-relaxed pb-8 sm:pb-0">
                 Rather than relying on templated designs, I prefer constructing custom mechanical frames, writing  entity mapping tables, and slinging responsive code widgets.
               </p>
             </div>

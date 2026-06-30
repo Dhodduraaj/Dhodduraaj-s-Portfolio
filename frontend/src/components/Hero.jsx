@@ -495,7 +495,7 @@ export default function Hero({ introPhase, darkMode }) {
         </motion.div>
 
         {/* Main Tilted Heading (Mixed Coordination) */}
-        <h1 className="text-5xl md:text-8xl font-black tracking-tight text-slate-900 dark:text-white mb-6 uppercase leading-none relative z-[49]">
+        <h1 className="text-3xl sm:text-5xl md:text-8xl font-black tracking-tight text-slate-900 dark:text-white mb-6 uppercase leading-none relative z-[49]">
           <motion.span
             initial="logo"
             variants={{

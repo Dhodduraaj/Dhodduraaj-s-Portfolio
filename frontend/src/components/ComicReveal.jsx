@@ -125,7 +125,6 @@ function HalftoneStarburst({ className = "" }) {
 // ─── Main component ──────────────────────────────────────────────────────────
 export default function ComicReveal() {
   const [revealed, setRevealed] = useState(false);
-  const [panelStage, setPanelStage] = useState(0); // 0 = closed, 1 = opening, 2 = open
   const overlayRef = useRef(null);
 
   // Password & error state
@@ -142,19 +141,13 @@ export default function ComicReveal() {
 
   const handleReveal = () => {
     setRevealed(true);
-    setPanelStage(1);
-    setTimeout(() => setPanelStage(2), 400);
     // Prevent body scroll
     document.body.style.overflow = "hidden";
   };
 
   const handleClose = () => {
-    setPanelStage(1);
-    setTimeout(() => {
-      setPanelStage(0);
-      setRevealed(false);
-      document.body.style.overflow = "";
-    }, 350);
+    setRevealed(false);
+    document.body.style.overflow = "";
   };
 
   const handleSubmit = (e) => {
@@ -473,6 +466,7 @@ export default function ComicReveal() {
                         "Problem Solver",
                       ].map((item) => (
                         <div
+                          key={item}
                           className="text-[11px] font-bold text-black border-b border-black/10 last:border-0 py-1 leading-snug"
                         >
                           {item}
@@ -488,12 +482,11 @@ export default function ComicReveal() {
                         "Deadline Finisher"
                       ].map((item) => (
                         <div
-
+                          key={item}
                           className="text-[11px] font-bold text-black border-b border-black/10 last:border-0 py-1 leading-snug"
                         >
                           {item}
                         </div>
-
                       ))}
                     </div>
 

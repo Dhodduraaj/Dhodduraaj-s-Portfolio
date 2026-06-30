@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, MapPin, Send, AlertCircle, X } from "lucide-react";
+import { Mail, Phone, MapPin, Send, AlertCircle } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
 const GithubIcon = (props) => (

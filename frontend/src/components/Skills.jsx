@@ -231,7 +231,7 @@ export default function Skills({ skills }) {
               className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-5"
             >
               <AnimatePresence mode="popLayout">
-                {filteredSkills.length > 0 ? (
+                 {filteredSkills.length > 0 ? (
                   filteredSkills.map((skill) => (
                     <motion.div
                       layout
@@ -240,7 +240,7 @@ export default function Skills({ skills }) {
                       exit={{ opacity: 0, scale: 0.85, y: 10 }}
                       transition={{ type: "spring", stiffness: 320, damping: 20 }}
                       key={skill.id}
-                      className="p-5 comic-card dark:comic-card-dark flex items-center justify-between hover:border-[#E63946] hover:-translate-y-0.5 transition-all select-none"
+                      className="p-4 md:p-5 comic-card dark:comic-card-dark flex flex-col gap-2 items-start sm:flex-row sm:items-center sm:justify-between hover:border-[#E63946] hover:-translate-y-0.5 transition-all select-none"
                     >
                       <h4 className="font-black text-black dark:text-white text-xs md:text-sm uppercase tracking-wider">
                         {skill.name}
@@ -254,7 +254,7 @@ export default function Skills({ skills }) {
                   Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="p-5 comic-card dark:comic-card-dark animate-pulse h-16 flex items-center justify-between"
+                      className="p-4 md:p-5 comic-card dark:comic-card-dark animate-pulse h-20 md:h-16 flex flex-col gap-2 items-start sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
                       <div className="h-4 w-12 bg-slate-100 dark:bg-slate-800 border-2 border-black" />

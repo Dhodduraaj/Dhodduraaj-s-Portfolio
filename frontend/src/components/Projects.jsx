@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, CheckSquare, Folder, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckSquare, Folder, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const projectScreenshots = {
   "dog-ecommerce": ["/dog-ecommerce.png", "/dog-ecommerce-2.png", "/dog-ecommerce-3.png"],
@@ -46,6 +46,38 @@ export default function Projects({ projects }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
   const carouselRef = useRef(null);
+
+  // Gesture detection to differentiate swipe from click
+  const touchStartPos = useRef({ x: 0, y: 0 });
+  const isTouchDrag = useRef(false);
+
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+    isTouchDrag.current = false;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!touchStartPos.current) return;
+    const touch = e.touches[0];
+    const dx = Math.abs(touch.clientX - touchStartPos.current.x);
+    const dy = Math.abs(touch.clientY - touchStartPos.current.y);
+    if (dx > 8 || dy > 8) {
+      isTouchDrag.current = true;
+    }
+  };
+
+  // Lock body scrolling when modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedProject]);
 
   // Close modal on escape key
   useEffect(() => {
@@ -168,7 +200,12 @@ export default function Projects({ projects }) {
                   variants={cardVariants}
                   whileHover={{ y: -8, scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 12 } }}
                   key={project.id}
-                  onClick={() => setSelectedProject(project)}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onClick={() => {
+                    if (isTouchDrag.current) return;
+                    setSelectedProject(project);
+                  }}
                   className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group relative transition-all cursor-pointer w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
                 >
                   {/* Mock Paperclip SVG */}
@@ -341,10 +378,10 @@ export default function Projects({ projects }) {
                       const slides = projectScreenshots[selectedProject.imageKey];
                       setActiveSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
                     }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
                     aria-label="Previous screenshot"
                   >
-                    <ChevronLeft size={16} strokeWidth={3} className="pointer-events-none" />
+                    <ChevronLeft size={18} strokeWidth={3} className="pointer-events-none" />
                   </button>
                   <button
                     onClick={(e) => {
@@ -352,10 +389,10 @@ export default function Projects({ projects }) {
                       const slides = projectScreenshots[selectedProject.imageKey];
                       setActiveSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
                     }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 border-3 border-black bg-[#E63946] hover:bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-3 border-black bg-[#E63946] hover:bg-red-650 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer z-30"
                     aria-label="Next screenshot"
                   >
-                    <ChevronRight size={16} strokeWidth={3} className="pointer-events-none" />
+                    <ChevronRight size={18} strokeWidth={3} className="pointer-events-none" />
                   </button>
 
                   {/* Indicator Dots */}

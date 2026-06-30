@@ -1,10 +1,18 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 
+const spideyQuotes = [
+  "Spring Boot is my web-shooter! 🕸️",
+  "Bugs? Caught in mid-air! 🕷️",
+  "Query load? I swing past it! 🚀",
+  "Need a backend hero? PING ME!",
+  "No radioactive servers were harmed. 🧪",
+  "Deploying at terminal velocity! ⚡",
+];
+
 export default function WebHero({ activeSection, isSwinging }) {
   const [pose, setPose] = useState("idle"); // idle, swinging, pointing
   const [customQuote, setCustomQuote] = useState("");
   const [isSpinning, setIsSpinning] = useState(false);
-  const [visible, setVisible] = useState(true);
 
   // ─── Physics simulation state (for React renders) ───────────────────────
   const [theta, setTheta] = useState(-25 * Math.PI / 180);
@@ -60,15 +68,6 @@ export default function WebHero({ activeSection, isSwinging }) {
       clearTimeout(scrollTimer);
     };
   }, []);
-
-  const spideyQuotes = [
-    "Spring Boot is my web-shooter! 🕸️",
-    "Bugs? Caught in mid-air! 🕷️",
-    "Query load? I swing past it! 🚀",
-    "Need a backend hero? PING ME!",
-    "No radioactive servers were harmed. 🧪",
-    "Deploying at terminal velocity! ⚡",
-  ];
 
   const handleSpideyClick = useCallback((e) => {
     if (isSpinning) return;

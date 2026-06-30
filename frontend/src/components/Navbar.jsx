@@ -68,7 +68,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, introPhas
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-xl font-black tracking-tighter cursor-pointer flex items-center gap-1 uppercase"
+            className="text-lg sm:text-xl font-black tracking-tighter cursor-pointer flex items-center gap-1 uppercase"
             onClick={() => scrollTo("home")}
           >
             <span className="text-[#E63946]">

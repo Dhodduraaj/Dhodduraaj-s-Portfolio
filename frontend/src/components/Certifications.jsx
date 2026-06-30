@@ -53,6 +53,38 @@ export default function Certifications() {
   const [showSwipeHint, setShowSwipeHint] = useState(true);
   const carouselRef = useRef(null);
 
+  // Gesture detection to differentiate swipe from click
+  const touchStartPos = useRef({ x: 0, y: 0 });
+  const isTouchDrag = useRef(false);
+
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+    isTouchDrag.current = false;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!touchStartPos.current) return;
+    const touch = e.touches[0];
+    const dx = Math.abs(touch.clientX - touchStartPos.current.x);
+    const dy = Math.abs(touch.clientY - touchStartPos.current.y);
+    if (dx > 8 || dy > 8) {
+      isTouchDrag.current = true;
+    }
+  };
+
+  // Lock body scrolling when modal is open
+  useEffect(() => {
+    if (selectedCert) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedCert]);
+
   // Close modal on escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -141,7 +173,12 @@ export default function Certifications() {
             <motion.div
               key={cert.id}
               data-cert-card
-              onClick={() => setSelectedCert(cert)}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onClick={() => {
+                if (isTouchDrag.current) return;
+                setSelectedCert(cert);
+              }}
               whileHover={{ y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
               className="flex flex-col border-4 border-black bg-[#FFFBF0] dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none overflow-hidden group cursor-pointer relative w-[82vw] sm:w-[75vw] md:w-auto shrink-0 snap-center md:shrink md:snap-align-none"
