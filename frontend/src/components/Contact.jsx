@@ -19,14 +19,10 @@ const LinkedinIcon = (props) => (
 );
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", title: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [errorMsg, setErrorMsg] = useState("");
   const [copiedPhone, setCopiedPhone] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleEmailClick = (e) => {
     e.preventDefault();
@@ -53,11 +49,12 @@ export default function Contact() {
   };
 
   const validateForm = () => {
-    if (!formData.name.trim()) return "Caller name is required";
-    if (!formData.email.trim()) return "Beacon email is required";
+    if (!formData.name.trim()) return "💥 WHOOSH! Caller name is required!";
+    if (!formData.email.trim()) return "📧 BAM! Beacon email is required!";
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) return "Invalid email address";
-    if (!formData.message.trim()) return "Signal transmission message is empty";
+    if (!emailRegex.test(formData.email)) return "🔍 OOPS! This beacon email looks invalid!";
+    if (!formData.title.trim()) return "📝 POW! Subject is required for the signal!";
+    if (!formData.message.trim()) return "💬 ZAP! Transmission message cannot be empty!";
     return null;
   };
 
@@ -80,21 +77,22 @@ export default function Contact() {
         console.warn("EmailJS credentials missing. Running simulation mode.");
         await new Promise((resolve) => setTimeout(resolve, 1500));
         setStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setFormData({ name: "", email: "", title: "", message: "" });
         return;
       }
 
       const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
+        name: formData.name,
+        email: formData.email,
+        title: formData.title,
         message: formData.message,
+        reply_to: formData.email,
+        time: new Date().toLocaleString()
       };
-
       const result = await emailjs.send(serviceId, templateId, templateParams, publicKey);
       if (result.status === 200) {
         setStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setFormData({ name: "", email: "", title: "", message: "" });
       } else {
         throw new Error("Unexpected EmailJS response code");
       }
@@ -288,7 +286,12 @@ export default function Contact() {
                       type="text"
                       name="name"
                       value={formData.name}
-                      onChange={handleChange}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          name: e.target.value,
+                        })
+                      }
                       disabled={status === "loading"}
                       className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
                       placeholder="Your Name"
@@ -300,7 +303,12 @@ export default function Contact() {
                       type="email"
                       name="email"
                       value={formData.email}
-                      onChange={handleChange}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
                       disabled={status === "loading"}
                       className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
                       placeholder="Your Email"
@@ -312,9 +320,14 @@ export default function Contact() {
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Signal Subject</label>
                   <input
                     type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
+                    name="title"
+                    value={formData.title}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        title: e.target.value,
+                      })
+                    }
                     disabled={status === "loading"}
                     className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors rounded-none"
                     placeholder="Interview / Web Project / Collaboration / Feedback"
@@ -327,7 +340,12 @@ export default function Contact() {
                     name="message"
                     rows={4}
                     value={formData.message}
-                    onChange={handleChange}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        message: e.target.value,
+                      })
+                    }
                     disabled={status === "loading"}
                     className="w-full px-4 py-3 border-3 border-black bg-white text-black text-sm font-semibold focus:outline-none focus:bg-slate-50 transition-colors resize-none rounded-none"
                     placeholder="Type your Message Here..."
