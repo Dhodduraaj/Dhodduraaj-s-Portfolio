@@ -151,6 +151,7 @@ export default function Contact() {
             <div className="space-y-5">
               <div
                 onClick={handleEmailClick}
+                data-spider-sense="contact"
                 className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform cursor-pointer group"
               >
                 <div className="p-3 border-2 border-black bg-[#E63946] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-105">
@@ -166,6 +167,7 @@ export default function Contact() {
 
               <div
                 onClick={handlePhoneClick}
+                data-spider-sense="contact"
                 className="flex items-center gap-4 p-5 comic-card dark:comic-card-dark hover:-translate-y-0.5 transition-transform cursor-pointer group"
               >
                 <div className="p-3 border-2 border-black bg-[#1D3557] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-105">
@@ -198,6 +200,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/dhodduraaj"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-spider-sense="connection"
                 className="p-4 border-3 border-black bg-white hover:bg-slate-50 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer"
                 title="LinkedIn Network"
               >
@@ -207,6 +210,7 @@ export default function Contact() {
                 href="https://github.com/Dhodduraaj"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-spider-sense="connection"
                 className="p-4 border-3 border-black bg-white hover:bg-slate-50 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer"
                 title="GitHub Codes"
               >
@@ -370,6 +374,7 @@ export default function Contact() {
                 {/* Submit Button */}
                 <button
                   type="submit"
+                  data-spider-sense="contact"
                   disabled={status === "loading"}
                   className="w-full py-4 comic-btn-red text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >

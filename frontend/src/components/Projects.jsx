@@ -197,6 +197,7 @@ export default function Projects({ projects }) {
               return (
                 <motion.div
                   data-project-card
+                  data-spider-sense="project"
                   variants={cardVariants}
                   whileHover={{ y: -8, scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 12 } }}
                   key={project.id}
@@ -457,6 +458,7 @@ export default function Projects({ projects }) {
                   href={githubRepoMap[selectedProject.imageKey]}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-spider-sense="connection"
                   className="px-6 py-3.5 comic-btn-red text-center text-xs flex items-center justify-center gap-2"
                 >
                   <Github size={16} />
@@ -467,6 +469,7 @@ export default function Projects({ projects }) {
                     href={liveLink[selectedProject.imageKey]}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-spider-sense="connection"
                     className="px-6 py-3.5 comic-btn-blue text-center text-xs flex items-center justify-center gap-2"
                   >
                     <LiveURL size={16} />

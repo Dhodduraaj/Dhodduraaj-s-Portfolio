@@ -390,7 +390,7 @@ export default function ComicReveal() {
                       <div className="relative flex-shrink-0">
                         <div className="w-28 h-36 border-4 border-black overflow-hidden bg-[#1D3557] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                           <img
-                            src="/my-photo.jpg"
+                            src="/Dhodduraaj_Photo.png"
                             alt="Dhodduraaj S P"
                             className="w-full h-full object-cover object-top"
                             onError={(e) => {
@@ -472,7 +472,6 @@ export default function ComicReveal() {
                           {item}
                         </div>
                       ))}
-                      <br />
                       <div className="text-[9px] font-black uppercase tracking-widest text-black/50 mb-2">
                         Spider-Man Weakness
                       </div>

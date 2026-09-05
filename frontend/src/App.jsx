@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import ComicReveal from "./components/ComicReveal";
 import WebHero from "./components/WebHero";
 import SpiderOverlay from "./components/SpiderOverlay";
+import SpiderSenseCursor from "./components/SpiderSenseCursor";
 import axios from "axios";
 import { skills } from "./data/skills";
 import { projects } from "./data/projects";
@@ -302,6 +303,7 @@ function App() {
 
   return (
     <div className={`min-h-screen text-slate-900 dark:text-slate-100 bg-[#FFFBF0] dark:bg-[#0B1329] transition-colors duration-300 relative ${shakeActive ? "camera-shake-active" : ""}`}>
+      <SpiderSenseCursor />
       {introPhase !== "complete" && <SpiderOverlay introPhase={introPhase} onSkip={handleSkipIntro} darkMode={darkMode} />}
       <Navbar darkMode={darkMode} setDarkMode={toggleDarkMode} activeSection={activeSection} introPhase={introPhase} />
       <Hero introPhase={introPhase} darkMode={darkMode} />

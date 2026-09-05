@@ -205,3 +205,83 @@
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
+
+/* Desktop Native Cursor Replacement with Spider-Sense */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"],
+  .cursor-pointer,
+  [data-project-card],
+  [data-cert-card] {
+    cursor: none !important;
+  }
+
+  /* Form inputs maintain native text cursor for comfortable typing */
+  input,
+  textarea,
+  [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
+/* Spider-Sense Cursor Keyframes & Classes */
+@keyframes spider-sense-radar {
+  0% {
+    r: 11px;
+    opacity: 0.95;
+    stroke-width: 2px;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    r: 20px;
+    opacity: 0;
+    stroke-width: 0.5px;
+  }
+}
+
+.spider-sense-radar-pulse {
+  animation: spider-sense-radar 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 20px 20px;
+}
+
+/* Comic Click Impact (THWIP!) */
+@keyframes spider-sense-click-ring {
+  0% {
+    r: 7px;
+    opacity: 1;
+    stroke-width: 2.5px;
+  }
+  100% {
+    r: 18px;
+    opacity: 0;
+    stroke-width: 0.5px;
+  }
+}
+
+.spider-sense-click-effect {
+  animation: spider-sense-click-ring 0.22s cubic-bezier(0, 0, 0.2, 1) forwards;
+  transform-origin: 20px 20px;
+}
+
+@keyframes spider-sense-spark {
+  0% {
+    transform: scale(0.6) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.spider-sense-spark-effect {
+  animation: spider-sense-spark 0.22s ease-out forwards;
+  transform-origin: 20px 20px;
+}
+
+

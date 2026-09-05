@@ -92,6 +92,7 @@ function InteractiveName({ introPhase }) {
       onMouseLeave={() => {
         if (introPhase === "reveal" || introPhase === "complete") setIsHovered(false);
       }}
+      data-spider-sense="interactive"
       className="relative text-white px-4 py-2.5 border-4 inline-flex items-center cursor-pointer select-none overflow-hidden relative z-[49]"
     >
       {/* Marvel Logo Red/White Diagonal Swipe Overlay on Hover */}
@@ -309,6 +310,7 @@ export default function Hero({ introPhase, darkMode }) {
 
         {/* Web Hanging Camera */}
         <motion.div
+          data-spider-sense="connection"
           animate={{ rotate: [-3, 3, -3] }}
           transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
           style={{ transformOrigin: "50% 0px" }}
@@ -346,6 +348,7 @@ export default function Hero({ introPhase, darkMode }) {
         {/* Floating Newspaper (Daily Bugle) */}
         <motion.a
           href="#projects"
+          data-spider-sense="project"
           onClick={(e) => {
             e.preventDefault();
             const el = document.getElementById("projects");
@@ -554,6 +557,7 @@ export default function Hero({ introPhase, darkMode }) {
         >
           <button
             onClick={scrollToProjects}
+            data-spider-sense="project"
             className="w-full sm:w-auto px-10 py-5 comic-btn-red text-lg flex items-center justify-center gap-3"
           >
             INSPECT MISSIONS
@@ -563,6 +567,7 @@ export default function Hero({ introPhase, darkMode }) {
           <motion.a
             href="/Dhodduraaj_Resume.pdf"
             download="Dhodduraaj_Resume.pdf"
+            data-spider-sense="connection"
             whileHover={{
               scale: 1.05,
               backgroundColor: "#E63946",

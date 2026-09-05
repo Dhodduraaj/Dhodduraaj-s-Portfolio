@@ -112,6 +112,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
                 href={profile.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-spider-sense="connection"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
