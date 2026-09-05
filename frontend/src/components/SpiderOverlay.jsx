@@ -81,17 +81,88 @@ export default function SpiderOverlay({ introPhase, onSkip, darkMode }) {
               animate={introPhase}
             />
           </mask>
+
+          {/* Spider-Sense central beacon glow */}
+          <radialGradient id="spider-beacon-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#E63946" stopOpacity={darkMode ? "0.4" : "0.28"} />
+            <stop offset="45%" stopColor="#E63946" stopOpacity={darkMode ? "0.15" : "0.08"} />
+            <stop offset="100%" stopColor="#E63946" stopOpacity="0" />
+          </radialGradient>
         </defs>
 
-        {/* Backdrop rectangle utilizing the radial mask cutout */}
-        <rect
-          x="-200"
-          y="-200"
-          width="1400"
-          height="1400"
-          fill={colors.bg}
-          mask="url(#radial-reveal-mask)"
-        />
+        {/* Group masked by radial-reveal-mask so all background visuals smoothly peel open */}
+        <g mask="url(#radial-reveal-mask)">
+          {/* Backdrop rectangle */}
+          <rect
+            x="-200"
+            y="-200"
+            width="1400"
+            height="1400"
+            fill={colors.bg}
+          />
+
+          {/* Concentric Spider-Sense Beacon Waves moving outward from the spinning center icon */}
+          <motion.g
+            animate={{ opacity: isLogoVisible ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            {/* Ambient beacon center glow */}
+            <circle cx="500" cy="500" r="380" fill="url(#spider-beacon-glow)" />
+
+            {/* Static Spider-Sense radial web lines (8 spokes) */}
+            <g stroke={darkMode ? "rgba(230, 57, 70, 0.16)" : "rgba(230, 57, 70, 0.2)"} strokeWidth="1.2">
+              <line x1="500" y1="500" x2="500" y2="-100" />
+              <line x1="500" y1="500" x2="500" y2="1100" />
+              <line x1="500" y1="500" x2="-100" y2="500" />
+              <line x1="500" y1="500" x2="1100" y2="500" />
+              <line x1="500" y1="500" x2="-80" y2="-80" />
+              <line x1="500" y1="500" x2="1080" y2="-80" />
+              <line x1="500" y1="500" x2="-80" y2="1080" />
+              <line x1="500" y1="500" x2="1080" y2="1080" />
+            </g>
+
+            {/* Subtle guideline concentric rings */}
+            {[200, 350, 500, 650, 800].map((radius) => (
+              <circle
+                key={`guide-${radius}`}
+                cx="500"
+                cy="500"
+                r={radius}
+                fill="none"
+                stroke={darkMode ? "rgba(230, 57, 70, 0.12)" : "rgba(230, 57, 70, 0.15)"}
+                strokeWidth="1"
+                strokeDasharray="4 6"
+              />
+            ))}
+
+            {/* Dynamic series of concentric circles moving out from the spinning icon */}
+            {[0, 1, 2, 3, 4, 5].map((idx) => {
+              const isAccent = idx % 2 === 1;
+              return (
+                <motion.circle
+                  key={`pulse-wave-${idx}`}
+                  cx="500"
+                  cy="500"
+                  fill="none"
+                  stroke={isAccent ? (darkMode ? "#FFD166" : "#E63946") : "#E63946"}
+                  strokeWidth={isAccent ? 2 : 3}
+                  strokeDasharray={isAccent ? "10 8" : undefined}
+                  initial={{ r: 100, opacity: 0 }}
+                  animate={{
+                    r: [100, 280, 540, 840],
+                    opacity: [0, 0.85, 0.45, 0],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 3.4,
+                    delay: idx * 0.56,
+                    ease: "easeOut",
+                  }}
+                />
+              );
+            })}
+          </motion.g>
+        </g>
       </svg>
 
       {/* Skip button on top right */}

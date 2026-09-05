@@ -6,7 +6,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
  * Replaces the default browser cursor on desktop with a single, custom Spider-Sense pointer.
  * - 1:1 zero-lag tracking directly aligned with actual hardware mouse position.
  * - Center click hotspot dead-centered at pointer coordinates.
- * - Normal state: clearly visible to the naked eye (~9px comic dot with Spider-Man red, black outline & white shine).
+ * - Normal state: matches default cursor size (~21px comic Spidey mask with angled eyes, web lines & black outline).
  * - Interactive state: transforms smoothly into Spider-Sense radar ring + 8 directional comic lines (╲ │ ╱ ── ◉ ── ╱ │ ╲).
  * - Distinct sensory states: Connection (external/socials), Project (web pulse), Contact (signal beacon).
  * - Click feedback: micro comic impact burst (THWIP!) on click.
@@ -165,7 +165,7 @@ export default function SpiderSenseCursor() {
     const handleScroll = () => {
       if (isVisible.current && cursorRef.current) {
         const rect = cursorRef.current.getBoundingClientRect();
-        const el = document.elementFromPoint(rect.left + 20, rect.top + 20);
+        const el = document.elementFromPoint(rect.left + 24, rect.top + 24);
         if (el) updateTarget(el);
       }
     };
@@ -223,18 +223,18 @@ export default function SpiderSenseCursor() {
     >
       {/* 
         Center Anchor: 
-        Left: -20px, Top: -20px aligns SVG's center (20, 20) directly with (0, 0)
-        This guarantees the click hotspot is 100% mathematically centered on the cursor dot!
+        Left: -24px, Top: -24px aligns SVG's center (24, 24) directly with pointer (0, 0).
+        This guarantees the click hotspot is 100% mathematically centered on the Spidey cursor!
       */}
-      <div className="relative -top-5 -left-5 w-10 h-10 flex items-center justify-center pointer-events-none">
+      <div className="relative -top-6 -left-6 w-12 h-12 flex items-center justify-center pointer-events-none">
         <svg
-          viewBox="0 0 40 40"
-          className="w-10 h-10 overflow-visible"
+          viewBox="0 0 48 48"
+          className="w-12 h-12 overflow-visible"
         >
           <defs>
             {/* Crisp comic drop shadow for high contrast on light & dark backgrounds */}
             <filter id="spider-cursor-shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="0" stdDeviation="1.2" floodColor="#000000" floodOpacity="0.65" />
+              <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.75" />
             </filter>
           </defs>
 
@@ -243,9 +243,9 @@ export default function SpiderSenseCursor() {
             <g className="transition-opacity duration-200">
               {/* Calm active ring */}
               <circle
-                cx="20"
-                cy="20"
-                r="13"
+                cx="24"
+                cy="24"
+                r="16.5"
                 fill="none"
                 stroke="#E63946"
                 strokeWidth="1.5"
@@ -254,13 +254,13 @@ export default function SpiderSenseCursor() {
 
               {/* Outer comic dashed accent */}
               <circle
-                cx="20"
-                cy="20"
-                r="13"
+                cx="24"
+                cy="24"
+                r="16.5"
                 fill="none"
                 stroke="#000000"
                 strokeWidth="0.6"
-                strokeDasharray="2 2"
+                strokeDasharray="2.5 2"
                 className="opacity-70"
               />
 
@@ -268,9 +268,9 @@ export default function SpiderSenseCursor() {
               {!reducedMotion && (
                 <circle
                   key={`pulse-${pulseKey}`}
-                  cx="20"
-                  cy="20"
-                  r="12"
+                  cx="24"
+                  cy="24"
+                  r="15"
                   fill="none"
                   stroke={senseType === "contact" ? "#E63946" : senseType === "connection" ? "#1D3557" : "#E63946"}
                   strokeWidth="1.75"
@@ -281,36 +281,36 @@ export default function SpiderSenseCursor() {
               {/* Special Context: Project Web Motif */}
               {senseType === "project" && (
                 <polygon
-                  points="20,11.5 25.5,14 28,19.5 25.5,25.5 20,28 14.5,25.5 12,19.5 14.5,14"
+                  points="24,13 31,16.5 34,24 31,31.5 24,35 17,31.5 14,24 17,16.5"
                   fill="none"
                   stroke="#E63946"
                   strokeWidth="0.9"
-                  strokeDasharray="2 2"
+                  strokeDasharray="2.5 2"
                   className="opacity-85"
                 />
               )}
 
               {/* Special Context: External Connection Corner Ticks */}
               {senseType === "connection" && (
-                <g stroke="#1D3557" strokeWidth="1.4" strokeLinecap="square">
-                  <line x1="6" y1="20" x2="4" y2="20" />
-                  <line x1="34" y1="20" x2="36" y2="20" />
-                  <line x1="20" y1="6" x2="20" y2="4" />
-                  <line x1="20" y1="34" x2="20" y2="36" />
+                <g stroke="#1D3557" strokeWidth="1.5" strokeLinecap="square">
+                  <line x1="6" y1="24" x2="3" y2="24" />
+                  <line x1="42" y1="24" x2="45" y2="24" />
+                  <line x1="24" y1="6" x2="24" y2="3" />
+                  <line x1="24" y1="42" x2="24" y2="45" />
                 </g>
               )}
 
               {/* Special Context: Signal Beacon Concentric Pulse */}
               {senseType === "contact" && (
                 <circle
-                  cx="20"
-                  cy="20"
-                  r="16.5"
+                  cx="24"
+                  cy="24"
+                  r="20"
                   fill="none"
                   stroke="#E63946"
-                  strokeWidth="0.85"
+                  strokeWidth="0.9"
                   strokeDasharray="3 2"
-                  className="opacity-70 animate-pulse"
+                  className="opacity-75 animate-pulse"
                 />
               )}
             </g>
@@ -321,39 +321,39 @@ export default function SpiderSenseCursor() {
             className={`transition-all duration-200 ${
               isSenseActive ? "opacity-100 scale-100" : "opacity-0 scale-75"
             }`}
-            style={{ transformOrigin: "20px 20px" }}
+            style={{ transformOrigin: "24px 24px" }}
           >
             {/* Top */}
-            <line x1="20" y1="13" x2="20" y2="6" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="20" y1="13" x2="20" y2="6" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="24" y1="16" x2="24" y2="7" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="24" y1="16" x2="24" y2="7" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Bottom */}
-            <line x1="20" y1="27" x2="20" y2="34" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="20" y1="27" x2="20" y2="34" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="24" y1="32" x2="24" y2="41" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="24" y1="32" x2="24" y2="41" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Left */}
-            <line x1="13" y1="20" x2="6" y2="20" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="13" y1="20" x2="6" y2="20" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="16" y1="24" x2="7" y2="24" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="16" y1="24" x2="7" y2="24" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Right */}
-            <line x1="27" y1="20" x2="34" y2="20" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="27" y1="20" x2="34" y2="20" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="32" y1="24" x2="41" y2="24" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="32" y1="24" x2="41" y2="24" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Top-Left ╲ */}
-            <line x1="15" y1="15" x2="9.5" y2="9.5" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="15" y1="15" x2="9.5" y2="9.5" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="18.5" y1="18.5" x2="11.5" y2="11.5" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="18.5" y1="18.5" x2="11.5" y2="11.5" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Top-Right ╱ */}
-            <line x1="25" y1="15" x2="30.5" y2="9.5" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="25" y1="15" x2="30.5" y2="9.5" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="29.5" y1="18.5" x2="36.5" y2="11.5" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="29.5" y1="18.5" x2="36.5" y2="11.5" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Bottom-Left ╱ */}
-            <line x1="15" y1="25" x2="9.5" y2="30.5" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="15" y1="25" x2="9.5" y2="30.5" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="18.5" y1="29.5" x2="11.5" y2="36.5" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="18.5" y1="29.5" x2="11.5" y2="36.5" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
 
             {/* Bottom-Right ╲ */}
-            <line x1="25" y1="25" x2="30.5" y2="30.5" stroke="#E63946" strokeWidth="1.75" strokeLinecap="round" />
-            <line x1="25" y1="25" x2="30.5" y2="30.5" stroke="#000000" strokeWidth="0.5" strokeLinecap="round" />
+            <line x1="29.5" y1="29.5" x2="36.5" y2="36.5" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+            <line x1="29.5" y1="29.5" x2="36.5" y2="36.5" stroke="#000000" strokeWidth="0.6" strokeLinecap="round" />
           </g>
 
           {/* 3. Click Impact Effect (THWIP! micro-burst on user click) */}
@@ -361,9 +361,9 @@ export default function SpiderSenseCursor() {
             <g key={`click-${clickKey}`}>
               {/* Expanding impact ring */}
               <circle
-                cx="20"
-                cy="20"
-                r="7"
+                cx="24"
+                cy="24"
+                r="11"
                 fill="none"
                 stroke="#E63946"
                 strokeWidth="2.5"
@@ -371,37 +371,91 @@ export default function SpiderSenseCursor() {
               />
               {/* Comic spark dots */}
               <g className="spider-sense-spark-effect" fill="#000000">
-                <circle cx="12" cy="12" r="1.2" />
-                <circle cx="28" cy="12" r="1.2" />
-                <circle cx="12" cy="28" r="1.2" />
-                <circle cx="28" cy="28" r="1.2" />
+                <circle cx="14" cy="14" r="1.4" />
+                <circle cx="34" cy="14" r="1.4" />
+                <circle cx="14" cy="34" r="1.4" />
+                <circle cx="34" cy="34" r="1.4" />
               </g>
             </g>
           )}
 
-          {/* 4. Center Dot (Primary Cursor Pointer)
-              Diameter: ~9px (r=4.5), clearly visible to the naked eye for all users,
-              with bold comic black border and crisp white reflection speck.
+          {/* 4. Custom Spidey Theme Cursor Mask Pointer
+              Diameter: ~21px-23px (matches standard default cursor size of ~20-24px),
+              featuring comic Spider-Man mask silhouette, web lattice, and angled white eyes.
           */}
-          <circle
-            cx="20"
-            cy="20"
-            r={isSenseActive ? 5.2 : 4.5}
-            fill="#E63946"
-            stroke="#000000"
-            strokeWidth="1.6"
-            filter="url(#spider-cursor-shadow)"
-            className="transition-all duration-200"
-          />
+          <g>
+            {/* Spidey Face Base Circle */}
+            <circle
+              cx="24"
+              cy="24"
+              r={isSenseActive ? 11.5 : 10.5}
+              fill="#E63946"
+              stroke="#000000"
+              strokeWidth="1.8"
+              filter="url(#spider-cursor-shadow)"
+              className="transition-all duration-200"
+            />
 
-          {/* Tactile comic highlight reflection */}
-          <circle
-            cx="18.6"
-            cy="18.6"
-            r={isSenseActive ? 1.4 : 1.2}
-            fill="#FFFFFF"
-            className="transition-all duration-200"
-          />
+            {/* Web Lattice Lines */}
+            <line
+              x1="24"
+              y1={isSenseActive ? 12.5 : 13.5}
+              x2="24"
+              y2={isSenseActive ? 35.5 : 34.5}
+              stroke="#000000"
+              strokeWidth="0.75"
+              opacity="0.65"
+            />
+            <path
+              d="M 16 23.5 Q 24 26 32 23.5"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="0.75"
+              opacity="0.65"
+            />
+            <path
+              d="M 17.5 19 Q 24 21.5 30.5 19"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="0.7"
+              opacity="0.55"
+            />
+            <path
+              d="M 18.5 28.5 Q 24 26 29.5 28.5"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="0.7"
+              opacity="0.55"
+            />
+
+            {/* Iconic Spider-Man Angled White Eyes with Black Comic Contours */}
+            {/* Left Eye */}
+            <path
+              d="M 16 21 Q 19 20 22 24.2 Q 19.5 25.5 16 21 Z"
+              fill="#FFFFFF"
+              stroke="#000000"
+              strokeWidth="1.1"
+              strokeLinejoin="round"
+            />
+            {/* Right Eye */}
+            <path
+              d="M 32 21 Q 29 20 26 24.2 Q 28.5 25.5 32 21 Z"
+              fill="#FFFFFF"
+              stroke="#000000"
+              strokeWidth="1.1"
+              strokeLinejoin="round"
+            />
+
+            {/* Specular Comic Highlight Reflection */}
+            <circle
+              cx="21.5"
+              cy="16.5"
+              r={isSenseActive ? 1.4 : 1.2}
+              fill="#FFFFFF"
+              opacity="0.9"
+              className="transition-all duration-200"
+            />
+          </g>
         </svg>
       </div>
     </div>
