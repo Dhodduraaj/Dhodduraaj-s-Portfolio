@@ -14,7 +14,7 @@ import ComicReveal from "./components/ComicReveal";
 import WebHero from "./components/WebHero";
 import SpiderOverlay from "./components/SpiderOverlay";
 import SpiderSenseCursor from "./components/SpiderSenseCursor";
-import axios from "axios";
+import { useGithubStats } from "./hooks/useGithubStats";
 import { skills } from "./data/skills";
 import { projects } from "./data/projects";
 import { achievements } from "./data/achievements";
@@ -44,19 +44,8 @@ function App() {
     return "logo";
   });
 
-  // Live GitHub Stats State
-  const [githubStats, setGithubStats] = useState({
-    repos: 12,
-    followers: 5,
-    following: 8,
-    stars: 4,
-    languages: [
-      { name: "Java", percentage: 55 },
-      { name: "JavaScript", percentage: 25 },
-      { name: "CSS", percentage: 12 },
-      { name: "HTML", percentage: 8 }
-    ]
-  });
+  // Dynamic GitHub Telemetry via useGithubStats hook (cached, auto-refreshing & paginated)
+  const { githubStats, isGithubLoading, refreshGithub } = useGithubStats();
 
   // Scroll swing tracking states
   const [activeSection, setActiveSection] = useState("home");
@@ -240,67 +229,6 @@ function App() {
     sessionStorage.setItem("spider_intro_played", "true");
   };
 
-  // Fetch Live GitHub Stats
-  useEffect(() => {
-    const fetchGithub = async () => {
-      try {
-        const [userRes, reposRes] = await Promise.all([
-          axios.get("https://api.github.com/users/Dhodduraaj"),
-          axios.get("https://api.github.com/users/Dhodduraaj/repos?per_page=100")
-        ]);
-
-        if (userRes.data && reposRes.data) {
-          const reposData = reposRes.data;
-
-          // Calculate stars
-          const stars = reposData.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
-
-          // Calculate languages
-          const langMap = {};
-          reposData.forEach(repo => {
-            if (repo.language) {
-              langMap[repo.language] = (langMap[repo.language] || 0) + 1;
-            }
-          });
-
-          const totalLangs = Object.values(langMap).reduce((a, b) => a + b, 0);
-          const topLanguages = Object.entries(langMap)
-            .map(([lang, count]) => ({
-              name: lang,
-              percentage: Math.round((count / totalLangs) * 100)
-            }))
-            .sort((a, b) => b.percentage - a.percentage)
-            .slice(0, 4);
-
-          setGithubStats({
-            repos: userRes.data.public_repos,
-            followers: userRes.data.followers,
-            following: userRes.data.following,
-            stars: stars,
-            languages: topLanguages
-          });
-        }
-      } catch (err) {
-        console.warn("GitHub extended fetch bypassed. Using offline stats.", err.message);
-        // Fallbacks
-        setGithubStats({
-          repos: 12,
-          followers: 5,
-          following: 8,
-          stars: 4,
-          languages: [
-            { name: "Java", percentage: 55 },
-            { name: "JavaScript", percentage: 25 },
-            { name: "CSS", percentage: 12 },
-            { name: "HTML", percentage: 8 }
-          ]
-        });
-      }
-    };
-
-    fetchGithub();
-  }, []);
-
   return (
     <div className={`min-h-screen text-slate-900 dark:text-slate-100 bg-[#FFFBF0] dark:bg-[#0B1329] transition-colors duration-300 relative ${shakeActive ? "camera-shake-active" : ""}`}>
       <SpiderSenseCursor />
@@ -313,7 +241,12 @@ function App() {
         <Projects projects={projects} />
         <Achievements achievements={achievements} />
         <Certifications />
-        <CodingProfiles githubStats={githubStats} darkMode={darkMode} />
+        <CodingProfiles
+          githubStats={githubStats}
+          isGithubLoading={isGithubLoading}
+          onRefreshGithub={refreshGithub}
+          darkMode={darkMode}
+        />
         <Contact />
         <ComicReveal />
         <Footer />

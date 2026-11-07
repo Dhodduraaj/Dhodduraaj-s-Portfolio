@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, ArrowUpRight, Terminal } from "lucide-react";
+import { Code2, ArrowUpRight, Terminal, RefreshCw } from "lucide-react";
 import axios from "axios";
 
 const GithubIcon = (props) => (
@@ -18,7 +18,7 @@ const LinkedinIcon = (props) => (
   </svg>
 );
 
-export default function CodingProfiles({ githubStats, darkMode }) {
+export default function CodingProfiles({ githubStats, isGithubLoading = false, onRefreshGithub, darkMode }) {
   const [leetcodeSolved, setLeetcodeSolved] = useState(null);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
       name: "GitHub",
       url: "https://github.com/Dhodduraaj",
       username: "Dhodduraaj",
-      stats: `${githubStats.repos} Repositories`,
+      stats: `${githubStats?.repos ?? 0} Repositories`,
       desc: "Open source portfolio, REST API sectors, frontend pipelines, Android packages, and spring config repositories.",
       icon: GithubIcon,
       color: "border-emerald-500 hover:shadow-[6px_6px_0px_0px_#059669] text-emerald-400 bg-[#0B1329]",
@@ -171,9 +171,27 @@ export default function CodingProfiles({ githubStats, darkMode }) {
             viewport={{ once: true }}
             className="p-6 md:p-8 crt-panel crt-screen text-[#E63946] border-[#E63946]/60 shadow-[6px_6px_0px_0px_#E63946] flex flex-col"
           >
-            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[12px] font-mono tracking-widest font-black uppercase opacity-85">
-              <span>[SYSTEM METRIC: GITHUB SYNC]</span>
-              <span className="animate-pulse text-[#E63946]">● ONLINE TRACKER</span>
+            <div className="flex justify-between items-center border-b-2 border-black/40 pb-3 mb-6 select-none text-[12px] font-mono tracking-widest font-black uppercase">
+              <span className="opacity-85">[SYSTEM METRIC: GITHUB SYNC]</span>
+              <div className="flex items-center gap-2">
+                {onRefreshGithub && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onRefreshGithub();
+                    }}
+                    disabled={isGithubLoading}
+                    title={isGithubLoading ? "Synchronizing GitHub telemetry..." : "Synchronize latest GitHub statistics"}
+                    aria-label="Refresh GitHub telemetry"
+                    className="inline-flex items-center gap-1.5 px-2 py-0.5 border border-black/40 bg-black/40 hover:bg-[#E63946]/20 active:scale-95 text-[#E63946] text-[10px] font-mono font-black rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    <RefreshCw size={11} className={isGithubLoading ? "animate-spin" : ""} />
+                    <span>{isGithubLoading ? "SYNCING" : "SYNC"}</span>
+                  </button>
+                )}
+                <span className="animate-pulse text-[#E63946]">● ONLINE</span>
+              </div>
             </div>
 
             <div className="mb-6">
@@ -200,21 +218,28 @@ export default function CodingProfiles({ githubStats, darkMode }) {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4 border-t border-b border-black/30 py-3 text-white">
-              <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
+              <div
+                className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg"
+                title={
+                  githubStats?.forkedRepos !== undefined
+                    ? `${githubStats.originalRepos ?? githubStats.repos} original, ${githubStats.forkedRepos} forked`
+                    : `${githubStats?.repos ?? 0} public repositories`
+                }
+              >
                 <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Repositories</span>
-                <span className="text-lg font-black text-[#E63946]">{githubStats.repos || 0}</span>
+                <span className="text-lg font-black text-[#E63946]">{githubStats?.repos ?? 0}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
                 <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Stars</span>
-                <span className="text-lg font-black text-yellow-400">{githubStats.stars !== undefined ? githubStats.stars : 4}</span>
+                <span className="text-lg font-black text-yellow-400">{githubStats?.stars ?? 0}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
                 <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Followers</span>
-                <span className="text-lg font-black text-emerald-400">{githubStats.followers || 0}</span>
+                <span className="text-lg font-black text-emerald-400">{githubStats?.followers ?? 0}</span>
               </div>
               <div className="text-center p-1.5 border border-black/20 bg-slate-950/40 rounded-lg">
                 <span className="text-[12px] text-slate-400 uppercase font-black block mb-0.5">Following</span>
-                <span className="text-lg font-black text-blue-400">{githubStats.following !== undefined ? githubStats.following : 8}</span>
+                <span className="text-lg font-black text-blue-400">{githubStats?.following ?? 0}</span>
               </div>
             </div>
 
@@ -261,7 +286,7 @@ export default function CodingProfiles({ githubStats, darkMode }) {
 
             <div className="mt-auto pt-5 border-t-2 border-black/40 flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
               <span>Metric Module</span>
-              <span className="text-[#E63946]">{githubStats.followers} Followers</span>
+              <span className="text-[#E63946]">{githubStats?.followers ?? 0} Followers</span>
             </div>
           </motion.div>
 
